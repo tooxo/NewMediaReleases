@@ -1,7 +1,21 @@
+import 'package:adobe_xd/pinned.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:adobe_xd/pinned.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:adobe_xd/blend_mask.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+class Post {
+  final String artist;
+  final String albumname;
+
+  Post(this.artist, this.albumname);
 }
 
 class MyApp extends StatelessWidget {
@@ -52,16 +66,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  get search => null;
 
   @override
   Widget build(BuildContext context) {
@@ -72,46 +77,57 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      appBar: new AppBar(
+        backgroundColor: Colors.black,
+        title: Center(
+          child: Text(
+            "cock",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SearchBar<Post>(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                searchBarStyle: SearchBarStyle(
+                  backgroundColor: Colors.black,
+                  padding: EdgeInsets.all(5),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                hintText: "Search in Music...",
+                hintStyle: TextStyle(color: Colors.grey.shade200),
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                onSearch: search,
+                onItemFound: (Post post, int index) {
+                  return ListTile(
+                    title: Text(post.artist),
+                    subtitle: Text(post.albumname),
+                  );
+                },
+              ),
+            ),
+          ),
+          Container(
+            height: 100,
+            width: 100,
+            decoration: ShapeDecoration(
+                color: Colors.black,
+                shape: CircleBorder(
+            ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

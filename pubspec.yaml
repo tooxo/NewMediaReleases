@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   adobe_xd: ^1.0.0+1
+  flappy_search_bar: 1.4.1
+
 
 
   # The following adds the Cupertino Icons font to your application.
