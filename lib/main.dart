@@ -1,4 +1,7 @@
-import 'package:NewMediaReleases/music_preview.dart';
+import 'package:NewMediaReleases/music/music.dart';
+import 'package:NewMediaReleases/music/music_preview.dart';
+import 'package:NewMediaReleases/music/music_preview_rack.dart';
+import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,31 +41,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   get search => null;
 
+  List<MusicalEntry> entries = List<MusicalEntry>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.black,
-        title: Center(
-          child: Text(
-            "wet ass cock (as a millionaire)",
-            style: TextStyle(color: Colors.white),
+        appBar: new AppBar(
+          backgroundColor: Colors.black,
+          title: Center(
+            child: Text(
+              "wet ass cock (as a millionaire)",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
-      ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            // height: 200,
-            width: 200,
-            child: MusicPreviewWidget(
-                "",//"https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg",
-                false,
-                "The Long Life Of Pablo Picasso Long Title",
-                "Kanye West"),
-          )
-
-          /*Expanded(
+        body: MainMusic()
+        /*Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: SearchBar<Post>(
@@ -100,8 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ),
           )*/
-        ],
-      ),
-    );
+
+        );
   }
 }

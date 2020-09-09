@@ -51,7 +51,7 @@ class MusicPreviewImageWidget extends StatelessWidget {
                 width: iconDiameter,
                 height: iconDiameter,
                 decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(
