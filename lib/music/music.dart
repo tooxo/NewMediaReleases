@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'music_preview_rack.dart';
@@ -24,13 +25,13 @@ class MainMusicState extends State<MainMusic> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: false,
-        header: BezierCircleHeader(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
+        Widget build(BuildContext context) {
+      return SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          header: 	WaterDropMaterialHeader(backgroundColor: Colors.black, color: Colors.white, distance: 40,),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
         onLoading: _onLoading,
         child: Column(children: <Widget>[
           MusicPreviewRack([
@@ -40,8 +41,8 @@ class MainMusicState extends State<MainMusic> {
                 artUrl:
                     "https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg"),
             Song(
-                title: "lolol",
-                artist: Artist(name: "rin"),
+                title: "Dior anderer banger",
+                artist: Artist(name: "RIN"),
                 artUrl:
                     "https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg"),
             Song(

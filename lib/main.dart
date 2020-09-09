@@ -1,8 +1,8 @@
-import 'package:NewMediaReleases/music/music.dart';
-import 'package:NewMediaReleases/music/music_preview.dart';
-import 'package:NewMediaReleases/music/music_preview_rack.dart';
+import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -51,17 +51,64 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          backgroundColor: Colors.black,
-          title: Center(
-            child: Text(
-              "wet ass cock (as a millionaire)",
-              style: TextStyle(color: Colors.white),
-            ),
+      appBar: new AppBar(
+        backgroundColor: Colors.black,
+        title: Center(
+          child: Text(
+            "wet ass cock (as a millionaire)",
+            style: TextStyle(color: Colors.white),
           ),
         ),
-        body: MainMusic()
-        /*Expanded(
+      ),
+      body: MovieInfos(),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.white,
+        unselectedFontSize: 16,
+        selectedFontSize: 16,
+
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black,
+        currentIndex: 0,
+        // this will be set when a new tab is tapped
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+                //Font.headphones,
+
+                Icons.headset),
+            title: Text(
+              'Music',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+                //Font.video,
+                Icons.movie),
+            title: Text(
+              'Movies',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.tv
+                //Font.TVSeries,
+                ),
+            title: Text(
+              'TV-Series',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.videogame_asset
+                //Font.games,
+                ),
+            title: Text(
+              'Games',
+            ),
+          ),
+        ],
+      ),
+    );
+    /*Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: SearchBar<Post>(
@@ -99,7 +146,5 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ),
           )*/
-
-        );
   }
 }
