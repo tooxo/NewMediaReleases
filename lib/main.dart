@@ -1,12 +1,5 @@
 import 'package:NewMediaReleases/music_preview.dart';
-import 'package:adobe_xd/pinned.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:adobe_xd/blend_mask.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // height: 200,
             width: 200,
             child: MusicPreviewWidget(
-                "https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg",
+                "",//"https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg",
                 false,
                 "The Long Life Of Pablo Picasso Long Title",
                 "Kanye West"),

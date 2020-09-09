@@ -9,14 +9,15 @@ class CircularImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Image(image: NetworkImage(this.url));
     return Center(
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(this.url),
+            image: this.url.isNotEmpty
+                ? NetworkImage(this.url)
+                : AssetImage("assets/image/image_not_found.jpg"),
           ),
         ),
       ),
@@ -102,8 +103,8 @@ class MusicPreviewWidget extends StatelessWidget {
                 ),
                 Text(
                   this.artist,
-                  style:
-                      TextStyle(fontFamily: 'Lato', fontStyle: FontStyle.italic),
+                  style: TextStyle(
+                      fontFamily: 'Lato', fontStyle: FontStyle.italic),
                 )
               ],
             ),
