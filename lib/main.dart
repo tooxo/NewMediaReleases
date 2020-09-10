@@ -1,4 +1,5 @@
 import 'package:NewMediaReleases/movies/movie_infos.dart';
+import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/tv-series/serie_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(child: SerieInfos()),
+      body: SingleChildScrollView(child: MovieInfos()),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.white,

@@ -54,10 +54,10 @@ flutter:
     - assets/image/
     - assets/fonts/
 
-  #  fonts:
-  #    - family: MyFlutterApp
-  #      fonts:
-  #        - asset: assets/fonts/MyFlutterApp.ttf
+  fonts:
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
 
 
 
