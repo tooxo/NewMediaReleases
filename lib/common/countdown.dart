@@ -40,6 +40,7 @@ class CountdownState extends State<Countdown> {
       children: <Widget>[
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
