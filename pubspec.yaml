@@ -27,6 +27,7 @@ dependencies:
   flappy_search_bar: 1.4.1
   intl: ^0.16.1
   pull_to_refresh: ^1.6.1
+  url_launcher:
 
 
 

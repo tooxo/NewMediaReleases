@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/open_link.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,30 +7,38 @@ import 'package:intl/intl.dart';
 
 import '../Icons.dart';
 
-class MovieInfos extends StatelessWidget {
-  final String week = "2.Woche";
+class SerieInfos extends StatelessWidget {
   final String locationYear = "USA, 2020";
-  final int length = 150;
+  final int episodes = 20;
+  final int seasons = 4;
   final int age = 18;
   final String genre = "Action | Thriller";
   final DateTime date = DateTime.now();
   final String score = "5/10";
 
-  final String title = "Mero";
+  final String title = "Black Mirror";
 
   final String director = "Christopher Nolan";
   final String producer = "Christopher Nolan";
   final String actor = "John David Washington";
 
-  final String youtubeLink = "";
-  final String imdbLink = "";
-  final String rottenLink = "";
+  final bool netflix = true;
+  final bool amazon = true;
+  final bool disney = false;
+  final bool hulu = false;
+  final bool hbo = false;
+
+  final String netflixLink = "https://www.netflix.com/de/";
+  final String amazonLink = "";
+  final String disneyLink = "";
+  final String huluLink = "";
+  final String hboLink = "";
 
   final String description =
-      "Tenet is a 2020 spy film written and directed by Christopher Nolan, who produced it with Emma Thomas. A co-production between the United Kingdom and United States, it stars John David Washington, Robert Pattinson, Elizabeth Debicki, Dimple Kapadia, Michael Caine, and Kenneth Branagh. The plot follows a secret agent (Washington) as he manipulates the flow of time to prevent World War III.";
+      "Black Mirror is a British dystopian science fiction anthology television series created by Charlie Brooker. He and Annabel Jones are the programme's showrunners. It examines modern society, particularly with regard to the unanticipated consequences of new technologies. Episodes are standalone, usually set in an alternative present or the near future, often with a dark and satirical tone, although some are more experimental and lighter.";
 
   String get url =>
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg";
+      "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -72,24 +81,6 @@ class MovieInfos extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: Icon(
-                        Font.play_button,
-                        size: 28,
-                      ),
-                    ),
-                    Text(
-                      week,
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: Icon(
                         Font.planet_earth,
                         size: 28,
                       ),
@@ -113,7 +104,7 @@ class MovieInfos extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "$length min",
+                      "$seasons Seasons | $episodes Episodes",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     )
                   ],
@@ -242,6 +233,19 @@ class MovieInfos extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                "Staffel 1",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text("12 Folgen", style: TextStyle(fontSize: 20))
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
           child: Text(
             description,
             style: TextStyle(fontSize: 20),
@@ -253,17 +257,48 @@ class MovieInfos extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text(
-                "Trailer",
-                style: TextStyle(fontSize: 20),
+              IconButton(
+                onPressed: this.netflix
+                    ? () {
+                        OpenLink.openlink(netflixLink);
+                      }
+                    : null,
+                icon: Icon(
+                  Font.netflix,
+                  color: this.netflix ? Colors.black : Colors.grey,
+                ),
               ),
-              Text(
-                "IMDb",
-                style: TextStyle(fontSize: 20),
+              IconButton(
+                padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
+                onPressed: this.amazon
+                    ? () {
+                        OpenLink.openlink(amazonLink);
+                      }
+                    : null,
+                icon: Icon(
+                  Font.primevideo,
+                  size: 70,
+                  color: this.amazon ? Colors.black : Colors.grey,
+                ),
               ),
-              Text(
-                "Wikipedia",
-                style: TextStyle(fontSize: 20),
+              MaterialButton(
+                onPressed: this.disney
+                    ? () {
+                        OpenLink.openlink(disneyLink);
+                      }
+                    : null,
+                child: Text("Disney+", style: TextStyle(color: this.disney ? Colors.black : Colors.grey, fontSize: 15, fontWeight: FontWeight.w900),),
+              ),
+              IconButton(
+                onPressed: this.hulu
+                    ? () {
+                        OpenLink.openlink(huluLink);
+                      }
+                    : null,
+                icon: Icon(
+                  Font.hulu,
+                  color: this.hulu ? Colors.black : Colors.grey,
+                ),
               ),
             ],
           ),
