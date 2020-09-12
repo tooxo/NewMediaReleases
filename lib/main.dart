@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/games/game_info.dart';
 import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:NewMediaReleases/music/music_types.dart';

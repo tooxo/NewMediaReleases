@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/open_link.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -5,42 +6,29 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../Icons.dart';
-import '../open_link.dart';
 
-class MovieInfos extends StatelessWidget {
-  final String week = "2.Woche";
-  final String locationYear = "USA, 2020";
-  final int length = 150;
+class GameInfos extends StatelessWidget {
+  final String studio = "2k Boston | 2K Games";
+  final String locationYear = "USA, 2007";
+  final int time = 14; //optional
   final int age = 18;
-  final String genre = "Action | Thriller";
+  final String genre = "First Person Shooter";
+  final String mode = "Singleplayer";
   final DateTime date = DateTime.now();
-  final String score = "5/10";
+  final String score = "Metacritic 96/100";
 
-  final String title = "Mero";
+  final String title = "Bioshock";
 
-  final String director = "Christopher Nolan";
-  final String producer = "Christopher Nolan";
-  final String actor = "John David Washington";
-
-  final bool netflix = true;
-  final bool amazon = true;
-  final bool disney = false;
-  final bool hulu = false;
-
-  final String netflixLink = "https://www.netflix.com/de/";
-  final String amazonLink = "";
-  final String disneyLink = "";
-  final String huluLink = "";
-
-  final String youtubeLink = "";
-  final String imdbLink = "";
-  final String rottenLink = "";
+  final bool pc = true;
+  final bool xbox = true;
+  final bool playstation = true;
+  final bool nintendo = false;
 
   final String description =
-      "Tenet is a 2020 spy film written and directed by Christopher Nolan, who produced it with Emma Thomas. A co-production between the United Kingdom and United States, it stars John David Washington, Robert Pattinson, Elizabeth Debicki, Dimple Kapadia, Michael Caine, and Kenneth Branagh. The plot follows a secret agent (Washington) as he manipulates the flow of time to prevent World War III.";
+      "BioShock is a 2007 first-person shooter game developed by 2K Boston (later Irrational Games) and 2K Australia, and published by 2K Games. It is the first game in the BioShock series. The game's concept was developed by Irrational's creative lead, Ken Levine, and incorporates ideas by 20th century dystopian and utopian thinkers such as Ayn Rand, George Orwell, and Aldous Huxley, as well as historical figures such as John D. Rockefeller and Walt Disney. The game is considered a spiritual successor to the System Shock series, on which many of Irrational's team, including Levine, had worked previously.";
 
   String get url =>
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg";
+      "https://upload.wikimedia.org/wikipedia/en/6/6d/BioShock_cover.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +71,12 @@ class MovieInfos extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: Icon(
-                        Font.play_button,
+                        Icons.people,
                         size: 28,
                       ),
                     ),
                     Text(
-                      week,
+                      studio,
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     )
                   ],
@@ -124,7 +112,7 @@ class MovieInfos extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "$length min",
+                      "ca. $time h",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     )
                   ],
@@ -173,6 +161,24 @@ class MovieInfos extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: Icon(
+                        Icons.videogame_asset,
+                        size: 28,
+                      ),
+                    ),
+                    Text(
+                      mode,
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: Icon(
                         Icons.calendar_today,
                         size: 28,
                       ),
@@ -206,52 +212,6 @@ class MovieInfos extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "Directed by ",
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "$director",
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "Produced by ",
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "$producer",
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "Starring: ",
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                "$actor",
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-              ),
-            ],
-          ),
-        ),
-        Padding(
           padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
           child: Text(
             description,
@@ -260,93 +220,29 @@ class MovieInfos extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
+          padding: EdgeInsets.fromLTRB(10, 30, 10, 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              IconButton(
-                padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                onPressed: () {
-                  OpenLink.openlink(youtubeLink);
-                },
-                icon: Icon(
-                  Font.youtube,
-                  size: 40,
-                  color: Colors.black,
-                ),
+              Icon(
+                Icons.computer,
+                color: this.pc ? Colors.black : Colors.grey,
               ),
-              IconButton(
-                padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                onPressed: () {
-                  OpenLink.openlink(imdbLink);
-                },
-                icon: Icon(
-                  Font.imdb,
-                  size: 35,
-                  color: Colors.black,
-                ),
+              Icon(
+                Font.playstation,
+                color: this.playstation ? Colors.black : Colors.grey,
               ),
-
+              Icon(
+                Font.xbox,
+                color: this.xbox ? Colors.black : Colors.grey,
+              ),
+              Icon(
+                Font.nintendoswitch,
+                color: this.nintendo ? Colors.black : Colors.grey,
+              ),
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                onPressed: this.netflix
-                    ? () {
-                  OpenLink.openlink(netflixLink);
-                }
-                    : null,
-                icon: Icon(
-                  Font.netflix,
-                  color: this.netflix ? Colors.black : Colors.grey,
-                ),
-              ),
-              IconButton(
-                padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
-                onPressed: this.amazon
-                    ? () {
-                  OpenLink.openlink(amazonLink);
-                }
-                    : null,
-                icon: Icon(
-                  Font.primevideo,
-                  size: 70,
-                  color: this.amazon ? Colors.black : Colors.grey,
-                ),
-              ),
-              MaterialButton(
-                onPressed: this.disney
-                    ? () {
-                  OpenLink.openlink(disneyLink);
-                }
-                    : null,
-                child: Text(
-                  "Disney+",
-                  style: TextStyle(
-                      color: this.disney ? Colors.black : Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900),
-                ),
-              ),
-              IconButton(
-                onPressed: this.hulu
-                    ? () {
-                  OpenLink.openlink(huluLink);
-                }
-                    : null,
-                icon: Icon(
-                  Font.hulu,
-                  color: this.hulu ? Colors.black : Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        )
       ],
     );
   }
