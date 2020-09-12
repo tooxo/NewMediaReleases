@@ -26,11 +26,13 @@ class PopupWidget {
             child: Wrap(
               children: <Widget>[
                 for (PopupTile tile in this.popupTiles)
-                  ListTile(
-                    leading: Icon(tile.iconData),
-                    title: Text(tile.title),
-                    onTap: () => {this.openUrl(tile.url)},
-                  )
+                  tile.url != null && tile.url != ""
+                      ? ListTile(
+                          leading: Icon(tile.iconData),
+                          title: Text(tile.title),
+                          onTap: () => {this.openUrl(tile.url)},
+                        )
+                      : Container()
               ],
             ),
           );
