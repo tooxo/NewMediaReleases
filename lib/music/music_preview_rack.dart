@@ -24,24 +24,28 @@ class MusicPreviewRack extends StatelessWidget {
                 DateFormat("dd. MM. yyyy").format(this.releaseDate),
                 textAlign: TextAlign.end,
                 style: TextStyle(
-                  fontFamily: 'Lato',
-                  fontWeight: FontWeight.w800,
-                  fontSize: 20
-                ),
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20),
               ),
             ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 8),
-          child: Divider(thickness: 2, color: Colors.black,),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+          ),
         ),
         Container(
-            child: CustomGrid([
-          for (MusicalEntry entry in this.entries)
-            MusicPreviewWidget(
-                entry.artUrl, entry is Song, entry.title, entry.artist.name)
-        ]))
+          child: CustomGrid(
+            [
+              for (MusicalEntry entry in this.entries)
+                MusicPreviewWidget(entry)
+            ],
+          ),
+        )
       ],
     );
   }

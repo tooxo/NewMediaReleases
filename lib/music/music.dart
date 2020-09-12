@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,7 +13,7 @@ class MainMusic extends StatefulWidget {
 
 class MainMusicState extends State<MainMusic> {
   RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: true);
   ScrollController _scrollController = ScrollController();
 
   void _onRefresh() async {
@@ -28,37 +29,46 @@ class MainMusicState extends State<MainMusic> {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: false,
-        scrollController: _scrollController,
-        header: WaterDropMaterialHeader(
-          backgroundColor: Colors.black,
-          color: Colors.white,
-          distance: 40,
-        ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: SingleChildScrollView(
-          child: Column(children: <Widget>[
+      enablePullDown: true,
+      enablePullUp: false,
+      scrollController: _scrollController,
+      header: WaterDropMaterialHeader(
+        backgroundColor: Colors.black,
+        color: Colors.white,
+        distance: 40,
+      ),
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
             MusicPreviewRack([
-              Album(
-                  title: "Hello",
-                  artist: Artist(name: "kanye"),
-                  artUrl:
-                      "https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg"),
               Song(
-                  title: "Dior anderer banger",
-                  artist: Artist(name: "RIN"),
+                  title: "Baller los",
+                  artist: Artist(name: "Mero", timeZone: 2),
+                  genres: ["Rap", "HipHop"],
+                  releaseDate: DateTime.utc(2020, 9, 13),
                   artUrl:
-                      "https://rap.de/wp-content/uploads/kanye-west-the-life-of-pablo1.jpg"),
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg"),
               Song(
-                  title: "Richtig guter Song",
-                  artist: Artist(name: "Tyga feat G-Eazy"),
+                  title: "Baller los",
+                  artist: Artist(name: "Mero", timeZone: 2),
+                  genres: ["Rap", "HipHop"],
+                  releaseDate: DateTime.utc(2020, 9, 13),
                   artUrl:
-                      "https://media.discordapp.net/attachments/322859914290528257/749605892923850812/MakeMeSuffer-ij9zzz.jpg?width=360&height=205")
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg"),
+              Song(
+                  title: "Baller los",
+                  artist: Artist(name: "Mero", timeZone: 2),
+                  genres: ["Rap", "HipHop"],
+                  releaseDate: DateTime.utc(2020, 9, 13),
+                  artUrl:
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg")
             ], DateTime.now()),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }
