@@ -81,6 +81,7 @@ class TrackList extends StatelessWidget {
       children: <Widget>[
         for (Song song in prepareTrackList())
           ListTile(
+            dense: true,
             leading: Text(
               "${song.trackNumber == -1 ? "?" : song.trackNumber}",
               style: GoogleFonts.lato(fontSize: 18),
@@ -92,9 +93,9 @@ class TrackList extends StatelessWidget {
                   fontWeight:
                       song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
             ),
+            subtitle: song.artist != null ? Text(song.artist.name) : null,
             trailing: song.spotifyUri != null || song.appleUri != null
                 ? IconButton(
-                    iconSize: 20,
                     icon: Icon(
                       Icons.open_in_new,
                     ),
@@ -109,7 +110,16 @@ class TrackList extends StatelessWidget {
                                 PopupTile(
                                     title: "Apple Music",
                                     iconData: Font.applemusic,
-                                    url: song.appleUri)
+                                    url: song.appleUri),
+                                PopupTile(
+                                  title: "SoundCloud",
+                                  iconData: Font.soundcloud,
+                                  url: song.soundcloudUri,
+                                ),
+                                PopupTile(
+                                    title: "YouTube",
+                                    iconData: Font.youtube,
+                                    url: song.youtubeUrl)
                               ],
                             ).show(context);
                           }
@@ -188,23 +198,22 @@ class MusicDetails extends StatelessWidget {
                       onDone: this.onDone,
                     ),
             ),
+            Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TrackList([
-                Song(title: "track 1", trackNumber: 1),
                 Song(
                     title: "Father Stretch my Hands Pt. 1",
                     trackNumber: 4,
                     artUrl: "https://i.redd.it/9akyyisjvem11.png",
                     spotifyUri:
-                        "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ"),
+                        "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ",
+                    artist: Artist(name: "Kanye West")),
                 Song(
-                  title: "Saint Pablo",
-                  trackNumber: 10,
-                  artUrl: "",
-                ),
-                Song(title: "track 2", trackNumber: 2),
-                Song(title: "track -1", trackNumber: -1)
+                    title: "Saint Pablo",
+                    trackNumber: 10,
+                    artUrl: "",
+                    artist: Artist(name: "Kanye West")),
               ]),
             ),
           ],
