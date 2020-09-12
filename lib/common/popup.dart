@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../open_link.dart';
+
 class PopupTile {
   final String title;
   final IconData iconData;
@@ -14,10 +16,6 @@ class PopupWidget {
 
   PopupWidget(this.popupTiles);
 
-  void openUrl(String url) {
-    // TODO: Implement
-  }
-
   show(BuildContext context) {
     return showModalBottomSheet(
         context: context,
@@ -30,7 +28,7 @@ class PopupWidget {
                       ? ListTile(
                           leading: Icon(tile.iconData),
                           title: Text(tile.title),
-                          onTap: () => {this.openUrl(tile.url)},
+                          onTap: () => {OpenLink.openlink(tile.url)},
                         )
                       : Container()
               ],

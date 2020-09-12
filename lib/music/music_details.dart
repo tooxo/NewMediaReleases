@@ -103,11 +103,11 @@ class TrackList extends StatelessWidget {
                                 PopupTile(
                                     title: "Spotify",
                                     iconData: Icons.airline_seat_flat,
-                                    url: "https://spotify.com/"),
+                                    url: song.spotifyUri),
                                 PopupTile(
                                     title: "Apple Music",
                                     iconData: Icons.airplanemode_active,
-                                    url: null)
+                                    url: song.appleUri)
                               ],
                             ).show(context);
                           }
@@ -139,10 +139,11 @@ class MusicDetails extends StatelessWidget {
             TrackList([
               Song(title: "track 1", trackNumber: 1),
               Song(
-                title: "Father Stretch my Hands Pt. 1",
-                trackNumber: 4,
-                artUrl: "https://i.redd.it/9akyyisjvem11.png",
-              ),
+                  title: "Father Stretch my Hands Pt. 1",
+                  trackNumber: 4,
+                  artUrl: "https://i.redd.it/9akyyisjvem11.png",
+                  spotifyUri:
+                      "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ"),
               Song(
                 title: "Saint Pablo",
                 trackNumber: 10,
