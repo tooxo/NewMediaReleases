@@ -136,22 +136,6 @@ class MusicDetails extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            TrackList([
-              Song(title: "track 1", trackNumber: 1),
-              Song(
-                  title: "Father Stretch my Hands Pt. 1",
-                  trackNumber: 4,
-                  artUrl: "https://i.redd.it/9akyyisjvem11.png",
-                  spotifyUri:
-                      "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ"),
-              Song(
-                title: "Saint Pablo",
-                trackNumber: 10,
-                artUrl: "",
-              ),
-              Song(title: "track 2", trackNumber: 2),
-              Song(title: "track -1", trackNumber: -1)
-            ]),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -201,6 +185,25 @@ class MusicDetails extends StatelessWidget {
                       musicalEntry.artist.timeZone,
                       onDone: this.onDone,
                     ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TrackList([
+                Song(title: "track 1", trackNumber: 1),
+                Song(
+                    title: "Father Stretch my Hands Pt. 1",
+                    trackNumber: 4,
+                    artUrl: "https://i.redd.it/9akyyisjvem11.png",
+                    spotifyUri:
+                        "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ"),
+                Song(
+                  title: "Saint Pablo",
+                  trackNumber: 10,
+                  artUrl: "",
+                ),
+                Song(title: "track 2", trackNumber: 2),
+                Song(title: "track -1", trackNumber: -1)
+              ]),
             ),
           ],
         ),
