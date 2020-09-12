@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Icons.dart';
+
 class MusicDetailsImage extends StatelessWidget {
   final String url;
 
@@ -102,11 +104,11 @@ class TrackList extends StatelessWidget {
                               [
                                 PopupTile(
                                     title: "Spotify",
-                                    iconData: Icons.airline_seat_flat,
+                                    iconData: Font.spotify,
                                     url: song.spotifyUri),
                                 PopupTile(
                                     title: "Apple Music",
-                                    iconData: Icons.airplanemode_active,
+                                    iconData: Font.applemusic,
                                     url: song.appleUri)
                               ],
                             ).show(context);

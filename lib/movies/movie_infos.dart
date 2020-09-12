@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/movies/movie_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +9,18 @@ import '../Icons.dart';
 import '../open_link.dart';
 
 class MovieInfos extends StatelessWidget {
+
+  final Movie movie = new Movie(actor: [MoviePerson(name: "Cock", pic: "cock")],
+      artUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg"
+      ,
+      description: "Tenet is a 2020 spy film written and directed by Christopher Nolan, who produced it with Emma Thomas. A co-production between the United Kingdom and United States, it stars John David Washington, Robert Pattinson, Elizabeth Debicki, Dimple Kapadia, Michael Caine, and Kenneth Branagh. The plot follows a secret agent (Washington) as he manipulates the flow of time to prevent World War III."
+      ,
+    director: [MoviePerson(name : "Cock", pic: "ball totrutre")],
+
+
+  );
+
+
   final String week = "2.Woche";
   final String locationYear = "USA, 2020";
   final int length = 150;
@@ -41,6 +54,8 @@ class MovieInfos extends StatelessWidget {
 
   String get url =>
       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg";
+
+
 
   @override
   Widget build(BuildContext context) {
