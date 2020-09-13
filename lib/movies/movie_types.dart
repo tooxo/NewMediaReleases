@@ -6,7 +6,7 @@ class Movie {
   int fsk;
   String genre;
   int timezone;
-  String releaseDate;
+  DateTime releaseDate;
   int rating;
   List<MoviePerson> director;
   List<MoviePerson> producer;

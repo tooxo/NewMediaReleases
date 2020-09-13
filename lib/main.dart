@@ -1,5 +1,6 @@
 import 'package:NewMediaReleases/games/game_info.dart';
 import 'package:NewMediaReleases/movies/movie_infos.dart';
+import 'package:NewMediaReleases/movies/movie_preview.dart';
 import 'package:NewMediaReleases/music/music.dart';
 import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
@@ -62,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(child: SerieInfos(),),
+      body: MoviePreview(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.white,
