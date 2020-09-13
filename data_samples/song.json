@@ -1,0 +1,50 @@
+{
+  "id": "song-test-id",
+  "title": "Father Stretch My Hands Pt. 1",
+  "genres": [
+    "Hip-Hop",
+    "Rap"
+  ],
+  "artist": {
+    "name": "Kanye West",
+    "spotifyUri": "spotify:artist:5K4W6rqBFWDnAN6FQUkS6x",
+    "appleUri": "https://music.apple.com/de/artist/kanye-west/2715720",
+    "language": "en-US",
+    "artUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Kanye_West_at_the_2009_Tribeca_Film_Festival.jpg",
+    "timezone": -7
+  },
+  "featured_artists": [],
+  "album": {
+    "id": "album-test-id",
+    "title": "The Life Of Pablo",
+    "genres": [
+      "Hip-Hop",
+      "Rap"
+    ],
+    "artist": {
+      "name": "Kanye West",
+      "spotifyUri": "spotify:artist:5K4W6rqBFWDnAN6FQUkS6x",
+      "appleUri": "https://music.apple.com/de/artist/kanye-west/2715720",
+      "language": "en-US",
+      "artUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Kanye_West_at_the_2009_Tribeca_Film_Festival.jpg",
+      "timezone": -7
+    },
+    "featured_artists": [],
+    "tracks": null,
+    "releaseDate": "2016-02-14T00:00:00+00:00",
+    "spotifyUri": "spotify:album:7gsWAHLeT0w7es6FofOXk1",
+    "appleUri": "https://music.apple.com/us/album/the-life-of-pablo/1443063578",
+    "soundcloudUri": "https://soundcloud.com/kanyewest/sets/the-life-of-pablo",
+    "language": "en-US",
+    "artUrl": "https://preview.redd.it/php9xna18ql21.jpg?width=1800&format=pjpg&auto=webp&s=34e9aef3bb28b115cc3cf731ab5455bd37f580b6"
+  },
+  "releaseDate": "2016-02-14T00:00:00+00:00",
+  "spotifyUri": "spotify:track:4KW1lqgSr8TKrvBII0Brf8",
+  "appleUri": "https://music.apple.com/us/album/father-stretch-my-hands-pt-1/1443063578?i=1443063971",
+  "soundcloudUri": "https://soundcloud.com/kanyewest/father-stretch-my-hands-pt-1?in=kanyewest/sets/the-life-of-pablo",
+  "youtubeId": "wuO4_P_8p-Q",
+  "language": "en-US",
+  "trackNumber": 0,
+  "previewUrl": "https://p.scdn.co/mp3-preview/3eb16018c2a700240e9dfb8817b6f2d041f15eb1?cid=774b29d4f13844c495f206cafdad9c86",
+  "artUrl": "https://preview.redd.it/php9xna18ql21.jpg?width=1800&format=pjpg&auto=webp&s=34e9aef3bb28b115cc3cf731ab5455bd37f580b6"
+}

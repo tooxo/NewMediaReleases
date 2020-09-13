@@ -82,10 +82,10 @@ class TrackList extends StatelessWidget {
         for (Song song in prepareTrackList())
           ListTile(
             dense: true,
-            leading: Text(
+            leading: song.trackNumber != 0 ? Text(
               "${song.trackNumber == -1 ? "?" : song.trackNumber}",
               style: GoogleFonts.lato(fontSize: 18),
-            ),
+            ): null,
             title: Text(
               song.title,
               style: GoogleFonts.lato(
@@ -93,20 +93,20 @@ class TrackList extends StatelessWidget {
                   fontWeight:
                       song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
             ),
-            subtitle: song.artist != null ? Text(song.artist.name) : null,
-            trailing: song.spotifyUri != null || song.appleUri != null
+            subtitle: song.artist != null ? Text(song.allArtistsString) : null,
+            trailing: song.spotifyUrl != null || song.appleUri != null
                 ? IconButton(
                     icon: Icon(
                       Icons.open_in_new,
                     ),
-                    onPressed: song.spotifyUri != null || song.appleUri != null
+                    onPressed: song.spotifyUrl != null || song.appleUri != null
                         ? () {
                             PopupWidget(
                               [
                                 PopupTile(
                                     title: "Spotify",
                                     iconData: Font.spotify,
-                                    url: song.spotifyUri),
+                                    url: song.spotifyUrl),
                                 PopupTile(
                                     title: "Apple Music",
                                     iconData: Font.applemusic,
@@ -201,20 +201,9 @@ class MusicDetails extends StatelessWidget {
             Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TrackList([
-                Song(
-                    title: "Father Stretch my Hands Pt. 1",
-                    trackNumber: 4,
-                    artUrl: "https://i.redd.it/9akyyisjvem11.png",
-                    spotifyUri:
-                        "https://open.spotify.com/track/4KW1lqgSr8TKrvBII0Brf8?si=XmUK5FzzRsiXdepCgo72EQ",
-                    artist: Artist(name: "Kanye West")),
-                Song(
-                    title: "Saint Pablo",
-                    trackNumber: 10,
-                    artUrl: "",
-                    artist: Artist(name: "Kanye West")),
-              ]),
+              child: TrackList(this.musicalEntry is Album
+                  ? (this.musicalEntry as Album).tracks
+                  : [this.musicalEntry]),
             ),
           ],
         ),

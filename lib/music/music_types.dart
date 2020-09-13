@@ -15,6 +15,22 @@ class MusicalEntry {
   Locale language;
   String artUrl;
 
+  get spotifyUrl {
+    if (spotifyUri == "") return "";
+    return spotifyUri
+        .replaceAll(":", "/")
+        .replaceAll("spotify", "https://open.spotify.com");
+  }
+
+  String get featuredArtistsString {
+    return featured_artists.map((e) => e.name).join(", ");
+  }
+
+  String get allArtistsString {
+    return this.artist.name +
+        (this.featured_artists.isNotEmpty ? ", " + featuredArtistsString : "");
+  }
+
   MusicalEntry(
       this.id,
       this.title,
@@ -63,11 +79,14 @@ class Song extends MusicalEntry {
       title: parsedApiResponse["title"],
       artist: Artist.fromApiResponse(
           JsonEncoder().convert(parsedApiResponse["artist"])),
-      featured_artists: (parsedApiResponse["featured_artists"] as List<dynamic>)
-          .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e))),
+      featured_artists: (parsedApiResponse["featured_artists"] as List<Object>)
+          .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
+          .toList(),
       album: Album.fromApiResponse(
           JsonEncoder().convert(parsedApiResponse["album"])),
-      genres: parsedApiResponse["genres"],
+      genres: (parsedApiResponse["genres"] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
       spotifyUri: parsedApiResponse["spotifyUri"],
       appleUri: parsedApiResponse["appleUri"],
@@ -102,7 +121,7 @@ class Album extends MusicalEntry {
             spotifyUri, appleUri, soundcloudUri, language, artUrl);
 
   static Album fromApiResponse(String rawApiResponse) {
-    if (rawApiResponse == null) return null;
+    if (rawApiResponse == "null" || rawApiResponse == null) return null;
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
     return Album(
         id: parsedApiResponse["id"],
@@ -111,14 +130,22 @@ class Album extends MusicalEntry {
             JsonEncoder().convert(parsedApiResponse["artist"])),
         featured_artists:
             (parsedApiResponse["featured_artists"] as List<dynamic>)
-                .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e))),
-        genres: parsedApiResponse["genres"],
+                .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
+                .toList(),
+        genres: (parsedApiResponse["genres"] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
         releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],
         language: null,
         // TODO
+        tracks: parsedApiResponse["tracks"] != null
+            ? (parsedApiResponse["tracks"] as List<dynamic>)
+                .map((e) => Song.fromApiResponse(JsonEncoder().convert(e)))
+                .toList()
+            : null,
         artUrl: parsedApiResponse["artUrl"]);
   }
 }
