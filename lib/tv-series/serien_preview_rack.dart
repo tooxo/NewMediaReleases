@@ -1,17 +1,14 @@
 import 'package:NewMediaReleases/custom_grid.dart';
-import 'package:NewMediaReleases/movies/movie_types.dart';
-import 'package:NewMediaReleases/music/music_preview.dart';
-import 'package:NewMediaReleases/music/music_types.dart';
+import 'package:NewMediaReleases/tv-series/serien_preview.dart';
+import 'package:NewMediaReleases/tv-series/serien_types..dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'movie_preview.dart';
-
-class MoviePreviewRack extends StatelessWidget {
-  final List<Movie> entries;
+class SerienPreviewRack extends StatelessWidget {
+  final List<Serie> entries;
   final DateTime releaseDate;
 
-  MoviePreviewRack(this.entries, this.releaseDate);
+  SerienPreviewRack(this.entries, this.releaseDate);
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +41,8 @@ class MoviePreviewRack extends StatelessWidget {
         Container(
           child: CustomGrid(
             [
-              for (Movie entry in this.entries)
-                MoviePreviewWidget(entry)
+              for (Serie entry in this.entries)
+                SerienPreviewWidget(entry)
             ],
           ),
         )

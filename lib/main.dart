@@ -1,10 +1,12 @@
 import 'package:NewMediaReleases/games/game_info.dart';
+import 'package:NewMediaReleases/games/game_preview.dart';
 import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/movies/movie_preview.dart';
 import 'package:NewMediaReleases/music/music.dart';
 import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/tv-series/serie_info.dart';
+import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,12 +46,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   get search => null;
 
+  int _currentIndex = 0;
   List<MusicalEntry> entries = List<MusicalEntry>();
 
   @override
   void initState() {
     super.initState();
   }
+  void onTabTapped(int index) {
+
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  final List<Widget> _children = [
+    MainMusic(),
+    MoviePreview(),
+    SerienPreview(),
+    GamePreview(),
+
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,22 +80,21 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: MoviePreview(),
+      body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.white,
         unselectedFontSize: 16,
         selectedFontSize: 16,
-
+        onTap: onTabTapped,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
-        currentIndex: 0,
+        currentIndex: _currentIndex,
         // this will be set when a new tab is tapped
         items: [
           BottomNavigationBarItem(
             icon: Icon(
                 //Font.headphones,
-
                 Icons.headset),
             title: Text(
               'Music',
@@ -150,4 +166,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )*/
   }
+
+
 }

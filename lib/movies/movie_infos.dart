@@ -11,11 +11,6 @@ import '../open_link.dart';
 class MovieInfos extends StatelessWidget {
   final Movie entry;
 
-
-
-
-
-
   final String week = "2.Woche";
   final String locationYear = "USA, 2020";
   final int length = 150;
@@ -24,7 +19,7 @@ class MovieInfos extends StatelessWidget {
   final DateTime date = null;
   final String score = "5/10";
 
-  final String title = "Mero";
+  final String title = "Tenet";
 
   final String director = "Christopher Nolan";
   final String producer = "Christopher Nolan";
@@ -50,13 +45,14 @@ class MovieInfos extends StatelessWidget {
   const MovieInfos({Key key, this.entry}) : super(key: key);
 
   String get url =>
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/2019_Mero_-_by_2eight_-_DSC5658.jpg/330px-2019_Mero_-_by_2eight_-_DSC5658.jpg";
-
-
+      "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -300,7 +296,6 @@ class MovieInfos extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -312,8 +307,8 @@ class MovieInfos extends StatelessWidget {
                   IconButton(
                     onPressed: this.netflix
                         ? () {
-                      OpenLink.openlink(netflixLink);
-                    }
+                            OpenLink.openlink(netflixLink);
+                          }
                         : null,
                     icon: Icon(
                       Font.netflix,
@@ -324,8 +319,8 @@ class MovieInfos extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
                     onPressed: this.amazon
                         ? () {
-                      OpenLink.openlink(amazonLink);
-                    }
+                            OpenLink.openlink(amazonLink);
+                          }
                         : null,
                     icon: Icon(
                       Font.primevideo,
@@ -336,8 +331,8 @@ class MovieInfos extends StatelessWidget {
                   MaterialButton(
                     onPressed: this.disney
                         ? () {
-                      OpenLink.openlink(disneyLink);
-                    }
+                            OpenLink.openlink(disneyLink);
+                          }
                         : null,
                     child: Text(
                       "Disney+",
@@ -350,8 +345,8 @@ class MovieInfos extends StatelessWidget {
                   IconButton(
                     onPressed: this.hulu
                         ? () {
-                      OpenLink.openlink(huluLink);
-                    }
+                            OpenLink.openlink(huluLink);
+                          }
                         : null,
                     icon: Icon(
                       Font.hulu,

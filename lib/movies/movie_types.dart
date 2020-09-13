@@ -40,7 +40,6 @@ class Movie {
     this.primeUrl,
     this.huluUrl});
 }
-
 class MoviePerson {
   String name;
   String pic;

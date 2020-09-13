@@ -1,17 +1,16 @@
 import 'package:NewMediaReleases/custom_grid.dart';
-import 'package:NewMediaReleases/movies/movie_types.dart';
-import 'package:NewMediaReleases/music/music_preview.dart';
-import 'package:NewMediaReleases/music/music_types.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'movie_preview.dart';
+import 'game_preview.dart';
+import 'game_types.dart';
 
-class MoviePreviewRack extends StatelessWidget {
-  final List<Movie> entries;
+class GamePreviewRack extends StatelessWidget {
+  final List<Game> entries;
   final DateTime releaseDate;
 
-  MoviePreviewRack(this.entries, this.releaseDate);
+  GamePreviewRack(this.entries, this.releaseDate);
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +43,8 @@ class MoviePreviewRack extends StatelessWidget {
         Container(
           child: CustomGrid(
             [
-              for (Movie entry in this.entries)
-                MoviePreviewWidget(entry)
+              for (Game entry in this.entries)
+                GamePreviewWidget(entry)
             ],
           ),
         )

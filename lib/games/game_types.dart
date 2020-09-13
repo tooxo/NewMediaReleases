@@ -7,7 +7,7 @@ class Game {
   String genre;
   String mode;
   int timezone;
-  String releaseDate;
+  DateTime releaseDate;
   int rating;
   String description;
   bool pc;
@@ -15,9 +15,8 @@ class Game {
   bool xbox;
   bool nintendo;
 
-
-  Game.name(
-      this.title,
+  Game(
+      {this.title,
       this.artUrl,
       this.studio,
       this.publisher,
@@ -31,5 +30,5 @@ class Game {
       this.pc,
       this.playstation,
       this.xbox,
-      this.nintendo);
+      this.nintendo});
 }
