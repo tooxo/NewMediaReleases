@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/common/notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,20 +46,13 @@ class CountdownState extends State<Countdown> {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
-                "ReleaseCountdown:",
+                "Release Countdown:",
                 style: GoogleFonts.lato(fontSize: 25),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(
-                    Icons.timer,
-                    size: 30,
-                  ),
-                ),
                 SlideCountdownClock(
                   onDone: widget.onDone,
                   duration: this.tillDestination,
@@ -66,6 +60,19 @@ class CountdownState extends State<Countdown> {
                   separator: ":",
                   textStyle: GoogleFonts.lato(
                       fontSize: 30, fontWeight: FontWeight.w800),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: IconButton(
+                    onPressed: () async {
+                      Notifications a = Notifications();
+                      a.init();
+                      a.scheduleNotifications(
+                          DateTime.now().add(this.tillDestination));
+                    },
+                    icon: Icon(Icons.notifications_none),
+                    // size: 30,
+                  ),
                 ),
               ],
             ),
