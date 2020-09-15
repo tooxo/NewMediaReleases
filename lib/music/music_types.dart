@@ -31,6 +31,17 @@ class MusicalEntry {
         (this.featured_artists.isNotEmpty ? ", " + featuredArtistsString : "");
   }
 
+  String getScaledUrl(int width) {
+    if (this.artUrl == null) return null;
+    if (!this.artUrl.contains("images.genius")) return this.artUrl;
+    return "https://t2.genius.com/unsafe/${width}x0/${Uri.encodeFull(this.artUrl)}";
+  }
+
+  DateTime get dayOfRelease {
+    if (releaseDate == null) return null;
+    return DateTime(releaseDate.year, releaseDate.month, releaseDate.day);
+  }
+
   MusicalEntry(
       this.id,
       this.title,
@@ -50,6 +61,7 @@ class Song extends MusicalEntry {
   int trackNumber;
   String previewUrl;
   String youtubeId;
+  bool single;
 
   get youtubeUrl => "https://youtube.com/watch?v=$youtubeId";
 
@@ -68,36 +80,38 @@ class Song extends MusicalEntry {
       Locale language,
       this.trackNumber,
       this.previewUrl,
-      String artUrl})
+      String artUrl,
+      this.single})
       : super(id, title, artist, featured_artists, genres, releaseDate,
             spotifyUri, appleUri, soundcloudUri, language, artUrl);
 
   static Song fromApiResponse(String rawApiResponse) {
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
     return Song(
-      id: parsedApiResponse["id"],
-      title: parsedApiResponse["title"],
-      artist: Artist.fromApiResponse(
-          JsonEncoder().convert(parsedApiResponse["artist"])),
-      featured_artists: (parsedApiResponse["featured_artists"] as List<Object>)
-          .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
-          .toList(),
-      album: Album.fromApiResponse(
-          JsonEncoder().convert(parsedApiResponse["album"])),
-      genres: (parsedApiResponse["genres"] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
-      spotifyUri: parsedApiResponse["spotifyUri"],
-      appleUri: parsedApiResponse["appleUri"],
-      soundcloudUri: parsedApiResponse["soundcloudUri"],
-      youtubeId: parsedApiResponse["youtubeId"],
-      language: null,
-      // TODO
-      trackNumber: parsedApiResponse["trackNumber"],
-      previewUrl: parsedApiResponse["previewUrl"],
-      artUrl: parsedApiResponse["artUrl"],
-    );
+        id: parsedApiResponse["id"],
+        title: parsedApiResponse["title"],
+        artist: Artist.fromApiResponse(
+            JsonEncoder().convert(parsedApiResponse["artist"])),
+        featured_artists:
+            (parsedApiResponse["featured_artists"] as List<Object>)
+                .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
+                .toList(),
+        album: Album.fromApiResponse(
+            JsonEncoder().convert(parsedApiResponse["album"])),
+        genres: (parsedApiResponse["genres"] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
+        releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
+        spotifyUri: parsedApiResponse["spotifyUri"],
+        appleUri: parsedApiResponse["appleUri"],
+        soundcloudUri: parsedApiResponse["soundcloudUri"],
+        youtubeId: parsedApiResponse["youtubeId"],
+        language: null,
+        // TODO
+        trackNumber: parsedApiResponse["trackNumber"],
+        previewUrl: parsedApiResponse["previewUrl"],
+        artUrl: parsedApiResponse["artUrl"],
+        single: parsedApiResponse["single"]);
   }
 }
 
@@ -135,7 +149,9 @@ class Album extends MusicalEntry {
         genres: (parsedApiResponse["genres"] as List<dynamic>)
             .map((e) => e as String)
             .toList(),
-        releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
+        releaseDate: parsedApiResponse["releaseDate"] == null
+            ? null
+            : DateTime.parse(parsedApiResponse["releaseDate"]),
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],
@@ -178,6 +194,6 @@ class Artist {
         language: null,
         // TODO,
         artUrl: parsedApiResponse["artUrl"],
-        timeZone: parsedApiResponse["timeZone"]);
+        timeZone: parsedApiResponse["timezone"]);
   }
 }

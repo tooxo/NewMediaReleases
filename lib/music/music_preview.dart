@@ -96,7 +96,7 @@ class MusicPreviewWidget extends StatelessWidget {
               width: width,
               height: width,
               child: MusicPreviewImageWidget(
-                  this.entry.artUrl, this.entry is Song),
+                  this.entry.getScaledUrl(200), this.entry is Song),
             ),
             Padding(
               padding: const EdgeInsets.all(6.0),

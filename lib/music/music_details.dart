@@ -82,10 +82,12 @@ class TrackList extends StatelessWidget {
         for (Song song in prepareTrackList())
           ListTile(
             dense: true,
-            leading: song.trackNumber != 0 ? Text(
-              "${song.trackNumber == -1 ? "?" : song.trackNumber}",
-              style: GoogleFonts.lato(fontSize: 18),
-            ): null,
+            leading: song.trackNumber != 0
+                ? Text(
+                    "${song.trackNumber == -1 ? "?" : song.trackNumber}",
+                    style: GoogleFonts.lato(fontSize: 18),
+                  )
+                : null,
             title: Text(
               song.title,
               style: GoogleFonts.lato(
@@ -184,7 +186,8 @@ class MusicDetails extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 8),
-              child: !isInFuture(musicalEntry.releaseDate)
+              child: !isInFuture(musicalEntry.releaseDate) &&
+                      musicalEntry.releaseDate != null
                   ? Text(
                       "Released: ${formatDate(date: musicalEntry.releaseDate)}",
                       style: GoogleFonts.lato(
