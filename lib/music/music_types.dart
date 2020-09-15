@@ -22,6 +22,9 @@ class MusicalEntry {
         .replaceAll("spotify", "https://open.spotify.com");
   }
 
+  get hasStream =>
+      this.appleUri != "" || this.soundcloudUri != "" || this.spotifyUri != "";
+
   String get featuredArtistsString {
     return featured_artists.map((e) => e.name).join(", ");
   }
@@ -62,8 +65,14 @@ class Song extends MusicalEntry {
   String previewUrl;
   String youtubeId;
   bool single;
+  bool dummy = false;
 
-  get youtubeUrl => "https://youtube.com/watch?v=$youtubeId";
+  get youtubeUrl {
+    if (youtubeId == "") return "";
+    return "https://youtube.com/watch?v=$youtubeId";
+  }
+
+  get hasStream => super.hasStream || this.youtubeId != "";
 
   Song(
       {String id,
@@ -81,7 +90,8 @@ class Song extends MusicalEntry {
       this.trackNumber,
       this.previewUrl,
       String artUrl,
-      this.single})
+      this.single,
+      this.dummy = false})
       : super(id, title, artist, featured_artists, genres, releaseDate,
             spotifyUri, appleUri, soundcloudUri, language, artUrl);
 
@@ -101,7 +111,9 @@ class Song extends MusicalEntry {
         genres: (parsedApiResponse["genres"] as List<dynamic>)
             .map((e) => e as String)
             .toList(),
-        releaseDate: DateTime.parse(parsedApiResponse["releaseDate"]),
+        releaseDate: parsedApiResponse["releaseDate"] == null
+            ? null
+            : DateTime.parse(parsedApiResponse["releaseDate"]),
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],

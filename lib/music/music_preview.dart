@@ -89,37 +89,41 @@ class MusicPreviewWidget extends StatelessWidget {
       double width = min(constraints.maxWidth, constraints.maxHeight);
 
       return InkWell(
-        onTap: () => open(context),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: width,
-              height: width,
-              child: MusicPreviewImageWidget(
-                  this.entry.getScaledUrl(200), this.entry is Song),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    this.entry.title,
-                    style: TextStyle(
+          onTap: () => open(context),
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: width,
+                height: width,
+                child: MusicPreviewImageWidget(
+                    this.entry.getScaledUrl(200), this.entry is Song),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      this.entry.title,
+                      style: TextStyle(
                         fontSize: 17,
                         fontFamily: 'Lato',
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    this.entry.artist.name,
-                    style: TextStyle(
-                        fontFamily: 'Lato', fontStyle: FontStyle.italic),
-                  )
-                ],
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      this.entry.artist.name,
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontStyle: FontStyle.italic,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ));
     });
   }
 }

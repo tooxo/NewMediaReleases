@@ -2,35 +2,34 @@ import 'package:flutter/cupertino.dart';
 
 class CustomGrid extends StatelessWidget {
   final List<Widget> widgets;
+  final int gridSize;
 
-  CustomGrid(this.widgets);
+  CustomGrid(this.widgets, {this.gridSize = 3});
+
+  Widget get empty => Flexible(
+        flex: 1,
+        child: Container(),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        for (int i = 0; i < this.widgets.length; i += 2)
+        for (int i = 0; i < this.widgets.length; i += this.gridSize)
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: this.widgets.elementAt(i),
-                ),
-              ),
-              i >= this.widgets.length - 1
-                  ? Expanded(
-                      flex: 1,
-                      child: Container(),
-                    )
-                  : Expanded(
-                      flex: 1,
-                      child: Padding(
-                        child: this.widgets.elementAt(i + 1),
-                        padding: EdgeInsets.all(8.0),
+              for (int j = 0; j < this.gridSize; j++)
+                this.widgets.length <= i + j
+                    ? empty
+                    : Flexible(
+                        flex: 1,
+                        child: Padding(
+                          child: this.widgets.elementAt(i + j),
+                          padding: EdgeInsets.all(8.0),
+                        ),
                       ),
-                    ),
             ],
           )
       ],

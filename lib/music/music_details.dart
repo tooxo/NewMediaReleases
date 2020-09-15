@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:NewMediaReleases/common/countdown.dart';
+import 'package:NewMediaReleases/common/detail_screen.dart';
+import 'package:NewMediaReleases/common/network/music_network.dart';
 import 'package:NewMediaReleases/common/popup.dart';
 import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
@@ -58,19 +60,21 @@ class TrackList extends StatelessWidget {
       }
     });
 
-    int highestTrackNo = numberedSongs.last.trackNumber;
-
     List<Song> result = [];
 
-    for (int i = 1; i <= highestTrackNo; i++) {
-      Song song = numberedSongs.firstWhere(
-        (element) => element.trackNumber == i,
-        orElse: () => Song(
-          title: "Track $i",
-          trackNumber: i,
-        ),
-      );
-      result.add(song);
+    if (numberedSongs.isNotEmpty) {
+      int highestTrackNo = numberedSongs.last.trackNumber;
+      for (int i = 1; i <= highestTrackNo; i++) {
+        Song song = numberedSongs.firstWhere(
+          (element) => element.trackNumber == i,
+          orElse: () => Song(
+            title: "Track $i",
+            trackNumber: i,
+            dummy: true
+          ),
+        );
+        result.add(song);
+      }
     }
     return result + songsWithoutNo;
   }
@@ -95,13 +99,15 @@ class TrackList extends StatelessWidget {
                   fontWeight:
                       song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
             ),
-            subtitle: song.artist != null ? Text(song.allArtistsString) : null,
-            trailing: song.spotifyUrl != null || song.appleUri != null
+            subtitle: song.artist != null ? Text(song.allArtistsString) : Text(
+              "unknown"
+            ),
+            trailing: song.hasStream && !song.dummy
                 ? IconButton(
                     icon: Icon(
                       Icons.open_in_new,
                     ),
-                    onPressed: song.spotifyUrl != null || song.appleUri != null
+                    onPressed: song.hasStream
                         ? () {
                             PopupWidget(
                               [
@@ -160,7 +166,17 @@ class MusicDetails extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 3,
-                    child: MusicDetailsImage(musicalEntry.artUrl),
+                    child: GestureDetector(
+                      child: Hero(
+                        tag: 'musicDetail',
+                        child: MusicDetailsImage(musicalEntry.artUrl),
+                      ),
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (con) => DetailScreen(
+                                musicalEntry.artUrl,
+                                tag: "musicDetail",
+                              ))),
+                    ),
                   ),
                   Expanded(
                     flex: 1,
@@ -204,9 +220,19 @@ class MusicDetails extends StatelessWidget {
             Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TrackList(this.musicalEntry is Album
-                  ? (this.musicalEntry as Album).tracks
-                  : [this.musicalEntry]),
+              child: this.musicalEntry is Song
+                  ? TrackList([this.musicalEntry])
+                  : FutureBuilder(
+                      future: getTracksFromAlbum(musicalEntry.id),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData &&
+                            snapshot.connectionState == ConnectionState.done) {
+                          Album album = Album.fromApiResponse(snapshot.data);
+                          return TrackList(album.tracks);
+                        }
+                        return Container();
+                      },
+                    ),
             ),
           ],
         ),

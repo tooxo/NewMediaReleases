@@ -8,3 +8,8 @@ Future<String> getAroundSongs() async {
   );
   return res.body;
 }
+
+Future<String> getTracksFromAlbum(String albumId) async {
+  http.Response res = await http.get(base_url+"albums/$albumId");
+  return res.body;
+}
