@@ -22,8 +22,11 @@ class MusicalEntry {
         .replaceAll("spotify", "https://open.spotify.com");
   }
 
-  get hasStream =>
+  bool get hasStream =>
       this.appleUri != "" || this.soundcloudUri != "" || this.spotifyUri != "";
+
+  String get searchTitle =>
+      "$title $allArtistsString".toLowerCase().replaceAll(" ", "");
 
   String get featuredArtistsString {
     return featured_artists.map((e) => e.name).join(", ");

@@ -67,11 +67,7 @@ class TrackList extends StatelessWidget {
       for (int i = 1; i <= highestTrackNo; i++) {
         Song song = numberedSongs.firstWhere(
           (element) => element.trackNumber == i,
-          orElse: () => Song(
-            title: "Track $i",
-            trackNumber: i,
-            dummy: true
-          ),
+          orElse: () => Song(title: "Track $i", trackNumber: i, dummy: true),
         );
         result.add(song);
       }
@@ -99,9 +95,9 @@ class TrackList extends StatelessWidget {
                   fontWeight:
                       song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
             ),
-            subtitle: song.artist != null ? Text(song.allArtistsString) : Text(
-              "unknown"
-            ),
+            subtitle: song.artist != null
+                ? Text(song.allArtistsString)
+                : Text("unknown"),
             trailing: song.hasStream && !song.dummy
                 ? IconButton(
                     icon: Icon(
@@ -152,6 +148,8 @@ class MusicDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        title: Text(musicalEntry is Song ? "Song" : "Album"),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(

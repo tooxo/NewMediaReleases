@@ -3,18 +3,17 @@ import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
-class MusicPreviewRack extends StatelessWidget {
+class MusicPreviewRack {
   final List<MusicalEntry> entries;
   final DateTime releaseDate;
 
   MusicPreviewRack(this.entries, this.releaseDate);
 
-  @override
-  Widget build(BuildContext context) {
-    return StickyHeader(
-      header: Container(
+  InfiniteListItem<int> build(BuildContext context) {
+    return InfiniteListItem(
+      headerBuilder: (context) => Container(
         color: Colors.white,
         child: Column(
           children: <Widget>[
@@ -36,7 +35,7 @@ class MusicPreviewRack extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top:8, right: 8.0, left: 8),
+              padding: const EdgeInsets.only(top: 8, right: 8.0, left: 8),
               child: Divider(
                 thickness: 2,
                 color: Colors.black,
@@ -46,7 +45,7 @@ class MusicPreviewRack extends StatelessWidget {
           ],
         ),
       ),
-      content: Container(
+      contentBuilder: (context) => Container(
         child: CustomGrid(
           [for (MusicalEntry entry in this.entries) MusicPreviewWidget(entry)],
         ),

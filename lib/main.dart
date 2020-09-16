@@ -1,11 +1,7 @@
-import 'package:NewMediaReleases/games/game_info.dart';
 import 'package:NewMediaReleases/games/game_preview.dart';
-import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/movies/movie_preview.dart';
 import 'package:NewMediaReleases/music/music.dart';
-import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
-import 'package:NewMediaReleases/tv-series/serie_info.dart';
 import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
   }
-  void onTabTapped(int index) {
 
+  void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -65,13 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
     MoviePreview(),
     SerienPreview(),
     GamePreview(),
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
+      /*appBar: new AppBar(
         backgroundColor: Colors.black,
         title: Center(
           child: Text(
@@ -79,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(color: Colors.white),
           ),
         ),
-      ),
+      ),*/
+      resizeToAvoidBottomInset: false,
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
@@ -166,6 +162,4 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )*/
   }
-
-
 }

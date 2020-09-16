@@ -46,7 +46,10 @@ class MusicPreviewImageWidget extends StatelessWidget {
 
         return Stack(
           children: <Widget>[
-            CircularImage(this.url),
+            CircleAvatar(
+              radius: 10000,
+              backgroundImage: NetworkImage(this.url),
+            ),
             Positioned(
               left: coord,
               top: coord,
@@ -96,7 +99,7 @@ class MusicPreviewWidget extends StatelessWidget {
                 width: width,
                 height: width,
                 child: MusicPreviewImageWidget(
-                    this.entry.getScaledUrl(200), this.entry is Song),
+                    this.entry.getScaledUrl(150), this.entry is Song),
               ),
               Padding(
                 padding: const EdgeInsets.all(6.0),

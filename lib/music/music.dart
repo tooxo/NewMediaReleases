@@ -1,10 +1,16 @@
 import 'dart:convert';
 
 import 'package:NewMediaReleases/common/network/music_network.dart';
+import 'package:NewMediaReleases/music/music_filter_menu.dart';
+import 'package:NewMediaReleases/music/music_search_delegate.dart';
 import 'package:collection/collection.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
 import 'music_preview_rack.dart';
 import 'music_types.dart';
@@ -17,11 +23,14 @@ class MainMusic extends StatefulWidget {
 class MainMusicState extends State<MainMusic> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _controller = ScrollController();
+  int currentDayIndex = 0;
 
   String entries = "[]";
+  Map<DateTime, List<MusicalEntry>> parsedEntries =
+      Map<DateTime, List<MusicalEntry>>();
 
-  Map<DateTime, List<MusicalEntry>> get parsedEntries {
+  Map<DateTime, List<MusicalEntry>> parseEntries() {
     List<dynamic> l = JsonDecoder().convert(entries) as List<dynamic>;
     List<MusicalEntry> output = [];
     for (dynamic entry in l) {
@@ -39,6 +48,15 @@ class MainMusicState extends State<MainMusic> {
   void _onRefresh() async {
     try {
       this.entries = await getAroundSongs();
+      this.parsedEntries = parseEntries();
+      DateTime _date = DateTime.fromMillisecondsSinceEpoch(0);
+      this.parsedEntries.keys.toList().asMap().forEach((index, date) {
+        if (date.difference(DateTime.now()).abs() <
+            _date.difference(DateTime.now()).abs()) {
+          this.currentDayIndex = index;
+          _date = date;
+        }
+      });
       setState(() {});
     } catch (e) {
       return _refreshController.refreshFailed();
@@ -46,12 +64,53 @@ class MainMusicState extends State<MainMusic> {
     _refreshController.refreshCompleted();
   }
 
+  List<String> genreFilter = [];
+
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              MusicFilterMenu(
+                      this.genreFilter,
+                      this
+                          .parsedEntries
+                          .values
+                          .expand((element) => element)
+                          .toList())
+                  .showFilterDialog(context);
+            },
+            icon: Icon(
+                genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter),
+          ),
+          IconButton(
+            onPressed: () {
+              showSearch(
+                  context: context,
+                  delegate: MusicSearchDelegate(this
+                      .parsedEntries
+                      .values
+                      .expand((element) => element)
+                      .toList()));
+            },
+            icon: Icon(MdiIcons.magnify),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          _controller.animateTo(0,
+              duration: Duration(seconds: 1), curve: Curves.ease)
+        },
+        child: Icon(Icons.today),
+        tooltip: "Jump to Today",
+      ),
+      body: SmartRefresher(
         enablePullDown: true,
         enablePullUp: false,
-        // scrollController: _scrollController,
+        scrollController: _controller,
         header: WaterDropMaterialHeader(
           backgroundColor: Colors.black,
           color: Colors.white,
@@ -59,23 +118,21 @@ class MainMusicState extends State<MainMusic> {
         ),
         controller: _refreshController,
         onRefresh: _onRefresh,
-        child: ListView.builder(
-            itemCount: parsedEntries.length,
-            itemBuilder: (BuildContext buildContext, int index) {
-              print("Currently Building $index");
-              return MusicPreviewRack(
-                  parsedEntries[parsedEntries.keys.toList()[index]],
-                  parsedEntries.keys.toList()[index]);
-            })
-
-        /*SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            for (DateTime date in parsedEntries.keys)
-              MusicPreviewRack(parsedEntries[date], date),
-          ],
+        child: InfiniteList(
+          negChildCount: this.parsedEntries.length -
+              (this.parsedEntries.length - this.currentDayIndex),
+          posChildCount: this.parsedEntries.length - this.currentDayIndex,
+          direction: InfiniteListDirection.multi,
+          controller: _controller,
+          builder: (BuildContext context, int index) {
+            index += this.currentDayIndex;
+            return MusicPreviewRack(
+                    parsedEntries[parsedEntries.keys.toList()[index]],
+                    parsedEntries.keys.toList()[index])
+                .build(context);
+          },
         ),
-      ),*/
-        );
+      ),
+    );
   }
 }
