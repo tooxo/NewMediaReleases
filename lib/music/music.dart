@@ -24,7 +24,6 @@ class MainMusicState extends State<MainMusic> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final ScrollController _controller = ScrollController();
-  int currentDayIndex = 0;
 
   String entries = "[]";
   Map<DateTime, List<MusicalEntry>> parsedEntries =
@@ -45,18 +44,46 @@ class MainMusicState extends State<MainMusic> {
     return groupBy(output, (MusicalEntry obj) => obj.dayOfRelease);
   }
 
+  Map<DateTime, List<MusicalEntry>> filterEntries() {
+    if (this.genreFilter.isEmpty) return this.parsedEntries;
+
+    Map<DateTime, List<MusicalEntry>> filtered = Map();
+    // actually filter the tracks
+    this.parsedEntries.forEach((key, value) {
+      List<MusicalEntry> remainingValues = [];
+
+      value.forEach((element) {
+        for (String genre in element.genres) {
+          if (this.genreFilter.contains(genre)) {
+            return remainingValues.add(element);
+          }
+        }
+      });
+
+      if (remainingValues.isNotEmpty) {
+        filtered[key] = remainingValues;
+      }
+    });
+    return filtered;
+  }
+
+  int getNearestToToday(Map<DateTime, List<MusicalEntry>> e) {
+    DateTime _date = DateTime.fromMillisecondsSinceEpoch(0);
+    int ind = 0;
+    e.keys.toList().asMap().forEach((index, date) {
+      if (date.difference(DateTime.now()).abs() <
+          _date.difference(DateTime.now()).abs()) {
+        ind = index;
+        _date = date;
+      }
+    });
+    return ind;
+  }
+
   void _onRefresh() async {
     try {
       this.entries = await getAroundSongs();
       this.parsedEntries = parseEntries();
-      DateTime _date = DateTime.fromMillisecondsSinceEpoch(0);
-      this.parsedEntries.keys.toList().asMap().forEach((index, date) {
-        if (date.difference(DateTime.now()).abs() <
-            _date.difference(DateTime.now()).abs()) {
-          this.currentDayIndex = index;
-          _date = date;
-        }
-      });
       setState(() {});
     } catch (e) {
       return _refreshController.refreshFailed();
@@ -68,12 +95,15 @@ class MainMusicState extends State<MainMusic> {
 
   @override
   Widget build(BuildContext context) {
+    Map<DateTime, List<MusicalEntry>> filtered = filterEntries();
+    int currentDayIndex = getNearestToToday(filtered);
+
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
-              MusicFilterMenu(
+            onPressed: () async {
+              List<String> f = await MusicFilterMenu(
                       this.genreFilter,
                       this
                           .parsedEntries
@@ -81,6 +111,8 @@ class MainMusicState extends State<MainMusic> {
                           .expand((element) => element)
                           .toList())
                   .showFilterDialog(context);
+              if (f != null) this.genreFilter = f;
+              setState(() {});
             },
             icon: Icon(
                 genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter),
@@ -119,16 +151,17 @@ class MainMusicState extends State<MainMusic> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         child: InfiniteList(
-          negChildCount: this.parsedEntries.length -
-              (this.parsedEntries.length - this.currentDayIndex),
-          posChildCount: this.parsedEntries.length - this.currentDayIndex,
-          direction: InfiniteListDirection.multi,
+          negChildCount:
+              filtered.length - (filtered.length - currentDayIndex),
+          posChildCount: filtered.length - currentDayIndex,
+          direction: filtered.length <= 1
+              ? InfiniteListDirection.single
+              : InfiniteListDirection.multi,
           controller: _controller,
           builder: (BuildContext context, int index) {
-            index += this.currentDayIndex;
-            return MusicPreviewRack(
-                    parsedEntries[parsedEntries.keys.toList()[index]],
-                    parsedEntries.keys.toList()[index])
+            index += currentDayIndex;
+            return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
+                    filtered.keys.toList()[index])
                 .build(context);
           },
         ),
