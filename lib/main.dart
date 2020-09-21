@@ -5,6 +5,7 @@ import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -94,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.headset),
             title: Text(
               'Music',
+              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
             ),
           ),
           BottomNavigationBarItem(
@@ -102,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.movie),
             title: Text(
               'Movies',
+              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
             ),
           ),
           BottomNavigationBarItem(
@@ -110,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
             title: Text(
               'TV-Series',
+              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
             ),
           ),
           BottomNavigationBarItem(
@@ -118,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
             title: Text(
               'Games',
+              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
             ),
           ),
         ],

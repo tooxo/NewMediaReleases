@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:NewMediaReleases/common/network/music_network.dart';
 import 'package:NewMediaReleases/music/music_filter_menu.dart';
@@ -8,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
@@ -100,6 +102,16 @@ class MainMusicState extends State<MainMusic> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          "release.",
+          style: GoogleFonts.nunitoSans(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () async {
@@ -132,6 +144,7 @@ class MainMusicState extends State<MainMusic> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
         onPressed: () => {
           _controller.animateTo(0,
               duration: Duration(seconds: 1), curve: Curves.ease)
@@ -151,8 +164,7 @@ class MainMusicState extends State<MainMusic> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         child: InfiniteList(
-          negChildCount:
-              filtered.length - (filtered.length - currentDayIndex),
+          negChildCount: filtered.length - (filtered.length - currentDayIndex),
           posChildCount: filtered.length - currentDayIndex,
           direction: filtered.length <= 1
               ? InfiniteListDirection.single

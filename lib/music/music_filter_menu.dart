@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'music_types.dart';
 
@@ -32,17 +33,22 @@ class MusicFilterMenu {
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-
-          title: Center(child: Text("Select Genres")),
+          backgroundColor: Colors.black54,
+          title: Center(
+            child: Text(
+              "Select Genres",
+              style: GoogleFonts.nunitoSans(color: Colors.white),
+            ),
+          ),
           actions: [
             FlatButton(
               onPressed: () =>
                   Navigator.of(context).pop(this.appliedFiltersBackup),
-              child: Text("cancel"),
+              child: Text("Cancel", style: GoogleFonts.nunitoSans(color: Colors.white),),
             ),
             FlatButton(
               onPressed: () => Navigator.of(context).pop(this.appliedFilters),
-              child: Text("oki"),
+              child: Text("Okay", style: GoogleFonts.nunitoSans(color: Colors.white),),
             )
           ],
           content: Container(
@@ -51,6 +57,8 @@ class MusicFilterMenu {
             child: Column(
               children: [
                 CheckboxListTile(
+                  activeColor: Colors.white,
+                  checkColor: Colors.white,
                   value: this.appliedFilters.isNotEmpty,
                   dense: true,
                   onChanged: (bool l) => setState(() {
@@ -62,7 +70,7 @@ class MusicFilterMenu {
                   }),
                   title: Text(this.appliedFilters.isEmpty
                       ? "Select All"
-                      : "Unselect All"),
+                      : "Unselect All", style: GoogleFonts.nunitoSans(color: Colors.white),),
                 ),
                 Divider(),
                 Expanded(
@@ -71,6 +79,8 @@ class MusicFilterMenu {
                     itemCount: allMusicGenres.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CheckboxListTile(
+                        checkColor: Colors.white,
+                        activeColor: Colors.white,
                         dense: true,
                         title: Text(allMusicGenres[index]),
                         value:

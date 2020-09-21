@@ -5,6 +5,7 @@ import 'package:NewMediaReleases/games/game_preview_rack.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'game_types.dart';
@@ -31,7 +32,20 @@ class GamePreviewState extends State<GamePreview> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
+    return Scaffold(
+        appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+        "release.",
+        style: GoogleFonts.nunitoSans(
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+    ),
+    ),
+    centerTitle: true,
+    ),
+    body: SmartRefresher(
       enablePullDown: true,
       enablePullUp: false,
       scrollController: _scrollController,
@@ -59,6 +73,7 @@ class GamePreviewState extends State<GamePreview> {
           ],
         ),
       ),
+    ),
     );
   }
 }
