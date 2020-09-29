@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../Icons.dart';
@@ -22,7 +23,7 @@ class GameInfo extends StatelessWidget {
   final DateTime date = null;
   final String rating = "Metacritic 96/100";
 
-  final String title = "Bioshock";
+  final String title = "BioShock";
 
   final bool pc = true;
   final bool xbox = true;
@@ -44,6 +45,15 @@ class GameInfo extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
+        title: Text(
+          title,
+          style: GoogleFonts.nunitoSans(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -73,7 +83,7 @@ class GameInfo extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   title,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                  style: GoogleFonts.nunitoSans(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
                 ),
               ),
             ),
