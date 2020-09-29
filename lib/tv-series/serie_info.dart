@@ -50,7 +50,7 @@ class SerieInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
       ),
       body: SingleChildScrollView(
         child: Column(

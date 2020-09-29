@@ -3,6 +3,7 @@ import 'package:NewMediaReleases/movies/movie_types.dart';
 import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'movie_preview.dart';
@@ -26,10 +27,9 @@ class MoviePreviewRack extends StatelessWidget {
               Text(
                 DateFormat("dd.MM.yyyy").format(this.releaseDate),
                 textAlign: TextAlign.end,
-                style: TextStyle(
+                style: GoogleFonts.nunitoSans(
                   color: Colors.white,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                     fontSize: 20),
               ),
             ],
@@ -38,7 +38,7 @@ class MoviePreviewRack extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 8),
           child: Divider(
-            thickness: 2,
+            thickness: 1.5,
             color: Colors.white,
           ),
         ),

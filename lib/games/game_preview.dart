@@ -33,47 +33,48 @@ class GamePreviewState extends State<GamePreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade900,
         title: Text(
-        "release.",
-        style: GoogleFonts.nunitoSans(
-        color: Colors.white,
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-    ),
-    ),
-    centerTitle: true,
-    ),
-    body: SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: false,
-      scrollController: _scrollController,
-      header: WaterDropMaterialHeader(
-        backgroundColor: Colors.black,
-        color: Colors.white,
-        distance: 40,
+          "Games",
+          style: GoogleFonts.nunitoSans(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
       ),
-      controller: _refreshController,
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            GamePreviewRack(
-              [
-                Game(
-                    title: "Bioshock",
-                    releaseDate: DateTime.now(),
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/6/6d/BioShock_cover.jpg"),
-              ],
-              DateTime.now(),
-            ),
-          ],
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: false,
+        scrollController: _scrollController,
+        header: WaterDropMaterialHeader(
+          backgroundColor: Colors.black,
+          color: Colors.white,
+          distance: 40,
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GamePreviewRack(
+                [
+                  Game(
+                      title: "Bioshock",
+                      releaseDate: DateTime.now(),
+                      artUrl:
+                          "https://upload.wikimedia.org/wikipedia/en/6/6d/BioShock_cover.jpg"),
+                ],
+                DateTime.now(),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -84,8 +85,14 @@ class GamePreviewWidget extends StatelessWidget {
   GamePreviewWidget(this.entry);
 
   void open(BuildContext context) async {
-    await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => GameInfo(entry: entry)));
+    await Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, a, b) => FadeTransition(
+          child: GameInfo(entry: entry),
+          opacity: a,
+        ),
+      ),
+    );
   }
 
   @override
@@ -97,12 +104,15 @@ class GamePreviewWidget extends StatelessWidget {
         onTap: () => open(context),
         child: Column(
           children: <Widget>[
-            Container(
-              width: width,
-              height: width,
-              child: Image(
-                image: NetworkImage(
-                  entry.artUrl,
+            Hero(
+              tag: "game",
+              child: Container(
+                width: width,
+                height: width,
+                child: Image(
+                  image: NetworkImage(
+                    entry.artUrl,
+                  ),
                 ),
               ),
             ),
@@ -114,6 +124,7 @@ class GamePreviewWidget extends StatelessWidget {
                     this.entry.title,
                     style: TextStyle(
                         fontSize: 17,
+                        color: Colors.white,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.w700),
                   ),

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:NewMediaReleases/music/music_details.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'music_types.dart';
 
@@ -107,17 +108,15 @@ class MusicPreviewWidget extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       this.entry.title,
-                      style: TextStyle(
+                      style: GoogleFonts.nunitoSans(
                         fontSize: 17,
-                        fontFamily: 'Lato',
                         fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
                       this.entry.artist.name,
-                      style: TextStyle(
-                        fontFamily: 'Lato',
+                      style: GoogleFonts.nunitoSans(
                         fontStyle: FontStyle.italic,
                       ),
                       textAlign: TextAlign.center,

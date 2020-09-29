@@ -35,13 +35,15 @@ class GameInfo extends StatelessWidget {
   const GameInfo({Key key, this.entry}) : super(key: key);
 
   String get url =>
+
       "https://upload.wikimedia.org/wikipedia/en/6/6d/BioShock_cover.jpg";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -49,15 +51,18 @@ class GameInfo extends StatelessWidget {
             Center(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Container(
-                  height: 230,
-                  width: 230,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: this.url.isNotEmpty
-                          ? NetworkImage(this.url)
-                          : AssetImage("assets/image/image_not_found.jpg"),
+                child: Hero(
+                  tag: "game",
+                  child: Container(
+                    height: 230,
+                    width: 230,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: this.url.isNotEmpty
+                            ? NetworkImage(this.url)
+                            : AssetImage("assets/image/image_not_found.jpg"),
+                      ),
                     ),
                   ),
                 ),
@@ -121,19 +126,19 @@ class GameInfo extends StatelessWidget {
                 children: <Widget>[
                   Icon(
                     Icons.computer,
-                    color: this.pc ? Colors.black : Colors.grey,
+                    color: this.pc ? Colors.white : Colors.grey,
                   ),
                   Icon(
                     Font.playstation,
-                    color: this.playstation ? Colors.black : Colors.grey,
+                    color: this.playstation ? Colors.white : Colors.grey,
                   ),
                   Icon(
                     Font.xbox,
-                    color: this.xbox ? Colors.black : Colors.grey,
+                    color: this.xbox ? Colors.white : Colors.grey,
                   ),
                   Icon(
                     Font.nintendoswitch,
-                    color: this.nintendo ? Colors.black : Colors.grey,
+                    color: this.nintendo ? Colors.white : Colors.grey,
                   ),
                 ],
               ),

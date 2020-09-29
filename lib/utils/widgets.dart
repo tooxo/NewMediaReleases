@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../open_link.dart';
 
@@ -17,7 +18,7 @@ class Description extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
       child: Text(
         description,
-        style: TextStyle(fontSize: 20),
+        style: GoogleFonts.nunitoSans(fontSize: 20, color: Colors.white),
         textAlign: TextAlign.justify,
       ),
     );
@@ -40,7 +41,7 @@ class Crew extends StatelessWidget {
         children: <Widget>[
           Text(
             crew,
-            style: TextStyle(fontSize: 20),
+            style: GoogleFonts.nunitoSans(fontSize: 20, color: Colors.white),
             textAlign: TextAlign.justify,
           ),
         ],
@@ -74,7 +75,7 @@ class Link extends StatelessWidget {
       icon: Icon(
         plattformIcon,
         size: iconSize,
-        color: this.platform ? Colors.black : Colors.grey,
+        color: this.platform ? Colors.white : Colors.grey,
       ),
     );
   }
@@ -97,12 +98,13 @@ class IconStats extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: Icon(
               icon,
+              color: Colors.white,
               size: 28,
             ),
           ),
           Text(
             "$text",
-            style: TextStyle(color: Colors.black, fontSize: 20),
+            style: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 20),
           )
         ],
       ),

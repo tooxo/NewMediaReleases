@@ -33,11 +33,11 @@ class SerienPreviewState extends State<SerienPreview> {
   Widget build(BuildContext context) {
     return Center(
       child: Scaffold(
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey.shade900,
           title: Text(
-            "release.",
+            "TV-Series",
             style: GoogleFonts.nunitoSans(
               color: Colors.white,
               fontSize: 22,
@@ -127,9 +127,9 @@ class SerienPreviewWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     this.entry.title,
-                    style: TextStyle(
+                    style: GoogleFonts.nunitoSans(
                         fontSize: 17,
-                        fontFamily: 'Lato',
+                        color: Colors.white,
                         fontWeight: FontWeight.w700),
                   ),
                 ],

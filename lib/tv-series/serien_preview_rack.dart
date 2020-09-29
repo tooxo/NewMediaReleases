@@ -2,6 +2,7 @@ import 'package:NewMediaReleases/custom_grid.dart';
 import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:NewMediaReleases/tv-series/serien_types..dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class SerienPreviewRack extends StatelessWidget {
@@ -23,9 +24,9 @@ class SerienPreviewRack extends StatelessWidget {
               Text(
                 DateFormat("dd.MM.yyyy").format(this.releaseDate),
                 textAlign: TextAlign.end,
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w800,
+                style: GoogleFonts.nunitoSans(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                     fontSize: 20),
               ),
             ],
@@ -34,8 +35,8 @@ class SerienPreviewRack extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 8),
           child: Divider(
-            thickness: 2,
-            color: Colors.black,
+            thickness: 1.5,
+            color: Colors.white,
           ),
         ),
         Container(

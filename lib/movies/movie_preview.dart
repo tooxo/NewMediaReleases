@@ -35,7 +35,7 @@ class MoviePreviewState extends State<MoviePreview> {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
         title: Text(
-          "release.",
+          "Movies",
           style: GoogleFonts.nunitoSans(
             color: Colors.white,
             fontSize: 22,
@@ -67,18 +67,6 @@ class MoviePreviewState extends State<MoviePreview> {
                         "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
                     releaseDate: DateTime.now(),
                   ),
-                  Movie(
-                    title: "Tenet",
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                    releaseDate: DateTime.now(),
-                  ),
-                  Movie(
-                    title: "Tenet",
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                    releaseDate: DateTime.now(),
-                  ),
                 ],
                 DateTime.now(),
               ),
@@ -97,7 +85,13 @@ class MoviePreviewWidget extends StatelessWidget {
 
   void open(BuildContext context) async {
     await Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => MovieInfos(entry: entry)));
+      PageRouteBuilder(
+        pageBuilder: (context, a, b) => FadeTransition(
+          child: MovieInfos(entry: entry),
+          opacity: a,
+        ),
+      ),
+    );
   }
 
   @override
@@ -109,12 +103,15 @@ class MoviePreviewWidget extends StatelessWidget {
         onTap: () => open(context),
         child: Column(
           children: <Widget>[
-            Container(
-              width: width,
-              height: width,
-              child: Image(
-                image: NetworkImage(
-                  entry.artUrl,
+            Hero(
+              tag: "movies",
+              child: Container(
+                width: width,
+                height: width,
+                child: Image(
+                  image: NetworkImage(
+                    entry.artUrl,
+                  ),
                 ),
               ),
             ),
@@ -124,9 +121,8 @@ class MoviePreviewWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     this.entry.title,
-                    style: TextStyle(
+                    style: GoogleFonts.nunitoSans(
                         fontSize: 17,
-                        fontFamily: 'Lato',
                         color: Colors.white,
                         fontWeight: FontWeight.w700),
                   ),

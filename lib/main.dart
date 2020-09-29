@@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.grey.shade900,
         backgroundColor: Colors.black,
         animationCurve: Curves.ease,
+        animationDuration: Duration(milliseconds: 400),
         height: 50,
         items: <Widget>[
           Icon(Icons.headset, size: 30, color: Colors.white,),
@@ -98,44 +99,5 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
-
-    /*Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SearchBar<Post>(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-                searchBarStyle: SearchBarStyle(
-                  backgroundColor: Colors.black,
-                  padding: EdgeInsets.all(5),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                hintText: "Search in Music...",
-                hintStyle: TextStyle(color: Colors.grey.shade200),
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                onSearch: search,
-                onItemFound: (Post post, int index) {
-                  return ListTile(
-                    title: Text(post.artist),
-                    subtitle: Text(post.albumname),
-                  );
-                },
-              ),
-            ),
-          ),
-          Container(
-            height: 100,
-            width: 100,
-            decoration: ShapeDecoration(
-                color: Colors.black,
-                shape: CircleBorder(
-            ),
-            ),
-          )*/
   }
 }

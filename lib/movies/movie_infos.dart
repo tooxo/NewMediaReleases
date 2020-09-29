@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../Icons.dart';
@@ -27,7 +28,7 @@ class MovieInfos extends StatelessWidget {
   final String actor = "John David Washington";
 
   final bool netflix = true;
-  final bool amazon = true;
+  final bool amazon = false;
   final bool disney = true;
   final bool hulu = true;
 
@@ -51,24 +52,38 @@ class MovieInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
+        title: Text(
+          title,
+          style: GoogleFonts.nunitoSans(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Center(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Container(
-                  height: 230,
-                  width: 230,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: this.url.isNotEmpty
-                          ? NetworkImage(this.url)
-                          : AssetImage("assets/image/image_not_found.jpg"),
+                child: Hero(
+                  tag: "movies",
+                  child: Container(
+                    height: 230,
+                    width: 230,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: this.url.isNotEmpty
+                            ? NetworkImage(this.url)
+                            : AssetImage("assets/image/image_not_found.jpg"),
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +94,7 @@ class MovieInfos extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   title,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
                 ),
               ),
             ),
@@ -166,7 +181,7 @@ class MovieInfos extends StatelessWidget {
                     icon: Icon(
                       Font.primevideo,
                       size: 70,
-                      color: this.amazon ? Colors.black : Colors.grey,
+                      color: this.amazon ? Colors.white : Colors.grey,
                     ),
                   ),
                   MaterialButton(
@@ -178,7 +193,7 @@ class MovieInfos extends StatelessWidget {
                     child: Text(
                       "Disney+",
                       style: TextStyle(
-                          color: this.disney ? Colors.black : Colors.grey,
+                          color: this.disney ? Colors.white : Colors.grey,
                           fontSize: 17,
                           fontWeight: FontWeight.w900),
                     ),

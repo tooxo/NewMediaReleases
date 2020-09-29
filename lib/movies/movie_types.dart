@@ -1,5 +1,5 @@
 class Movie {
-
+  String id;
   String title;
   String artUrl;
   int length;
@@ -20,7 +20,9 @@ class Movie {
   String primeUrl;
   String huluUrl;
 
-  Movie({this.title,
+  Movie({
+    this.id,
+    this.title,
     this.artUrl,
     this.length,
     this.fsk,

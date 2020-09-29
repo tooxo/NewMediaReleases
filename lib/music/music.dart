@@ -102,9 +102,9 @@ class MainMusicState extends State<MainMusic> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
         title: Text(
-          "release.",
+          "Music",
           style: GoogleFonts.nunitoSans(
             color: Colors.white,
             fontSize: 22,
