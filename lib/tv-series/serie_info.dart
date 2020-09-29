@@ -1,3 +1,4 @@
+import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/open_link.dart';
 import 'package:NewMediaReleases/tv-series/serien_types..dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,7 @@ class SerieInfo extends StatelessWidget {
   final int age = 18;
   final String genre = "Action | Thriller";
   final DateTime date = null;
-  final String score = "5/10";
+  final String rating = "5/10";
 
   final String title = "Black Mirror";
 
@@ -84,163 +85,39 @@ class SerieInfo extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.planet_earth,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          locationYear,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: locationYear,
+                    icon: Font.planet_earth,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.clock_circular_outline,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "$seasons Seasons | $episodes Episodes",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "$seasons Seasons | $episodes Episodes",
+                    icon: Font.clock_circular_outline,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.information,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "FSK " + "$age",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "FSK $age",
+                    icon: Font.information,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.menu__1_,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          genre,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: genre,
+                    icon: Font.menu__1_,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.calendar_today,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          DateFormat("dd.MM.yyyy").format(entry.releaseDate),
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: DateFormat("dd.MM.yyyy").format(entry.releaseDate),
+                    icon: Icons.calendar_today,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.star_border,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          score,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: rating,
+                    icon: Icons.star_border,
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Directed by ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$director",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Crew(crew: "Directed by $director"),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Produced by ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$producer",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Starring: ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$actor",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
-            ),
+            Crew(crew: "Produced by $producer"),
+            Crew(crew: "Starring: $actor"),
             Padding(
               padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
               child: Row(
@@ -254,30 +131,17 @@ class SerieInfo extends StatelessWidget {
                 ],
               ),
             ),
+            Description(description: description),
             Padding(
-              padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
-              child: Text(
-                description,
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 30, 10, 15),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  IconButton(
-                    onPressed: this.netflix
-                        ? () {
-                            OpenLink.openlink(netflixLink);
-                          }
-                        : null,
-                    icon: Icon(
-                      Font.netflix,
-                      color: this.netflix ? Colors.black : Colors.grey,
-                    ),
-                  ),
+                  Link(
+                      platform: netflix,
+                      platformLink: netflixLink,
+                      plattformIcon: Font.netflix,
+                      iconSize: 30),
                   IconButton(
                     padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
                     onPressed: this.amazon
@@ -297,18 +161,19 @@ class SerieInfo extends StatelessWidget {
                             OpenLink.openlink(disneyLink);
                           }
                         : null,
-                    child: Text("Disney+", style: TextStyle(color: this.disney ? Colors.black : Colors.grey, fontSize: 15, fontWeight: FontWeight.w900),),
-                  ),
-                  IconButton(
-                    onPressed: this.hulu
-                        ? () {
-                            OpenLink.openlink(huluLink);
-                          }
-                        : null,
-                    icon: Icon(
-                      Font.hulu,
-                      color: this.hulu ? Colors.black : Colors.grey,
+                    child: Text(
+                      "Disney+",
+                      style: TextStyle(
+                          color: this.disney ? Colors.black : Colors.grey,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w900),
                     ),
+                  ),
+                  Link(
+                    platform: hulu,
+                    platformLink: huluLink,
+                    plattformIcon: Font.hulu,
+                    iconSize: 30,
                   ),
                 ],
               ),

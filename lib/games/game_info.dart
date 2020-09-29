@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/open_link.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +21,7 @@ class GameInfo extends StatelessWidget {
   final String genre = "First Person Shooter";
   final String mode = "Singleplayer";
   final DateTime date = null;
-  final String score = "Metacritic 96/100";
+  final String rating = "Metacritic 96/100";
 
   final String title = "Bioshock";
 
@@ -74,163 +77,46 @@ class GameInfo extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.people,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          studio,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: studio,
+                    icon: Icons.people,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.planet_earth,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          locationYear,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: locationYear,
+                    icon: Font.planet_earth,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.clock_circular_outline,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "ca. $time h",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "ca. $time h",
+                    icon: Icons.people,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.information,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "FSK " + "$age",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "FSK $age",
+                    icon: Font.information,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.menu__1_,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          genre,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: genre,
+                    icon: Font.menu__1_,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.videogame_asset,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          mode,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: mode,
+                    icon: Icons.videogame_asset,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.calendar_today,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          DateFormat("dd.MM.yyyy").format(entry.releaseDate),
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: DateFormat("dd.MM.yyyy").format(entry.releaseDate),
+                    icon: Icons.calendar_today,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.star_border,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          score,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: rating,
+                    icon: Icons.star_border,
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
-              child: Text(
-                description,
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-              ),
+            Description(
+              description: description
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 30, 10, 15),
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

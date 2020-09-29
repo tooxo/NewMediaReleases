@@ -17,7 +17,7 @@ class MovieInfos extends StatelessWidget {
   final int age = 18;
   final String genre = "Action | Thriller";
   final DateTime date = null;
-  final String score = "5/10";
+  final String rating = "5/10";
 
   final String title = "Tenet";
 
@@ -114,7 +114,7 @@ class MovieInfos extends StatelessWidget {
                     icon: Icons.calendar_today,
                   ),
                   IconStats(
-                    text: score,
+                    text: rating,
                     icon: Icons.star_border,
                   ),
                 ],
@@ -126,14 +126,7 @@ class MovieInfos extends StatelessWidget {
             ),
             Crew(crew: "Produced by $producer"),
             Crew(crew: "Starring: $actor"),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
-              child: Text(
-                description,
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-              ),
-            ),
+            Description(description: description),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
               child: Row(
@@ -200,6 +193,27 @@ class MovieInfos extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Description extends StatelessWidget {
+  const Description({
+    Key key,
+    @required this.description,
+  }) : super(key: key);
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
+      child: Text(
+        description,
+        style: TextStyle(fontSize: 20),
+        textAlign: TextAlign.justify,
       ),
     );
   }
