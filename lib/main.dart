@@ -3,6 +3,7 @@ import 'package:NewMediaReleases/movies/movie_preview.dart';
 import 'package:NewMediaReleases/music/music.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/tv-series/serien_preview.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -78,56 +79,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ),*/
       resizeToAvoidBottomInset: false,
       body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.white,
-        unselectedFontSize: 16,
-        selectedFontSize: 16,
-        onTap: onTabTapped,
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: CurvedNavigationBar(
+        color: Colors.grey.shade900,
         backgroundColor: Colors.black,
-        currentIndex: _currentIndex,
-        // this will be set when a new tab is tapped
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-                //Font.headphones,
-                Icons.headset),
-            title: Text(
-              'Music',
-              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-                //Font.video,
-                Icons.movie),
-            title: Text(
-              'Movies',
-              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tv
-                //Font.TVSeries,
-                ),
-            title: Text(
-              'TV-Series',
-              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset
-                //Font.games,
-                ),
-            title: Text(
-              'Games',
-              style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),
-            ),
-          ),
+        animationCurve: Curves.ease,
+        height: 50,
+        items: <Widget>[
+          Icon(Icons.headset, size: 30, color: Colors.white,),
+          Icon(Icons.movie, size: 30, color: Colors.white,),
+          Icon(Icons.tv, size: 30, color: Colors.white,),
+          Icon(Icons.videogame_asset, size: 30, color: Colors.white,),
         ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          //Handle button tap
+        },
       ),
     );
+
     /*Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

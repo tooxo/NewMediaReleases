@@ -31,58 +31,61 @@ class SerienPreviewState extends State<SerienPreview> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "release.",
-          style: GoogleFonts.nunitoSans(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: false,
-        scrollController: _scrollController,
-        header: WaterDropMaterialHeader(
+    return Center(
+      child: Scaffold(
+        backgroundColor: Colors.black54,
+        appBar: AppBar(
           backgroundColor: Colors.black,
-          color: Colors.white,
-          distance: 40,
+          title: Text(
+            "release.",
+            style: GoogleFonts.nunitoSans(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          centerTitle: true,
         ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SerienPreviewRack(
-                [
-                  Serie(
-                    title: "Black Mirror",
-                    releaseDate: DateTime.now(),
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
-                  ),
-                  Serie(
-                    title: "Black Mirror",
-                    releaseDate: DateTime.now(),
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
-                  ),
-                  Serie(
-                    title: "Black Mirror",
-                    releaseDate: DateTime.now(),
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
-                  )
-                ],
-                DateTime.now(),
-              ),
-            ],
+        body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          scrollController: _scrollController,
+          header: WaterDropMaterialHeader(
+            backgroundColor: Colors.black,
+            color: Colors.white,
+            distance: 40,
+          ),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SerienPreviewRack(
+                  [
+                    Serie(
+                      title: "Black Mirror",
+                      releaseDate: DateTime.now(),
+                      artUrl:
+                          "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
+                    ),
+                    Serie(
+                      title: "Black Mirror",
+                      releaseDate: DateTime.now(),
+                      artUrl:
+                          "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
+                    ),
+                    Serie(
+                      title: "Black Mirror",
+                      releaseDate: DateTime.now(),
+                      artUrl:
+                          "https://upload.wikimedia.org/wikipedia/en/2/24/BlackMirrorTitleCard.jpg",
+                    )
+                  ],
+                  DateTime.now(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

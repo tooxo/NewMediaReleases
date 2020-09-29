@@ -27,6 +27,7 @@ class MoviePreviewRack extends StatelessWidget {
                 DateFormat("dd.MM.yyyy").format(this.releaseDate),
                 textAlign: TextAlign.end,
                 style: TextStyle(
+                  color: Colors.white,
                     fontFamily: 'Lato',
                     fontWeight: FontWeight.w800,
                     fontSize: 20),
@@ -38,7 +39,7 @@ class MoviePreviewRack extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0, left: 8),
           child: Divider(
             thickness: 2,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         Container(

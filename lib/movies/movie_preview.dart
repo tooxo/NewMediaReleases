@@ -15,7 +15,7 @@ class MoviePreview extends StatefulWidget {
 
 class MoviePreviewState extends State<MoviePreview> {
   RefreshController _refreshController =
-  RefreshController(initialRefresh: true);
+      RefreshController(initialRefresh: true);
   ScrollController _scrollController = ScrollController();
 
   void _onRefresh() async {
@@ -31,62 +31,64 @@ class MoviePreviewState extends State<MoviePreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade900,
         title: Text(
-        "release.",
-        style: GoogleFonts.nunitoSans(
-        color: Colors.white,
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-    ),
-    ),
-    centerTitle: true,
-    ),
-    body: SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: false,
-      scrollController: _scrollController,
-      header: WaterDropMaterialHeader(
-        backgroundColor: Colors.black,
-        color: Colors.white,
-        distance: 40,
+          "release.",
+          style: GoogleFonts.nunitoSans(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
       ),
-      controller: _refreshController,
-      onRefresh: _onRefresh,
-      onLoading: _onLoading,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            MoviePreviewRack(
-              [
-                Movie(
-                  title: "Tenet",
-                  artUrl: "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                  releaseDate: DateTime.now(),
-                ),
-                Movie(
-                  title: "Tenet",
-                  artUrl: "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                  releaseDate: DateTime.now(),
-                ),
-                Movie(
-                  title: "Tenet",
-                  artUrl: "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                  releaseDate: DateTime.now(),
-                ),
-              ],
-              DateTime.now(),
-            ),
-          ],
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: false,
+        scrollController: _scrollController,
+        header: WaterDropMaterialHeader(
+          backgroundColor: Colors.black,
+          color: Colors.white,
+          distance: 40,
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              MoviePreviewRack(
+                [
+                  Movie(
+                    title: "Tenet",
+                    artUrl:
+                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
+                    releaseDate: DateTime.now(),
+                  ),
+                  Movie(
+                    title: "Tenet",
+                    artUrl:
+                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
+                    releaseDate: DateTime.now(),
+                  ),
+                  Movie(
+                    title: "Tenet",
+                    artUrl:
+                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
+                    releaseDate: DateTime.now(),
+                  ),
+                ],
+                DateTime.now(),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
-
-
 
 class MoviePreviewWidget extends StatelessWidget {
   final Movie entry;
@@ -125,6 +127,7 @@ class MoviePreviewWidget extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 17,
                         fontFamily: 'Lato',
+                        color: Colors.white,
                         fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -136,5 +139,3 @@ class MoviePreviewWidget extends StatelessWidget {
     });
   }
 }
-
-
