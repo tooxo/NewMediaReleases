@@ -1,7 +1,6 @@
 import 'dart:ui';
 
-import 'package:NewMediaReleases/movies/movie_infos.dart';
-import 'package:NewMediaReleases/open_link.dart';
+import 'package:NewMediaReleases/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
