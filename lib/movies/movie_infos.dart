@@ -11,7 +11,7 @@ import '../open_link.dart';
 class MovieInfos extends StatelessWidget {
   final Movie entry;
 
-  final String week = "2.Woche";
+  final int weekSinceStart = 2;
   final String locationYear = "USA, 2020";
   final int length = 150;
   final int age = 18;
@@ -27,8 +27,8 @@ class MovieInfos extends StatelessWidget {
 
   final bool netflix = true;
   final bool amazon = true;
-  final bool disney = false;
-  final bool hulu = false;
+  final bool disney = true;
+  final bool hulu = true;
 
   final String netflixLink = "https://www.netflix.com/de/";
   final String amazonLink = "";
@@ -88,179 +88,44 @@ class MovieInfos extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.play_button,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          week,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.planet_earth,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          locationYear,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "$weekSinceStart.Woche",
+                    icon: Font.play_button,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.clock_circular_outline,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "$length min",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: locationYear,
+                    icon: Font.planet_earth,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.information,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          "FSK " + "$age",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "$length min",
+                    icon: Font.clock_circular_outline,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Font.menu__1_,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          genre,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: "FSK " + "$age",
+                    icon: Font.information,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.calendar_today,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          DateFormat("dd.MM.yyyy").format(entry.releaseDate),
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: genre,
+                    icon: Font.menu__1_,
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Icon(
-                            Icons.star_border,
-                            size: 28,
-                          ),
-                        ),
-                        Text(
-                          score,
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        )
-                      ],
-                    ),
+                  IconStats(
+                    text: DateFormat("dd.MM.yyyy").format(entry.releaseDate),
+                    icon: Icons.calendar_today,
+                  ),
+                  IconStats(
+                    text: score,
+                    icon: Icons.star_border,
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Directed by ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$director",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Crew(crew: "Directed by $director"),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Produced by ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$producer",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Starring: ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "$actor",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
-            ),
+            Crew(crew: "Produced by $producer"),
+            Crew(crew: "Starring: $actor"),
             Padding(
               padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
               child: Text(
@@ -274,28 +139,16 @@ class MovieInfos extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  IconButton(
-                    padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                    onPressed: () {
-                      OpenLink.openlink(youtubeLink);
-                    },
-                    icon: Icon(
-                      Font.youtube,
-                      size: 40,
-                      color: Colors.black,
-                    ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                    onPressed: () {
-                      OpenLink.openlink(imdbLink);
-                    },
-                    icon: Icon(
-                      Font.imdb,
-                      size: 35,
-                      color: Colors.black,
-                    ),
-                  ),
+                  Link(
+                      platform: true,
+                      platformLink: youtubeLink,
+                      plattformIcon: Font.youtube,
+                      iconSize: 40),
+                  Link(
+                      platform: true,
+                      platformLink: imdbLink,
+                      plattformIcon: Font.imdb,
+                      iconSize: 40),
                 ],
               ),
             ),
@@ -304,17 +157,11 @@ class MovieInfos extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  IconButton(
-                    onPressed: this.netflix
-                        ? () {
-                            OpenLink.openlink(netflixLink);
-                          }
-                        : null,
-                    icon: Icon(
-                      Font.netflix,
-                      color: this.netflix ? Colors.black : Colors.grey,
-                    ),
-                  ),
+                  Link(
+                      platform: netflix,
+                      platformLink: netflixLink,
+                      plattformIcon: Font.netflix,
+                      iconSize: 30),
                   IconButton(
                     padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
                     onPressed: this.amazon
@@ -331,33 +178,114 @@ class MovieInfos extends StatelessWidget {
                   MaterialButton(
                     onPressed: this.disney
                         ? () {
-                            OpenLink.openlink(disneyLink);
-                          }
+                      OpenLink.openlink(disneyLink);
+                    }
                         : null,
                     child: Text(
                       "Disney+",
                       style: TextStyle(
                           color: this.disney ? Colors.black : Colors.grey,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.w900),
                     ),
                   ),
-                  IconButton(
-                    onPressed: this.hulu
-                        ? () {
-                            OpenLink.openlink(huluLink);
-                          }
-                        : null,
-                    icon: Icon(
-                      Font.hulu,
-                      color: this.hulu ? Colors.black : Colors.grey,
-                    ),
+                  Link(
+                    platform: hulu,
+                    platformLink: huluLink,
+                    plattformIcon: Font.hulu,
+                    iconSize: 30,
                   ),
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Crew extends StatelessWidget {
+  const Crew({
+    Key key,
+    @required this.crew,
+  }) : super(key: key);
+
+  final String crew;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+      child: Row(
+        children: <Widget>[
+          Text(
+            crew,
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.justify,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Link extends StatelessWidget {
+  const Link({
+    Key key,
+    @required this.platform,
+    @required this.platformLink,
+    @required this.plattformIcon,
+    @required this.iconSize,
+  }) : super(key: key);
+
+  final bool platform;
+  final String platformLink;
+  final IconData plattformIcon;
+  final double iconSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: this.platform
+          ? () {
+              OpenLink.openlink(platformLink);
+            }
+          : null,
+      icon: Icon(
+        plattformIcon,
+        size: iconSize,
+        color: this.platform ? Colors.black : Colors.grey,
+      ),
+    );
+  }
+}
+
+class IconStats extends StatelessWidget {
+  const IconStats({Key key, @required this.text, @required this.icon})
+      : super(key: key);
+
+  final String text;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: Icon(
+              icon,
+              size: 28,
+            ),
+          ),
+          Text(
+            "$text",
+            style: TextStyle(color: Colors.black, fontSize: 20),
+          )
+        ],
       ),
     );
   }
