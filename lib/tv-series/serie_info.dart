@@ -49,6 +49,7 @@ class SerieInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
       ),
@@ -125,9 +126,9 @@ class SerieInfo extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Staffel 1",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
-                  Text("12 Folgen", style: TextStyle(fontSize: 20))
+                  Text("12 Folgen", style: TextStyle(fontSize: 20, color: Colors.white))
                 ],
               ),
             ),
@@ -152,7 +153,7 @@ class SerieInfo extends StatelessWidget {
                     icon: Icon(
                       Font.primevideo,
                       size: 70,
-                      color: this.amazon ? Colors.black : Colors.grey,
+                      color: this.amazon ? Colors.white : Colors.grey,
                     ),
                   ),
                   MaterialButton(
@@ -164,7 +165,7 @@ class SerieInfo extends StatelessWidget {
                     child: Text(
                       "Disney+",
                       style: TextStyle(
-                          color: this.disney ? Colors.black : Colors.grey,
+                          color: this.disney ? Colors.white : Colors.grey,
                           fontSize: 17,
                           fontWeight: FontWeight.w900),
                     ),
