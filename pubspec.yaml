@@ -37,6 +37,7 @@ dependencies:
   flutter_local_notifications: ^1.4.4+4
   sticky_infinite_list: ^3.0.0
   material_design_icons_flutter: 4.0.5555
+  sqflite: any
 
 dev_dependencies:
   flutter_test:

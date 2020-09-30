@@ -83,36 +83,57 @@ class MusicPreviewWidget extends StatelessWidget {
   MusicPreviewWidget(this.entry);
 
   void open(BuildContext context) async {
-    await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MusicDetails(entry)));
+    await Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, a, b) => FadeTransition(
+          child: MusicDetails(entry),
+          opacity: a,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       double width = min(constraints.maxWidth, constraints.maxHeight);
-
       return InkWell(
           onTap: () => open(context),
           child: Column(
             children: <Widget>[
-              Container(
-                width: width,
-                height: width,
-                child: MusicPreviewImageWidget(
-                    this.entry.getScaledUrl(150), this.entry is Song),
+              Hero(
+                tag: this.entry.id,
+                child: Container(
+                  width: width,
+                  height: width,
+                  child: MusicPreviewImageWidget(
+                      this.entry.getScaledUrl(150), this.entry is Song),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      this.entry.title,
-                      style: GoogleFonts.nunitoSans(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
+                    Hero(
+                      tag: "${this.entry.id}-title",
+                      flightShuttleBuilder: (
+                        BuildContext flightContext,
+                        Animation<double> animation,
+                        HeroFlightDirection flightDirection,
+                        BuildContext fromHeroContext,
+                        BuildContext toHeroContext,
+                      ) =>
+                          DefaultTextStyle(
+                              style: DefaultTextStyle.of(toHeroContext).style,
+                              child: toHeroContext.widget),
+                      child: Text(
+                        this.entry.title,
+                        style: GoogleFonts.nunitoSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     Text(
                       this.entry.artist.name,
