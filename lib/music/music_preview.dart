@@ -58,7 +58,7 @@ class MusicPreviewImageWidget extends StatelessWidget {
                 width: iconDiameter,
                 height: iconDiameter,
                 decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade900),
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(
@@ -106,14 +106,26 @@ class MusicPreviewWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(6.0),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      this.entry.title,
-                      style: GoogleFonts.nunitoSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white
+                    Hero(
+                      tag: "${this.entry.id}-title",
+                      flightShuttleBuilder: (
+                        BuildContext flightContext,
+                        Animation<double> animation,
+                        HeroFlightDirection flightDirection,
+                        BuildContext fromHeroContext,
+                        BuildContext toHeroContext,
+                      ) =>
+                          DefaultTextStyle(
+                              style: DefaultTextStyle.of(toHeroContext).style,
+                              child: toHeroContext.widget),
+                      child: Text(
+                        this.entry.title,
+                        style: GoogleFonts.nunitoSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     Text(
                       this.entry.artist.name,

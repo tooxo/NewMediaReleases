@@ -175,14 +175,17 @@ class MusicDetails extends StatelessWidget {
                     flex: 3,
                     child: GestureDetector(
                       child: Hero(
-                        tag: 'musicDetail',
+                        tag: this.musicalEntry.id,
                         child: MusicDetailsImage(musicalEntry.artUrl),
                       ),
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
                           builder: (con) => DetailScreen(
-                                musicalEntry.artUrl,
-                                tag: "musicDetail",
-                              ))),
+                            musicalEntry.artUrl,
+                            tag: this.musicalEntry.id,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -192,12 +195,15 @@ class MusicDetails extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              musicalEntry.title,
-              style: GoogleFonts.nunitoSans(
+            Hero(
+              tag: "${this.musicalEntry.id}-title",
+              child: Text(
+                musicalEntry.title,
+                style: GoogleFonts.nunitoSans(
                   fontSize: 25,
                   fontWeight: FontWeight.w800,
-                  color: Colors.white),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0, top: 2),
