@@ -202,6 +202,7 @@ class MusicDetails extends StatelessWidget {
                 style: GoogleFonts.nunitoSans(
                   fontSize: 25,
                   fontWeight: FontWeight.w800,
+                  color: Colors.white
                 ),
               ),
             ),

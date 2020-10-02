@@ -21,7 +21,7 @@ class MusicSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.arrow_back, color: Colors.white),
       onPressed: () => close(context, null),
     );
   }
@@ -33,10 +33,13 @@ class MusicSearchDelegate extends SearchDelegate {
         .where((element) => element.searchTitle
             .contains(query.toLowerCase().replaceAll(" ", "")))
         .toList();
-    return ListView.builder(
-      itemCount: filteredCandidates.length,
-      itemBuilder: (BuildContext context, int index) =>
-          SearchResultTile(filteredCandidates[index]),
+    return Container(
+      color: Colors.black,
+      child: ListView.builder(
+        itemCount: filteredCandidates.length,
+        itemBuilder: (BuildContext context, int index) =>
+            SearchResultTile(filteredCandidates[index]),
+      ),
     );
   }
 
@@ -63,18 +66,20 @@ class SearchResultTile extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
+            color: Colors.white,
             image:
                 DecorationImage(image: NetworkImage(entry.getScaledUrl(50)))),
       ),
       title: Text(
         entry.title,
-        style: GoogleFonts.lato(),
+        style: GoogleFonts.nunitoSans(color: Colors.white),
       ),
       subtitle: Text(
         entry.allArtistsString,
-        style: GoogleFonts.lato(),
+        style: GoogleFonts.nunitoSans(color: Colors.white),
       ),
-      trailing: Icon(entry is Song ? Icons.music_note : Icons.album),
+      trailing: Icon(entry is Song ?
+      Icons.music_note : Icons.album, color: Colors.white,),
     );
   }
 }
