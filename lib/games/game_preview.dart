@@ -51,7 +51,7 @@ class GamePreviewState extends State<GamePreview> {
         enablePullUp: false,
         scrollController: _scrollController,
         header: WaterDropMaterialHeader(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey.shade900,
           color: Colors.white,
           distance: 40,
         ),

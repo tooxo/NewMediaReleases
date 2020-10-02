@@ -51,7 +51,7 @@ class SerienPreviewState extends State<SerienPreview> {
           enablePullUp: false,
           scrollController: _scrollController,
           header: WaterDropMaterialHeader(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.grey.shade900,
             color: Colors.white,
             distance: 40,
           ),

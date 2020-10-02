@@ -85,19 +85,27 @@ class TrackList extends StatelessWidget {
             leading: song.trackNumber != 0
                 ? Text(
                     "${song.trackNumber == -1 ? "?" : song.trackNumber}",
-                    style: GoogleFonts.lato(fontSize: 18),
+                    style: GoogleFonts.nunitoSans(
+                        fontSize: 18, color: Colors.white),
                   )
                 : null,
             title: Text(
               song.title,
-              style: GoogleFonts.lato(
+              style: GoogleFonts.nunitoSans(
                   fontSize: 18,
+                  color: Colors.white,
                   fontWeight:
                       song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
             ),
             subtitle: song.artist != null
-                ? Text(song.allArtistsString)
-                : Text("unknown"),
+                ? Text(
+                    song.allArtistsString,
+                    style: GoogleFonts.nunitoSans(color: Colors.white),
+                  )
+                : Text(
+                    "unknown",
+                    style: GoogleFonts.nunitoSans(color: Colors.white),
+                  ),
             trailing: song.hasStream && !song.dummy
                 ? IconButton(
                     icon: Icon(
@@ -146,8 +154,9 @@ class MusicDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
         title: Text(musicalEntry is Song ? "Song" : "Album"),
         centerTitle: true,
       ),
@@ -185,17 +194,19 @@ class MusicDetails extends StatelessWidget {
             ),
             Text(
               musicalEntry.title,
-              style: GoogleFonts.lato(
-                fontSize: 25,
-                fontWeight: FontWeight.w800,
-              ),
+              style: GoogleFonts.nunitoSans(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0, top: 2),
               child: Text(
                 "von ${musicalEntry.artist.name} • ${musicalEntry.genres.join(" | ")}",
-                style:
-                    GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500),
+                style: GoogleFonts.nunitoSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
             ),
             Padding(
@@ -204,10 +215,10 @@ class MusicDetails extends StatelessWidget {
                       musicalEntry.releaseDate != null
                   ? Text(
                       "Released: ${formatDate(date: musicalEntry.releaseDate)}",
-                      style: GoogleFonts.lato(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: GoogleFonts.nunitoSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     )
                   : Countdown(
                       musicalEntry.releaseDate,
@@ -215,7 +226,7 @@ class MusicDetails extends StatelessWidget {
                       onDone: this.onDone,
                     ),
             ),
-            Divider(),
+            Divider(color: Colors.white),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: this.musicalEntry is Song

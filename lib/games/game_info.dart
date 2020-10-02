@@ -101,7 +101,7 @@ class GameInfo extends StatelessWidget {
                   ),
                   IconStats(
                     text: "ca. $time h",
-                    icon: Icons.people,
+                    icon: Font.clock_circular_outline,
                   ),
                   IconStats(
                     text: "FSK $age",

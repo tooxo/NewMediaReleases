@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 class Movie {
   String id;
   String title;
   String artUrl;
-  int length;
-  int fsk;
+  int runtime;
+  int budget;
+  bool isAdult;
   String genre;
   int timezone;
   DateTime releaseDate;
-  int rating;
-  List<MoviePerson> director;
+  double rating;
+  String country;
+  MoviePerson director;
   List<MoviePerson> producer;
   List<MoviePerson> actor;
   String description;
@@ -20,28 +24,58 @@ class Movie {
   String primeUrl;
   String huluUrl;
 
-  Movie({
-    this.id,
-    this.title,
-    this.artUrl,
-    this.length,
-    this.fsk,
-    this.genre,
-    this.timezone,
-    this.releaseDate,
-    this.rating,
-    this.director,
-    this.producer,
-    this.actor,
-    this.description,
-    this.youtubeUrl,
-    this.imdbURl,
-    this.rottenTomatoesUrl,
-    this.netflixUrl,
-    this.disneyUrl,
-    this.primeUrl,
-    this.huluUrl});
+  Movie(
+      {this.id,
+      this.title,
+      this.artUrl,
+      this.runtime,
+      this.budget,
+      this.isAdult,
+      this.genre,
+      this.timezone,
+      this.releaseDate,
+      this.country,
+      this.rating,
+      this.director,
+      this.producer,
+      this.actor,
+      this.description,
+      this.youtubeUrl,
+      this.imdbURl,
+      this.rottenTomatoesUrl,
+      this.netflixUrl,
+      this.disneyUrl,
+      this.primeUrl,
+      this.huluUrl});
+
+  static Movie fromApiResponse(String rawApiResponse) {
+    if (rawApiResponse == "null" || rawApiResponse == null) return null;
+    dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
+    return Movie(
+        //id: parsedApiResponse["id"],
+        title: parsedApiResponse["title"],
+        releaseDate: parsedApiResponse["releaseDate"] == null
+            ? null
+            : DateTime.parse(parsedApiResponse["releaseDate"]),
+        isAdult: parsedApiResponse["fsk"],
+        imdbURl: parsedApiResponse["imdb_link"],
+        description: parsedApiResponse["description"],
+        rating: parsedApiResponse["rating"],
+        budget: parsedApiResponse["budget"],
+        director: MoviePerson.fromApiResponse(JsonEncoder().convert(parsedApiResponse["director"])),
+        actor: parsedApiResponse["actor"] != null
+            ? (parsedApiResponse["actor"] as List<dynamic>)
+                .map((e) =>
+                    MoviePerson.fromApiResponse(JsonEncoder().convert(e)))
+                .toList()
+            : null,
+        country: parsedApiResponse["country"],
+        runtime: parsedApiResponse["runtime"],
+        genre: parsedApiResponse["genre"].toString(),
+        artUrl: parsedApiResponse["artUrl"]);
+  }
 }
+
 class MoviePerson {
   String name;
   String pic;
@@ -50,4 +84,11 @@ class MoviePerson {
     this.name,
     this.pic,
   });
+
+  static MoviePerson fromApiResponse(String rawApiResponse) {
+    if (rawApiResponse == "null" || rawApiResponse == null) return null;
+    dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
+    return MoviePerson(
+        name: parsedApiResponse["name"], pic: parsedApiResponse["pic"]);
+  }
 }

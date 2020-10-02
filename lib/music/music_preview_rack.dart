@@ -14,7 +14,7 @@ class MusicPreviewRack {
   InfiniteListItem<int> build(BuildContext context) {
     return InfiniteListItem(
       headerBuilder: (context) => Container(
-        color: Colors.white,
+        color: Colors.black,
         child: Column(
           children: <Widget>[
             Padding(
@@ -29,6 +29,7 @@ class MusicPreviewRack {
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.w800,
+                        color: Colors.white,
                         fontSize: 20),
                   ),
                 ],
@@ -38,7 +39,7 @@ class MusicPreviewRack {
               padding: const EdgeInsets.only(top: 8, right: 8.0, left: 8),
               child: Divider(
                 thickness: 2,
-                color: Colors.black,
+                color: Colors.white,
                 height: 0,
               ),
             ),

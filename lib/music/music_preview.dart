@@ -58,7 +58,7 @@ class MusicPreviewImageWidget extends StatelessWidget {
                 width: iconDiameter,
                 height: iconDiameter,
                 decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade900),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(
@@ -109,8 +109,9 @@ class MusicPreviewWidget extends StatelessWidget {
                     Text(
                       this.entry.title,
                       style: GoogleFonts.nunitoSans(
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.w700,
+                        color: Colors.white
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -118,6 +119,7 @@ class MusicPreviewWidget extends StatelessWidget {
                       this.entry.artist.name,
                       style: GoogleFonts.nunitoSans(
                         fontStyle: FontStyle.italic,
+                        color: Colors.white
                       ),
                       textAlign: TextAlign.center,
                     )

@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:NewMediaReleases/common/network/movie_network.dart';
 import 'package:NewMediaReleases/movies/movie_infos.dart';
 import 'package:NewMediaReleases/movies/movie_preview_rack.dart';
 import 'package:NewMediaReleases/movies/movie_types.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,14 +21,32 @@ class MoviePreviewState extends State<MoviePreview> {
       RefreshController(initialRefresh: true);
   ScrollController _scrollController = ScrollController();
 
-  void _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1));
-    _refreshController.refreshCompleted();
-  }
-
   void _onLoading() async {
     await Future.delayed(Duration(seconds: 1));
     _refreshController.loadComplete();
+  }
+
+  String entries = "[]";
+  Map<DateTime, List<Movie>> parsedEntries = Map<DateTime, List<Movie>>();
+
+  Map<DateTime, List<Movie>> parseEntries() {
+    List<dynamic> l = JsonDecoder().convert(entries) as List<dynamic>;
+    List<Movie> output = [];
+    for (dynamic entry in l) {
+      output.add(Movie.fromApiResponse(JsonEncoder().convert(entry)));
+    }
+    return groupBy(output, (Movie obj) => obj.releaseDate);
+  }
+
+  void _onRefresh() async {
+    try {
+      this.entries = await getLatestMovies();
+      this.parsedEntries = parseEntries();
+      setState(() {});
+    } catch (e) {
+      return _refreshController.refreshFailed();
+    }
+    _refreshController.refreshCompleted();
   }
 
   @override
@@ -49,7 +70,7 @@ class MoviePreviewState extends State<MoviePreview> {
         enablePullUp: false,
         scrollController: _scrollController,
         header: WaterDropMaterialHeader(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey.shade900,
           color: Colors.white,
           distance: 40,
         ),
@@ -58,18 +79,12 @@ class MoviePreviewState extends State<MoviePreview> {
         onLoading: _onLoading,
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              MoviePreviewRack(
-                [
-                  Movie(
-                    title: "Tenet",
-                    artUrl:
-                        "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-                    releaseDate: DateTime.now(),
-                  ),
-                ],
-                DateTime.now(),
-              ),
+            children: [
+              for (var x in this.parsedEntries.keys)
+                MoviePreviewRack(
+                  this.parsedEntries[x],
+                  x,
+                )
             ],
           ),
         ),
@@ -86,6 +101,7 @@ class MoviePreviewWidget extends StatelessWidget {
   void open(BuildContext context) async {
     await Navigator.of(context).push(
       PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 500),
         pageBuilder: (context, a, b) => FadeTransition(
           child: MovieInfos(entry: entry),
           opacity: a,
@@ -104,7 +120,7 @@ class MoviePreviewWidget extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Hero(
-              tag: "movies",
+              tag: entry.artUrl,
               child: Container(
                 width: width,
                 height: width,
@@ -119,12 +135,19 @@ class MoviePreviewWidget extends StatelessWidget {
               padding: const EdgeInsets.all(6.0),
               child: Column(
                 children: <Widget>[
-                  Text(
-                    this.entry.title,
-                    style: GoogleFonts.nunitoSans(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700),
+                  Hero(
+                    tag: entry.title,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        this.entry.title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunitoSans(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
                   ),
                 ],
               ),

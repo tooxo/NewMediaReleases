@@ -69,8 +69,8 @@ class Link extends StatelessWidget {
     return IconButton(
       onPressed: this.platform
           ? () {
-        OpenLink.openlink(platformLink);
-      }
+              OpenLink.openlink(platformLink);
+            }
           : null,
       icon: Icon(
         plattformIcon,

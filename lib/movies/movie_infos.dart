@@ -6,26 +6,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../Icons.dart';
 import '../open_link.dart';
 
 class MovieInfos extends StatelessWidget {
   final Movie entry;
-
-  final int weekSinceStart = 2;
-  final String locationYear = "USA, 2020";
-  final int length = 150;
-  final int age = 18;
-  final String genre = "Action | Thriller";
-  final DateTime date = null;
-  final String rating = "5/10";
-
-  final String title = "Tenet";
-
-  final String director = "Christopher Nolan";
-  final String producer = "Christopher Nolan";
-  final String actor = "John David Washington";
 
   final bool netflix = true;
   final bool amazon = false;
@@ -38,16 +25,9 @@ class MovieInfos extends StatelessWidget {
   final String huluLink = "";
 
   final String youtubeLink = "";
-  final String imdbLink = "";
   final String rottenLink = "";
 
-  final String description =
-      "Tenet is a 2020 spy film written and directed by Christopher Nolan, who produced it with Emma Thomas. A co-production between the United Kingdom and United States, it stars John David Washington, Robert Pattinson, Elizabeth Debicki, Dimple Kapadia, Michael Caine, and Kenneth Branagh. The plot follows a secret agent (Washington) as he manipulates the flow of time to prevent World War III.";
-
   const MovieInfos({Key key, this.entry}) : super(key: key);
-
-  String get url =>
-      "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +35,22 @@ class MovieInfos extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
-        title: Text(
-          title,
-          style: GoogleFonts.nunitoSans(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+        title: Hero(
+          tag: entry.title,
+          child: Material(
+            color: Colors.transparent,
+            child: Text(
+              entry.title,
+              style: GoogleFonts.nunitoSans(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -73,15 +58,15 @@ class MovieInfos extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Hero(
-                  tag: "movies",
+                  tag: entry.artUrl,
                   child: Container(
-                    height: 230,
-                    width: 230,
+                    height: 300,
+                    width: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: this.url.isNotEmpty
-                            ? NetworkImage(this.url)
+                        image: entry.artUrl.isNotEmpty
+                            ? NetworkImage(entry.artUrl)
                             : AssetImage("assets/image/image_not_found.jpg"),
                       ),
                     ),
@@ -89,40 +74,47 @@ class MovieInfos extends StatelessWidget {
                 ),
               ),
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
-                ),
-              ),
-            ),
             Padding(
-              padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+              padding: EdgeInsets.fromLTRB(40, 30, 0, 0),
               child: Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                   ),
                   IconStats(
-                    text: "$weekSinceStart.Woche",
+                    text: (entry.releaseDate.difference(DateTime.now()).inDays /
+                                7)
+                            .abs()
+                            .floor()
+                            .toString() +
+                        ". Woche",
                     icon: Font.play_button,
                   ),
                   IconStats(
-                    text: locationYear,
+                    text: entry.country,
                     icon: Font.planet_earth,
                   ),
                   IconStats(
-                    text: "$length min",
+                    text: entry.runtime.toString() + " min",
                     icon: Font.clock_circular_outline,
                   ),
+                  entry.budget != 0
+                      ? IconStats(
+                          text: NumberFormat.compactSimpleCurrency(
+                            decimalDigits: 3,
+                          ).format(entry.budget),
+                          icon: MdiIcons.cashUsdOutline,
+                        )
+                      : IconStats(
+                          text: "n/a",
+                          icon: MdiIcons.cashUsdOutline,
+                        ),
                   IconStats(
-                    text: "FSK " + "$age",
+                    text: entry.isAdult.toString(),
                     icon: Font.information,
                   ),
                   IconStats(
-                    text: genre,
+                    text: entry.genre,
                     icon: Font.menu__1_,
                   ),
                   IconStats(
@@ -130,19 +122,24 @@ class MovieInfos extends StatelessWidget {
                     icon: Icons.calendar_today,
                   ),
                   IconStats(
-                    text: rating,
+                    text: entry.rating.toString(),
                     icon: Icons.star_border,
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Crew(crew: "Directed by $director"),
-            ),
-            Crew(crew: "Produced by $producer"),
-            Crew(crew: "Starring: $actor"),
-            Description(description: description),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: entry.director != null
+                    ? Crew(crew: "Directed by " + entry.director.name)
+                    : Container()),
+            for (var x in this.entry.actor)
+              x != null
+                  ? Crew(
+                      crew: "Starring: " + x.name,
+                    )
+                  : Container(),
+            Description(description: entry.description),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
               child: Row(
@@ -155,7 +152,7 @@ class MovieInfos extends StatelessWidget {
                       iconSize: 40),
                   Link(
                       platform: true,
-                      platformLink: imdbLink,
+                      platformLink: entry.imdbURl,
                       plattformIcon: Font.imdb,
                       iconSize: 40),
                 ],
@@ -187,8 +184,8 @@ class MovieInfos extends StatelessWidget {
                   MaterialButton(
                     onPressed: this.disney
                         ? () {
-                      OpenLink.openlink(disneyLink);
-                    }
+                            OpenLink.openlink(disneyLink);
+                          }
                         : null,
                     child: Text(
                       "Disney+",
@@ -213,4 +210,3 @@ class MovieInfos extends StatelessWidget {
     );
   }
 }
-

@@ -101,6 +101,7 @@ class MainMusicState extends State<MainMusic> {
     int currentDayIndex = getNearestToToday(filtered);
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
         title: Text(
@@ -157,7 +158,7 @@ class MainMusicState extends State<MainMusic> {
         enablePullUp: false,
         scrollController: _controller,
         header: WaterDropMaterialHeader(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey.shade900,
           color: Colors.white,
           distance: 40,
         ),
