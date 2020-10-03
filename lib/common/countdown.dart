@@ -47,7 +47,7 @@ class CountdownState extends State<Countdown> {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
-                "Release Countdown:",
+                "Release Countdown",
                 style: GoogleFonts.nunitoSans(fontSize: 25, color: Colors.white),
               ),
             ),
@@ -70,7 +70,7 @@ class CountdownState extends State<Countdown> {
                     a.scheduleNotifications(
                         DateTime.now().add(this.tillDestination));
                   },
-                  icon: Icon(Icons.notifications_none, color: Colors.white, size: 32,),
+                  icon: Icon(Icons.notifications_none, color: Colors.white, size: 32,), tooltip: "Notification",
                   // size: 30,
                 ),
               ],

@@ -87,7 +87,7 @@ class TrackList extends StatelessWidget {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  borderRadius: BorderRadius.all(Radius.circular(200)),
                   border: Border.all(
                       width: 1, color: Colors.white, style: BorderStyle.solid)),
               child: song.trackNumber != 0
@@ -211,18 +211,22 @@ class MusicDetails extends StatelessWidget {
             ),
             Hero(
               tag: "${this.musicalEntry.id}-title",
-              child: Text(
-                musicalEntry.title,
-                style: GoogleFonts.nunitoSans(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Text(
+                  musicalEntry.title,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunitoSans(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0, top: 2),
               child: Text(
-                "von ${musicalEntry.artist.name} • ${musicalEntry.genres.join(" | ")}",
+                "${musicalEntry.artist.name}",
                 style: GoogleFonts.nunitoSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -230,23 +234,44 @@ class MusicDetails extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: !isInFuture(musicalEntry.releaseDate) &&
-                      musicalEntry.releaseDate != null
-                  ? Text(
-                      "Released: ${formatDate(date: musicalEntry.releaseDate)}",
-                      style: GoogleFonts.nunitoSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    )
-                  : Countdown(
-                      musicalEntry.releaseDate,
-                      musicalEntry.artist.timeZone,
-                      onDone: this.onDone,
-                    ),
+              padding: const EdgeInsets.only(bottom: 4.0, top: 2, left: 20, right: 20),
+              child: Text(
+                "${musicalEntry.genres.join(" | ")}",
+                style: GoogleFonts.nunitoSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
             ),
-            Divider(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.2,
+              ),
+            ),
+            !isInFuture(musicalEntry.releaseDate) &&
+                    musicalEntry.releaseDate != null
+                ? Text(
+                    "Released",
+                        //"${formatDate(date: musicalEntry.releaseDate)}",
+                    style: GoogleFonts.nunitoSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  )
+                : Countdown(
+                    musicalEntry.releaseDate,
+                    musicalEntry.artist.timeZone,
+                    onDone: this.onDone,
+                  ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.2,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: this.musicalEntry is Song

@@ -15,7 +15,7 @@ class Description extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
+      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
       child: Text(
         description,
         style: GoogleFonts.nunitoSans(fontSize: 20, color: Colors.white),

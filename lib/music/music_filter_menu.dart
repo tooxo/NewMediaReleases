@@ -33,7 +33,7 @@ class MusicFilterMenu {
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          backgroundColor: Colors.black54,
+          backgroundColor: Colors.grey.shade900,
           title: Center(
             child: Text(
               "Select Genres",
@@ -44,11 +44,17 @@ class MusicFilterMenu {
             FlatButton(
               onPressed: () =>
                   Navigator.of(context).pop(this.appliedFiltersBackup),
-              child: Text("Cancel", style: GoogleFonts.nunitoSans(color: Colors.white),),
+              child: Text(
+                "Cancel",
+                style: GoogleFonts.nunitoSans(color: Colors.white),
+              ),
             ),
             FlatButton(
               onPressed: () => Navigator.of(context).pop(this.appliedFilters),
-              child: Text("Okay", style: GoogleFonts.nunitoSans(color: Colors.white),),
+              child: Text(
+                "Okay",
+                style: GoogleFonts.nunitoSans(color: Colors.white),
+              ),
             )
           ],
           content: Container(
@@ -56,50 +62,67 @@ class MusicFilterMenu {
             width: 500,
             child: Column(
               children: [
-                CheckboxListTile(
-                  activeColor: Colors.white,
-                  checkColor: Colors.white,
-                  value: this.appliedFilters.isNotEmpty,
-                  dense: true,
-                  onChanged: (bool l) => setState(() {
-                    if (this.appliedFilters.isNotEmpty) {
-                      this.appliedFilters.clear();
-                    } else {
-                      this.appliedFilters.addAll(allMusicGenres);
-                    }
-                  }),
-                  title: Text(this.appliedFilters.isEmpty
-                      ? "Select All"
-                      : "Unselect All", style: GoogleFonts.nunitoSans(color: Colors.white),),
+                Theme(
+                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                  child: CheckboxListTile(
+                    dense: true,
+                    checkColor: Colors.black,
+                    activeColor: Colors.white,
+                    value: this.appliedFilters.isNotEmpty,
+                    onChanged: (bool l) => setState(() {
+                      if (this.appliedFilters.isNotEmpty) {
+                        this.appliedFilters.clear();
+                      } else {
+                        this.appliedFilters.addAll(allMusicGenres);
+                      }
+                    }),
+                    title: Text(
+                      this.appliedFilters.isEmpty ? "Select All" : "Unselect All",
+                      style: GoogleFonts.nunitoSans(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
                 ),
-                Divider(),
+                Divider(
+                  color: Colors.white,
+                ),
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: allMusicGenres.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return CheckboxListTile(
-                        checkColor: Colors.white,
-                        activeColor: Colors.white,
-                        dense: true,
-                        title: Text(allMusicGenres[index]),
-                        value:
-                            this.appliedFilters.contains(allMusicGenres[index]),
-                        onChanged: (bool value) {
-                          setState(
-                            () {
-                              if (this
-                                  .appliedFilters
-                                  .contains(allMusicGenres[index])) {
-                                this
+
+                      return Theme(
+                        data: ThemeData(unselectedWidgetColor: Colors.white),
+                        child: CheckboxListTile(
+                          dense: true,
+                          checkColor: Colors.black,
+                          activeColor: Colors.white,
+                          title: Text(
+                            allMusicGenres[index],
+                            style: GoogleFonts.nunitoSans(
+                                color: Colors.white, fontSize: 15),
+                          ),
+                          value:
+                              this.appliedFilters.contains(allMusicGenres[index]),
+                          onChanged: (bool value) {
+                            setState(
+                              () {
+                                if (this
                                     .appliedFilters
-                                    .remove(allMusicGenres[index]);
-                              } else {
-                                this.appliedFilters.add(allMusicGenres[index]);
-                              }
-                            },
-                          );
-                        },
+                                    .contains(allMusicGenres[index])) {
+                                  this
+                                      .appliedFilters
+                                      .remove(allMusicGenres[index]);
+                                } else {
+                                  this.appliedFilters.add(allMusicGenres[index]);
+                                }
+                              },
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

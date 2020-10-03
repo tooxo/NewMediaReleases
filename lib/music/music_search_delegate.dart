@@ -18,7 +18,7 @@ class MusicSearchDelegate extends SearchDelegate {
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:
-        Theme.of(context).textTheme.title.copyWith(color: Colors.white),
+        Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
       ),
 
     );

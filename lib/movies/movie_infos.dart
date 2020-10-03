@@ -129,19 +129,38 @@ class MovieInfos extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: entry.director != null
-                    ? Crew(crew: "Directed by " + entry.director.name)
-                    : Container()),
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.2,
+              ),
+            ),
+            entry.director != null
+                ? Crew(crew: "Directed by " + entry.director.name)
+                : Container(),
             for (var x in this.entry.actor)
               x != null
                   ? Crew(
                       crew: "Starring: " + x.name,
                     )
                   : Container(),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.2,
+              ),
+            ),
             Description(description: entry.description),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.2,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

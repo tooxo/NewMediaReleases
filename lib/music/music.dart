@@ -128,7 +128,7 @@ class MainMusicState extends State<MainMusic> {
               setState(() {});
             },
             icon: Icon(
-                genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter),
+                genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter), tooltip: "Filter",
           ),
           IconButton(
             onPressed: () {
@@ -140,7 +140,7 @@ class MainMusicState extends State<MainMusic> {
                       .expand((element) => element)
                       .toList()));
             },
-            icon: Icon(MdiIcons.magnify),
+            icon: Icon(MdiIcons.magnify), tooltip: "Search",
           ),
         ],
       ),

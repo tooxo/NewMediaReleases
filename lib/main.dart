@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         animationDuration: Duration(milliseconds: 400),
         height: 50,
         items: <Widget>[
-          Icon(Icons.headset, size: 30, color: Colors.white,),
+          Icon(Icons.headset, size: 30, color: Colors.white, ),
           Icon(Icons.movie, size: 30, color: Colors.white,),
           Icon(Icons.tv, size: 30, color: Colors.white,),
           Icon(Icons.videogame_asset, size: 30, color: Colors.white,),
