@@ -7,12 +7,28 @@ class MusicSearchDelegate extends SearchDelegate {
   final List<MusicalEntry> searchCandidates;
 
   MusicSearchDelegate(this.searchCandidates);
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      primaryColor: Colors.grey.shade900,
+      textTheme: TextTheme(headline6: GoogleFonts.nunitoSans( color: Colors.white, fontSize: 20),),
+      primaryIconTheme: IconThemeData(
+        color: Colors.white,
+        opacity: 1,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle:
+        Theme.of(context).textTheme.title.copyWith(color: Colors.white),
+      ),
+
+    );
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: Icon(Icons.clear), color: Colors.white,
         onPressed: () => this.query = "",
       )
     ];
@@ -66,7 +82,6 @@ class SearchResultTile extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white,
             image:
                 DecorationImage(image: NetworkImage(entry.getScaledUrl(50)))),
       ),

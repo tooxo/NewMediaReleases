@@ -82,13 +82,22 @@ class TrackList extends StatelessWidget {
         for (Song song in prepareTrackList())
           ListTile(
             dense: true,
-            leading: song.trackNumber != 0
-                ? Text(
-                    "${song.trackNumber == -1 ? "?" : song.trackNumber}",
-                    style: GoogleFonts.nunitoSans(
-                        fontSize: 18, color: Colors.white),
-                  )
-                : null,
+            leading: Container(
+              alignment: Alignment.center,
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  border: Border.all(
+                      width: 1, color: Colors.white, style: BorderStyle.solid)),
+              child: song.trackNumber != 0
+                  ? Text(
+                      "${song.trackNumber == -1 ? "?" : song.trackNumber}",
+                      style: GoogleFonts.nunitoSans(
+                          fontSize: 18, color: Colors.white),
+                    )
+                  : null,
+            ),
             title: Text(
               song.title,
               style: GoogleFonts.nunitoSans(
@@ -110,6 +119,7 @@ class TrackList extends StatelessWidget {
                 ? IconButton(
                     icon: Icon(
                       Icons.open_in_new,
+                      color: Colors.white,
                     ),
                     onPressed: song.hasStream
                         ? () {
@@ -157,7 +167,11 @@ class MusicDetails extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
-        title: Text(musicalEntry is Song ? "Song" : "Album"),
+        title: Text(
+          musicalEntry is Song ? "Song" : "Album",
+          style:
+              GoogleFonts.nunitoSans(fontSize: 22, fontWeight: FontWeight.w700),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -200,10 +214,9 @@ class MusicDetails extends StatelessWidget {
               child: Text(
                 musicalEntry.title,
                 style: GoogleFonts.nunitoSans(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white
-                ),
+                    fontSize: 25,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
               ),
             ),
             Padding(

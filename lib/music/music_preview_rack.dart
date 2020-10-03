@@ -2,6 +2,7 @@ import 'package:NewMediaReleases/custom_grid.dart';
 import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
@@ -22,13 +23,12 @@ class MusicPreviewRack {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+                children: <Widget>[ 
                   Text(
                     DateFormat("dd. MM. yyyy").format(this.releaseDate),
                     textAlign: TextAlign.end,
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontWeight: FontWeight.w800,
+                    style: GoogleFonts.nunitoSans(
+                        fontWeight: FontWeight.w600,
                         color: Colors.white,
                         fontSize: 20),
                   ),
@@ -38,7 +38,7 @@ class MusicPreviewRack {
             Padding(
               padding: const EdgeInsets.only(top: 8, right: 8.0, left: 8),
               child: Divider(
-                thickness: 2,
+                thickness: 1.5,
                 color: Colors.white,
                 height: 0,
               ),

@@ -145,7 +145,7 @@ class MainMusicState extends State<MainMusic> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
         onPressed: () => {
           _controller.animateTo(0,
               duration: Duration(seconds: 1), curve: Curves.ease)

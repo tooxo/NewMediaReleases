@@ -18,6 +18,7 @@ class Countdown extends StatefulWidget {
 class CountdownState extends State<Countdown> {
   Duration tillDestination = Duration(seconds: 0);
 
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +48,7 @@ class CountdownState extends State<Countdown> {
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
                 "Release Countdown:",
-                style: GoogleFonts.lato(fontSize: 25),
+                style: GoogleFonts.nunitoSans(fontSize: 25, color: Colors.white),
               ),
             ),
             Row(
@@ -58,21 +59,19 @@ class CountdownState extends State<Countdown> {
                   duration: this.tillDestination,
                   slideDirection: SlideDirection.Up,
                   separator: ":",
-                  textStyle: GoogleFonts.lato(
-                      fontSize: 30, fontWeight: FontWeight.w800),
+                  textStyle: GoogleFonts.nunitoSans(
+                      fontSize: 30, fontWeight: FontWeight.w500, color: Colors.white, ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: IconButton(
-                    onPressed: () async {
-                      Notifications a = Notifications();
-                      a.init();
-                      a.scheduleNotifications(
-                          DateTime.now().add(this.tillDestination));
-                    },
-                    icon: Icon(Icons.notifications_none),
-                    // size: 30,
-                  ),
+                IconButton(
+
+                  onPressed: () async {
+                    Notifications a = Notifications();
+                    a.init();
+                    a.scheduleNotifications(
+                        DateTime.now().add(this.tillDestination));
+                  },
+                  icon: Icon(Icons.notifications_none, color: Colors.white, size: 32,),
+                  // size: 30,
                 ),
               ],
             ),
