@@ -24,6 +24,8 @@ class Movie {
   String primeUrl;
   String huluUrl;
 
+  
+
   Movie(
       {this.id,
       this.title,
@@ -47,6 +49,11 @@ class Movie {
       this.disneyUrl,
       this.primeUrl,
       this.huluUrl});
+
+  String getScaledUrl(int width) {
+    String end = artUrl.split("/").last;
+    return "https://image.tmdb.org/t/p/w$width/$end";
+  }
 
   static Movie fromApiResponse(String rawApiResponse) {
     if (rawApiResponse == "null" || rawApiResponse == null) return null;

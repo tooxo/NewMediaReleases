@@ -111,3 +111,20 @@ class IconStats extends StatelessWidget {
     );
   }
 }
+
+class FancyDivider extends StatelessWidget {
+  const FancyDivider({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 25),
+      child: Divider(
+        color: Colors.white,
+        thickness: 1.2,
+      ),
+    );
+  }
+}

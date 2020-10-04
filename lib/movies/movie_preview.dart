@@ -65,10 +65,20 @@ class MoviePreviewState extends State<MoviePreview> {
         ),
         centerTitle: true,
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey.shade900,
+        onPressed: () => {
+          _scrollController.animateTo(0,
+              duration: Duration(seconds: 1), curve: Curves.ease)
+        },
+        child: Icon(Icons.today),
+        tooltip: "Jump to Today",
+      ),
       body: SmartRefresher(
         enablePullDown: true,
         enablePullUp: false,
         scrollController: _scrollController,
+
         header: WaterDropMaterialHeader(
           backgroundColor: Colors.grey.shade900,
           color: Colors.white,
@@ -77,6 +87,7 @@ class MoviePreviewState extends State<MoviePreview> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -88,6 +99,7 @@ class MoviePreviewState extends State<MoviePreview> {
             ],
           ),
         ),
+
       ),
     );
   }
@@ -126,7 +138,7 @@ class MoviePreviewWidget extends StatelessWidget {
                 height: width,
                 child: Image(
                   image: NetworkImage(
-                    entry.artUrl,
+                    entry.getScaledUrl(154),
                   ),
                 ),
               ),
@@ -135,18 +147,15 @@ class MoviePreviewWidget extends StatelessWidget {
               padding: const EdgeInsets.all(6.0),
               child: Column(
                 children: <Widget>[
-                  Hero(
-                    tag: entry.title,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Text(
-                        this.entry.title,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunitoSans(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
-                      ),
+                  Material(
+                    color: Colors.transparent,
+                    child: Text(
+                      this.entry.title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.nunitoSans(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700),
                     ),
                   ),
                 ],

@@ -6,6 +6,7 @@ import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -87,10 +88,26 @@ class _MyHomePageState extends State<MyHomePage> {
         animationDuration: Duration(milliseconds: 400),
         height: 50,
         items: <Widget>[
-          Icon(Icons.headset, size: 30, color: Colors.white, ),
-          Icon(Icons.movie, size: 30, color: Colors.white,),
-          Icon(Icons.tv, size: 30, color: Colors.white,),
-          Icon(Icons.videogame_asset, size: 30, color: Colors.white,),
+          Icon(
+            Icons.headset,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.movie,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.tv,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.videogame_asset,
+            size: 30,
+            color: Colors.white,
+          ),
         ],
         onTap: (index) {
           setState(() {

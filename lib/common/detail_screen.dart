@@ -22,6 +22,10 @@ class DetailScreen extends StatelessWidget {
         onTap: () {
           Navigator.pop(context);
         },
+        // ignore: non_constant_identifier_names
+        onVerticalDragStart: (DragDownDetails) {
+          Navigator.pop(context);
+        },
       ),
     );
   }

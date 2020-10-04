@@ -1,4 +1,6 @@
+import 'package:NewMediaReleases/common/detail_screen.dart';
 import 'package:NewMediaReleases/movies/movie_types.dart';
+import 'package:NewMediaReleases/utils/date.dart';
 import 'package:NewMediaReleases/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,18 +37,16 @@ class MovieInfos extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
-        title: Hero(
-          tag: entry.title,
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              entry.title,
-              style: GoogleFonts.nunitoSans(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
+        title: Material(
+          color: Colors.transparent,
+          child: Text(
+            "Movie",
+            style: GoogleFonts.nunitoSans(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
         centerTitle: true,
@@ -59,15 +59,25 @@ class MovieInfos extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Hero(
                   tag: entry.artUrl,
-                  child: Container(
-                    height: 300,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: entry.artUrl.isNotEmpty
-                            ? NetworkImage(entry.artUrl)
-                            : AssetImage("assets/image/image_not_found.jpg"),
+                  child: GestureDetector(
+                    child: Container(
+                      height: 300,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: entry.artUrl.isNotEmpty
+                              ? NetworkImage(entry.artUrl)
+                              : AssetImage("assets/image/image_not_found.jpg"),
+                        ),
+                      ),
+                    ),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (con) => DetailScreen(
+                          entry.artUrl,
+                          tag: entry.artUrl,
+                        ),
                       ),
                     ),
                   ),
@@ -75,29 +85,59 @@ class MovieInfos extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(40, 30, 0, 0),
+              padding: const EdgeInsets.fromLTRB(25, 5, 25, 0),
+              child: Text(
+                entry.title,
+                style: GoogleFonts.nunitoSans(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            FancyDivider(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
               child: Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                   ),
-                  IconStats(
-                    text: (entry.releaseDate.difference(DateTime.now()).inDays /
-                                7)
-                            .abs()
-                            .floor()
-                            .toString() +
-                        ". Woche",
-                    icon: Font.play_button,
-                  ),
-                  IconStats(
-                    text: entry.country,
-                    icon: Font.planet_earth,
-                  ),
-                  IconStats(
-                    text: entry.runtime.toString() + " min",
-                    icon: Font.clock_circular_outline,
-                  ),
+                  isInFuture(entry.releaseDate) == false
+                      ? IconStats(
+                          text: (entry.releaseDate
+                                          .difference(DateTime.now())
+                                          .inDays /
+                                      7)
+                                  .abs()
+                                  .floor()
+                                  .toString() +
+                              ". Woche",
+                          icon: Font.play_button,
+                        )
+                      : IconStats(
+                          text: "to be released",
+                          icon: Font.play_button,
+                        ),
+                  entry.country != null
+                      ? IconStats(
+                          text: entry.country,
+                          icon: Font.planet_earth,
+                        )
+                      : IconStats(
+                          text: "n/a",
+                          icon: Font.planet_earth,
+                        ),
+                  entry.runtime == null
+                      ? IconStats(
+                          text: entry.runtime.toString() + " min",
+                          icon: Font.clock_circular_outline,
+                        )
+                      : IconStats(
+                          text: "n/a",
+                          icon: Font.clock_circular_outline,
+                        ),
                   entry.budget != 0
                       ? IconStats(
                           text: NumberFormat.compactSimpleCurrency(
@@ -121,20 +161,19 @@ class MovieInfos extends StatelessWidget {
                     text: DateFormat("dd.MM.yyyy").format(entry.releaseDate),
                     icon: Icons.calendar_today,
                   ),
-                  IconStats(
-                    text: entry.rating.toString(),
-                    icon: Icons.star_border,
-                  ),
+                  entry.rating != 0
+                      ? IconStats(
+                          text: entry.rating.toString(),
+                          icon: Icons.star_border,
+                        )
+                      : IconStats(
+                          text: "n/a",
+                          icon: Icons.star_border,
+                        ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Divider(
-                color: Colors.white,
-                thickness: 1.2,
-              ),
-            ),
+            FancyDivider(),
             entry.director != null
                 ? Crew(crew: "Directed by " + entry.director.name)
                 : Container(),
@@ -144,21 +183,10 @@ class MovieInfos extends StatelessWidget {
                       crew: "Starring: " + x.name,
                     )
                   : Container(),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Divider(
-                color: Colors.white,
-                thickness: 1.2,
-              ),
-            ),
+            if ((entry.director != null) && (entry.actor != null))
+              FancyDivider(),
             Description(description: entry.description),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Divider(
-                color: Colors.white,
-                thickness: 1.2,
-              ),
-            ),
+            if (entry.description != null) FancyDivider(),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Row(
