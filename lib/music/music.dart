@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:NewMediaReleases/common/network/music_network.dart';
 import 'package:NewMediaReleases/music/music_filter_menu.dart';
@@ -99,7 +98,6 @@ class MainMusicState extends State<MainMusic> {
   Widget build(BuildContext context) {
     Map<DateTime, List<MusicalEntry>> filtered = filterEntries();
     int currentDayIndex = getNearestToToday(filtered);
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -164,6 +162,7 @@ class MainMusicState extends State<MainMusic> {
         ),
         controller: _refreshController,
         onRefresh: _onRefresh,
+        physics: AlwaysScrollableScrollPhysics(),
         child: InfiniteList(
           negChildCount: filtered.length - (filtered.length - currentDayIndex),
           posChildCount: filtered.length - currentDayIndex,

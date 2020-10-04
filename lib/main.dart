@@ -1,23 +1,14 @@
 import 'package:NewMediaReleases/games/game_preview.dart';
 import 'package:NewMediaReleases/movies/movie_preview.dart';
 import 'package:NewMediaReleases/music/music.dart';
-import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
-}
-
-class Post {
-  final String artist;
-  final String albumname;
-
-  Post(this.artist, this.albumname);
 }
 
 class MyApp extends StatelessWidget {
@@ -30,24 +21,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
+class MainPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainState createState() => _MainState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  get search => null;
-
+class _MainState extends State<MainPage> {
   int _currentIndex = 0;
-  List<MusicalEntry> entries = List<MusicalEntry>();
 
   @override
   void initState() {
@@ -70,15 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: new AppBar(
-        backgroundColor: Colors.black,
-        title: Center(
-          child: Text(
-            "wet ass cock (as a millionaire)",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),*/
       resizeToAvoidBottomInset: false,
       body: _children[_currentIndex],
       bottomNavigationBar: CurvedNavigationBar(

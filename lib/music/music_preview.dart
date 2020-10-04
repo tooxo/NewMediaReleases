@@ -9,7 +9,9 @@ import 'music_types.dart';
 class CircularImage extends StatelessWidget {
   final String url;
 
-  CircularImage(this.url);
+  CircularImage(
+    this.url,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +59,8 @@ class MusicPreviewImageWidget extends StatelessWidget {
               child: Container(
                 width: iconDiameter,
                 height: iconDiameter,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade900),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.grey.shade900),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(
@@ -83,24 +85,35 @@ class MusicPreviewWidget extends StatelessWidget {
   MusicPreviewWidget(this.entry);
 
   void open(BuildContext context) async {
-    await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MusicDetails(entry)));
+    await Navigator.of(context).push(
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 500),
+        pageBuilder: (context, a, b) => FadeTransition(
+          child: MusicDetails(this.entry),
+          opacity: a,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double width = min(constraints.maxWidth, constraints.maxHeight);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = min(constraints.maxWidth, constraints.maxHeight);
 
-      return InkWell(
+        return InkWell(
           onTap: () => open(context),
           child: Column(
             children: <Widget>[
-              Container(
-                width: width,
-                height: width,
-                child: MusicPreviewImageWidget(
-                    this.entry.getScaledUrl(150), this.entry is Song),
+              Hero(
+                tag: this.entry.id,
+                child: Container(
+                  width: width,
+                  height: width,
+                  child: MusicPreviewImageWidget(
+                      this.entry.getScaledUrl(150), this.entry is Song),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(6.0),
@@ -109,25 +122,24 @@ class MusicPreviewWidget extends StatelessWidget {
                     Text(
                       this.entry.title,
                       style: GoogleFonts.nunitoSans(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white
-                      ),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                     Text(
                       this.entry.artist.name,
                       style: GoogleFonts.nunitoSans(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.white
-                      ),
+                          fontStyle: FontStyle.italic, color: Colors.white),
                       textAlign: TextAlign.center,
                     )
                   ],
                 ),
               ),
             ],
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }

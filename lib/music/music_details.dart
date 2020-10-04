@@ -225,16 +225,31 @@ class MusicDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0, top: 2),
-              child: Text(
-                "${musicalEntry.artist.name}",
-                style: GoogleFonts.nunitoSans(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                      width: 35,
+                      height: 35,
+                      child:
+                          CircularImage(musicalEntry.artist.getScaledUrl(40)), ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "${musicalEntry.artist.name}",
+                      style: GoogleFonts.nunitoSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 4.0, top: 2, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  bottom: 4.0, top: 2, left: 20, right: 20),
               child: Text(
                 "${musicalEntry.genres.join(" | ")}",
                 style: GoogleFonts.nunitoSans(
@@ -254,7 +269,7 @@ class MusicDetails extends StatelessWidget {
                     musicalEntry.releaseDate != null
                 ? Text(
                     "Released",
-                        //"${formatDate(date: musicalEntry.releaseDate)}",
+                    //"${formatDate(date: musicalEntry.releaseDate)}",
                     style: GoogleFonts.nunitoSans(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,

@@ -207,8 +207,14 @@ class Artist {
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         language: null,
-        // TODO,
+        // TODO
         artUrl: parsedApiResponse["artUrl"],
         timeZone: parsedApiResponse["timezone"]);
+  }
+
+  String getScaledUrl(int width) {
+      if (this.artUrl == null) return null;
+      if (!this.artUrl.contains("images.genius")) return this.artUrl;
+      return "https://t2.genius.com/unsafe/${width}x0/${Uri.encodeFull(this.artUrl)}";
   }
 }
