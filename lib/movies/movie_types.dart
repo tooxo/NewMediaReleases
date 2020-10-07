@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 class Movie {
   String id;
   String title;
@@ -23,8 +25,6 @@ class Movie {
   String disneyUrl;
   String primeUrl;
   String huluUrl;
-
-  
 
   Movie(
       {this.id,
@@ -69,7 +69,8 @@ class Movie {
         description: parsedApiResponse["description"],
         rating: parsedApiResponse["rating"],
         budget: parsedApiResponse["budget"],
-        director: MoviePerson.fromApiResponse(JsonEncoder().convert(parsedApiResponse["director"])),
+        director: MoviePerson.fromApiResponse(
+            JsonEncoder().convert(parsedApiResponse["director"])),
         actor: parsedApiResponse["actor"] != null
             ? (parsedApiResponse["actor"] as List<dynamic>)
                 .map((e) =>

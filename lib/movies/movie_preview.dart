@@ -78,7 +78,6 @@ class MoviePreviewState extends State<MoviePreview> {
         enablePullDown: true,
         enablePullUp: false,
         scrollController: _scrollController,
-
         header: WaterDropMaterialHeader(
           backgroundColor: Colors.grey.shade900,
           color: Colors.white,
@@ -87,7 +86,6 @@ class MoviePreviewState extends State<MoviePreview> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
-
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -99,7 +97,6 @@ class MoviePreviewState extends State<MoviePreview> {
             ],
           ),
         ),
-
       ),
     );
   }
@@ -131,18 +128,30 @@ class MoviePreviewWidget extends StatelessWidget {
         onTap: () => open(context),
         child: Column(
           children: <Widget>[
-            Hero(
-              tag: entry.artUrl,
-              child: Container(
-                width: width,
-                height: width,
-                child: Image(
-                  image: NetworkImage(
-                    entry.getScaledUrl(154),
+            if (entry.artUrl != null)
+              (Hero(
+                tag: entry.artUrl,
+                child: Container(
+                  width: width,
+                  height: width,
+                  child: Image(
+                    image: NetworkImage(
+                      entry.getScaledUrl(154),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              ))
+            else
+              (Container(
+                height: 122,
+                width: 80,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/image/image_not_found.jpg"),
+                  ),
+                ),
+              )),
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: Column(

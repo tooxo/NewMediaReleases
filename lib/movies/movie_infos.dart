@@ -54,36 +54,54 @@ class MovieInfos extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Center(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Hero(
-                  tag: entry.artUrl,
-                  child: GestureDetector(
-                    child: Container(
-                      height: 300,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: entry.artUrl.isNotEmpty
-                              ? NetworkImage(entry.artUrl)
-                              : AssetImage("assets/image/image_not_found.jpg"),
+            if (entry.artUrl != null)
+              (Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Hero(
+                    tag: entry.artUrl,
+                    child: GestureDetector(
+                      child: Container(
+                        height: 300,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: entry.artUrl.isNotEmpty
+                                ? NetworkImage(entry.artUrl)
+                                : AssetImage(
+                                    "assets/image/image_not_found.jpg"),
+                          ),
                         ),
                       ),
-                    ),
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (con) => DetailScreen(
-                          entry.artUrl,
-                          tag: entry.artUrl,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (con) => DetailScreen(
+                            entry.artUrl,
+                            tag: entry.artUrl,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              ))
+            else
+              (Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Container(
+                    height: 300,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/image/image_not_found.jpg"),
+                      ),
+                    ),
+                  ),
+                ),
+              )),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 5, 25, 0),
               child: Text(
