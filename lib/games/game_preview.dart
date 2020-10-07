@@ -105,7 +105,7 @@ class GamePreviewWidget extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Hero(
-              tag: "game",
+              tag: entry.artUrl,
               child: Container(
                 width: width,
                 height: width,

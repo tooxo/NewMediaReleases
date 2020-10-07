@@ -143,6 +143,7 @@ class MainMusicState extends State<MainMusic> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "musicFAB",
         backgroundColor: Colors.grey.shade900,
         onPressed: () => {
           _controller.animateTo(0,

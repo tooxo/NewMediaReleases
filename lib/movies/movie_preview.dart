@@ -66,6 +66,7 @@ class MoviePreviewState extends State<MoviePreview> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "movieFAB",
         backgroundColor: Colors.grey.shade900,
         onPressed: () => {
           _scrollController.animateTo(0,
@@ -130,7 +131,7 @@ class MoviePreviewWidget extends StatelessWidget {
           children: <Widget>[
             if (entry.artUrl != null)
               (Hero(
-                tag: entry.artUrl,
+                tag: entry.id,
                 child: Container(
                   width: width,
                   height: width,

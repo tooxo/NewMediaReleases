@@ -59,7 +59,7 @@ class MovieInfos extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: Hero(
-                    tag: entry.artUrl,
+                    tag: entry.id,
                     child: GestureDetector(
                       child: Container(
                         height: 300,
@@ -78,7 +78,7 @@ class MovieInfos extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (con) => DetailScreen(
                             entry.artUrl,
-                            tag: entry.artUrl,
+                            tag: entry.id,
                           ),
                         ),
                       ),

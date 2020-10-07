@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-
 class Movie {
   String id;
   String title;
@@ -59,7 +57,7 @@ class Movie {
     if (rawApiResponse == "null" || rawApiResponse == null) return null;
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
     return Movie(
-        //id: parsedApiResponse["id"],
+        id: parsedApiResponse["id"],
         title: parsedApiResponse["title"],
         releaseDate: parsedApiResponse["releaseDate"] == null
             ? null
