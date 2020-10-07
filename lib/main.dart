@@ -56,7 +56,10 @@ class _MainState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: _children[_currentIndex],
+      body: IndexedStack(
+        children: _children,
+        index: _currentIndex,
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.grey.shade900,
         backgroundColor: Colors.black,
