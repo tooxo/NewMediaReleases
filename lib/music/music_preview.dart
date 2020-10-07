@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:NewMediaReleases/music/music_details.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -49,9 +50,21 @@ class MusicPreviewImageWidget extends StatelessWidget {
 
         return Stack(
           children: <Widget>[
-            CircleAvatar(
-              radius: 10000,
-              backgroundImage: NetworkImage(this.url),
+            ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: this.url,
+                errorWidget: (context, url, error) => Center(
+                  child: Text(
+                    "!",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                  ),
+                ),
+              ),
             ),
             Positioned(
               left: coord,

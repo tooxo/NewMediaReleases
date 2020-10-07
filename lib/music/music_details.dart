@@ -209,18 +209,15 @@ class MusicDetails extends StatelessWidget {
                 ],
               ),
             ),
-            Hero(
-              tag: "${this.musicalEntry.id}-title",
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text(
-                  musicalEntry.title,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunitoSans(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white),
-                ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Text(
+                musicalEntry.title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunitoSans(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
               ),
             ),
             Padding(
@@ -230,10 +227,10 @@ class MusicDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                      width: 35,
-                      height: 35,
-                      child:
-                          CircularImage(musicalEntry.artist.getScaledUrl(40)), ),
+                    width: 35,
+                    height: 35,
+                    child: CircularImage(musicalEntry.artist.getScaledUrl(40)),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Text(
