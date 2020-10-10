@@ -10,6 +10,14 @@ Future<String> getAroundSongs() async {
 }
 
 Future<String> getTracksFromAlbum(String albumId) async {
-  http.Response res = await http.get(base_url+"albums/$albumId");
+  http.Response res = await http.get(base_url + "albums/$albumId");
+  return res.body;
+}
+
+Future<String> loadMoreEntriesBottom(DateTime dateFrom) async {
+  // build url
+  String url = base_url +
+      "to?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
+  http.Response res = await http.get(url);
   return res.body;
 }

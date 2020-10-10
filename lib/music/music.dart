@@ -5,7 +5,6 @@ import 'package:NewMediaReleases/music/music_filter_menu.dart';
 import 'package:NewMediaReleases/music/music_search_delegate.dart';
 import 'package:collection/collection.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +45,13 @@ class MainMusicState extends State<MainMusic> {
   }
 
   Map<DateTime, List<MusicalEntry>> filterEntries() {
-    if (this.genreFilter.isEmpty) return this.parsedEntries;
+    if (this.genreFilter.isEmpty)
+      return Map.fromEntries(
+        this.parsedEntries.entries.toList()
+          ..sort(
+            (e1, e2) => e2.key.compareTo(e1.key),
+          ),
+      );
 
     Map<DateTime, List<MusicalEntry>> filtered = Map();
     // actually filter the tracks
@@ -65,7 +70,12 @@ class MainMusicState extends State<MainMusic> {
         filtered[key] = remainingValues;
       }
     });
-    return filtered;
+    return Map.fromEntries(
+      filtered.entries.toList()
+        ..sort(
+          (e1, e2) => e2.key.compareTo(e1.key),
+        ),
+    );
   }
 
   int getNearestToToday(Map<DateTime, List<MusicalEntry>> e) {
@@ -126,7 +136,8 @@ class MainMusicState extends State<MainMusic> {
               setState(() {});
             },
             icon: Icon(
-                genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter), tooltip: "Filter",
+                genreFilter.isEmpty ? MdiIcons.filterOutline : MdiIcons.filter),
+            tooltip: "Filter",
           ),
           IconButton(
             onPressed: () {
@@ -138,7 +149,8 @@ class MainMusicState extends State<MainMusic> {
                       .expand((element) => element)
                       .toList()));
             },
-            icon: Icon(MdiIcons.magnify), tooltip: "Search",
+            icon: Icon(MdiIcons.magnify),
+            tooltip: "Search",
           ),
         ],
       ),
@@ -166,13 +178,48 @@ class MainMusicState extends State<MainMusic> {
         physics: AlwaysScrollableScrollPhysics(),
         child: InfiniteList(
           negChildCount: filtered.length - (filtered.length - currentDayIndex),
-          posChildCount: filtered.length - currentDayIndex,
+          posChildCount: filtered.length - currentDayIndex + 1,
           direction: filtered.length <= 1
               ? InfiniteListDirection.single
               : InfiniteListDirection.multi,
           controller: _controller,
           builder: (BuildContext context, int index) {
             index += currentDayIndex;
+            if (index == filtered.length) {
+              return InfiniteListItem(
+                contentBuilder: (context) => MaterialButton(
+                  child: Text("load more"),
+                  color: Colors.blue,
+                  onPressed: () async {
+                    List entryCopy = JsonDecoder().convert(this.entries);
+                    List sortedKeys = this.parsedEntries.keys.toList()..sort();
+                    List newEntries = JsonDecoder()
+                        .convert(await loadMoreEntriesBottom(sortedKeys.last));
+                    int added = 0;
+                    newEntries.forEach((a) {
+                      for (dynamic e in entryCopy) {
+                        if (e["id"] == a["id"]) return;
+                      }
+                      added++;
+                      entryCopy.add(a);
+                    });
+                    this.entries =
+                        JsonEncoder().convert(entryCopy.reversed.toList());
+                    this.parsedEntries = this.parseEntries();
+
+                    if (added == 0) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text("no entries were added."),
+                            behavior: SnackBarBehavior.floating),
+                      );
+                    } else {
+                      setState(() {});
+                    }
+                  },
+                ),
+              );
+            }
             return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
                     filtered.keys.toList()[index])
                 .build(context);
