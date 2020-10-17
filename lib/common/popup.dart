@@ -11,10 +11,10 @@ class PopupTile {
   PopupTile({this.title, this.iconData, this.url});
 }
 
-class PopupWidget {
+class UrlPopupWidget {
   final List<PopupTile> popupTiles;
 
-  PopupWidget(this.popupTiles);
+  UrlPopupWidget(this.popupTiles);
 
   show(BuildContext context) {
     return showModalBottomSheet(

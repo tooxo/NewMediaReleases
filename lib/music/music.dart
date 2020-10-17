@@ -35,10 +35,10 @@ class MainMusicState extends State<MainMusic> {
     for (dynamic entry in l) {
       if (entry.keys.contains("tracks")) {
         // album
-        output.add(Album.fromApiResponse(JsonEncoder().convert(entry)));
+        output.add(Album.fromApiResponse(entry));
       } else {
         // track
-        output.add(Song.fromApiResponse(JsonEncoder().convert(entry)));
+        output.add(Song.fromApiResponse(entry));
       }
     }
     return groupBy(output, (MusicalEntry obj) => obj.dayOfRelease);

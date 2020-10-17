@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -14,16 +15,12 @@ class DetailScreen extends StatelessWidget {
         child: Center(
           child: Hero(
             tag: this.tag,
-            child: Image.network(
-              this.url,
+            child: CachedNetworkImage(
+              imageUrl: this.url,
             ),
           ),
         ),
         onTap: () {
-          Navigator.pop(context);
-        },
-        // ignore: non_constant_identifier_names
-        onVerticalDragStart: (DragDownDetails) {
           Navigator.pop(context);
         },
       ),

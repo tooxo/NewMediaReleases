@@ -98,8 +98,13 @@ class Song extends MusicalEntry {
       : super(id, title, artist, featured_artists, genres, releaseDate,
             spotifyUri, appleUri, soundcloudUri, language, artUrl);
 
-  static Song fromApiResponse(String rawApiResponse) {
+  static Song fromRawApiResponse(String rawApiResponse) {
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
+    return Song.fromApiResponse(parsedApiResponse);
+  }
+
+  static Song fromApiResponse(dynamic parsedApiResponse) {
+    if (parsedApiResponse == null) return parsedApiResponse;
     return Song(
         id: parsedApiResponse["id"],
         title: parsedApiResponse["title"],
@@ -109,8 +114,7 @@ class Song extends MusicalEntry {
             (parsedApiResponse["featured_artists"] as List<Object>)
                 .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
                 .toList(),
-        album: Album.fromApiResponse(
-            JsonEncoder().convert(parsedApiResponse["album"])),
+        album: Album.fromApiResponse(parsedApiResponse["album"]),
         genres: (parsedApiResponse["genres"] as List<dynamic>)
             .map((e) => e as String)
             .toList(),
@@ -149,9 +153,14 @@ class Album extends MusicalEntry {
       : super(id, title, artist, featured_artists, genres, releaseDate,
             spotifyUri, appleUri, soundcloudUri, language, artUrl);
 
-  static Album fromApiResponse(String rawApiResponse) {
+  static Album fromRawApiResponse(String rawApiResponse) {
     if (rawApiResponse == "null" || rawApiResponse == null) return null;
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
+    return Album.fromApiResponse(parsedApiResponse);
+  }
+
+  static Album fromApiResponse(dynamic parsedApiResponse) {
+    if (parsedApiResponse == null) return parsedApiResponse;
     return Album(
         id: parsedApiResponse["id"],
         title: parsedApiResponse["title"],
@@ -174,7 +183,7 @@ class Album extends MusicalEntry {
         // TODO
         tracks: parsedApiResponse["tracks"] != null
             ? (parsedApiResponse["tracks"] as List<dynamic>)
-                .map((e) => Song.fromApiResponse(JsonEncoder().convert(e)))
+                .map((e) => Song.fromApiResponse(e))
                 .toList()
             : null,
         artUrl: parsedApiResponse["artUrl"]);
@@ -213,8 +222,8 @@ class Artist {
   }
 
   String getScaledUrl(int width) {
-      if (this.artUrl == null) return null;
-      if (!this.artUrl.contains("images.genius")) return this.artUrl;
-      return "https://t2.genius.com/unsafe/${width}x0/${Uri.encodeFull(this.artUrl)}";
+    if (this.artUrl == null) return null;
+    if (!this.artUrl.contains("images.genius")) return this.artUrl;
+    return "https://t2.genius.com/unsafe/${width}x0/${Uri.encodeFull(this.artUrl)}";
   }
 }

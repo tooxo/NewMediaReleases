@@ -7,6 +7,7 @@ import 'package:NewMediaReleases/common/popup.dart';
 import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/utils/date.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,8 +16,9 @@ import '../Icons.dart';
 
 class MusicDetailsImage extends StatelessWidget {
   final String url;
+  final String previewUrl;
 
-  MusicDetailsImage(this.url);
+  MusicDetailsImage(this.url, this.previewUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,16 @@ class MusicDetailsImage extends StatelessWidget {
       builder: (context, constraints) {
         double width = min(constraints.maxWidth, constraints.maxHeight);
 
-        return Container(
-          width: width,
-          height: width,
-          child: CircularImage(this.url),
+        return ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: this.url,
+            width: width,
+            height: width,
+            placeholder: (context, url) => CachedNetworkImage(
+              imageUrl: this.previewUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
         );
       },
     );
@@ -36,9 +44,8 @@ class MusicDetailsImage extends StatelessWidget {
 
 class TrackList extends StatelessWidget {
   final List<Song> entities;
-  final bool showTrackNo;
 
-  TrackList(this.entities, {this.showTrackNo = true});
+  TrackList(this.entities);
 
   List<Song> prepareTrackList() {
     if (entities.length <= 1) {
@@ -104,7 +111,7 @@ class TrackList extends StatelessWidget {
                   fontSize: 18,
                   color: Colors.white,
                   fontWeight:
-                      song.artUrl == null ? FontWeight.w300 : FontWeight.w600),
+                      song.artUrl == null ? FontWeight.w200 : FontWeight.w600),
             ),
             subtitle: song.artist != null
                 ? Text(
@@ -123,7 +130,7 @@ class TrackList extends StatelessWidget {
                     ),
                     onPressed: song.hasStream
                         ? () {
-                            PopupWidget(
+                            UrlPopupWidget(
                               [
                                 PopupTile(
                                     title: "Spotify",
@@ -134,10 +141,9 @@ class TrackList extends StatelessWidget {
                                     iconData: Font.applemusic,
                                     url: song.appleUri),
                                 PopupTile(
-                                  title: "SoundCloud",
-                                  iconData: Font.soundcloud,
-                                  url: song.soundcloudUri,
-                                ),
+                                    title: "SoundCloud",
+                                    iconData: Font.soundcloud,
+                                    url: song.soundcloudUri),
                                 PopupTile(
                                     title: "YouTube",
                                     iconData: Font.youtube,
@@ -190,7 +196,8 @@ class MusicDetails extends StatelessWidget {
                     child: GestureDetector(
                       child: Hero(
                         tag: this.musicalEntry.id,
-                        child: MusicDetailsImage(musicalEntry.artUrl),
+                        child: MusicDetailsImage(musicalEntry.artUrl,
+                            musicalEntry.getScaledUrl(150)),
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
@@ -293,10 +300,10 @@ class MusicDetails extends StatelessWidget {
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData &&
                             snapshot.connectionState == ConnectionState.done) {
-                          Album album = Album.fromApiResponse(snapshot.data);
+                          Album album = Album.fromRawApiResponse(snapshot.data);
                           return TrackList(album.tracks);
                         }
-                        return Container();
+                        return CircularProgressIndicator();
                       },
                     ),
             ),
