@@ -1,7 +1,6 @@
 import 'package:NewMediaReleases/movies/movie_types.dart';
 
 class Serie {
-
   String title;
   String artUrl;
   int fsk;
@@ -23,8 +22,8 @@ class Serie {
   String primeUrl;
   String huluUrl;
 
-  Serie({
-      this.title,
+  Serie(
+      {this.title,
       this.artUrl,
       this.fsk,
       this.episodes,
@@ -45,4 +44,3 @@ class Serie {
       this.primeUrl,
       this.huluUrl});
 }
-

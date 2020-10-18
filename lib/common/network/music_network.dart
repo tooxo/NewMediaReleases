@@ -21,3 +21,10 @@ Future<String> loadMoreEntriesBottom(DateTime dateFrom) async {
   http.Response res = await http.get(url);
   return res.body;
 }
+
+Future<String> loadMoreEntriesTop(DateTime dateFrom) async {
+  String url = base_url +
+      "from?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
+  http.Response res = await http.get(url);
+  return res.body;
+}

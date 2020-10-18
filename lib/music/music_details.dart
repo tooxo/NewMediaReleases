@@ -8,7 +8,6 @@ import 'package:NewMediaReleases/music/music_preview.dart';
 import 'package:NewMediaReleases/music/music_types.dart';
 import 'package:NewMediaReleases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -196,8 +195,10 @@ class MusicDetails extends StatelessWidget {
                     child: GestureDetector(
                       child: Hero(
                         tag: this.musicalEntry.id,
-                        child: MusicDetailsImage(musicalEntry.artUrl,
-                            musicalEntry.getScaledUrl(150)),
+                        child: MusicDetailsImage(
+                          musicalEntry.artUrl,
+                          musicalEntry.getScaledUrl(150),
+                        ),
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(

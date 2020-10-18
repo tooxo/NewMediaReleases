@@ -128,7 +128,8 @@ class SerieInfo extends StatelessWidget {
                     "Staffel 1",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
-                  Text("12 Folgen", style: TextStyle(fontSize: 20, color: Colors.white))
+                  Text("12 Folgen",
+                      style: TextStyle(fontSize: 20, color: Colors.white))
                 ],
               ),
             ),

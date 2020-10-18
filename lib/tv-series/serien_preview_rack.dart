@@ -41,10 +41,7 @@ class SerienPreviewRack extends StatelessWidget {
         ),
         Container(
           child: CustomGrid(
-            [
-              for (Serie entry in this.entries)
-                SerienPreviewWidget(entry)
-            ],
+            [for (Serie entry in this.entries) SerienPreviewWidget(entry)],
           ),
         )
       ],

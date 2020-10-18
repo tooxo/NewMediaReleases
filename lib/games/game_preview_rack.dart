@@ -43,10 +43,7 @@ class GamePreviewRack extends StatelessWidget {
         ),
         Container(
           child: CustomGrid(
-            [
-              for (Game entry in this.entries)
-                GamePreviewWidget(entry)
-            ],
+            [for (Game entry in this.entries) GamePreviewWidget(entry)],
           ),
         )
       ],

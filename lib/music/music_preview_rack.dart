@@ -23,7 +23,7 @@ class MusicPreviewRack {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[ 
+                children: <Widget>[
                   Text(
                     DateFormat("dd. MM. yyyy").format(this.releaseDate),
                     textAlign: TextAlign.end,

@@ -77,7 +77,9 @@ class MusicFilterMenu {
                       }
                     }),
                     title: Text(
-                      this.appliedFilters.isEmpty ? "Select All" : "Unselect All",
+                      this.appliedFilters.isEmpty
+                          ? "Select All"
+                          : "Unselect All",
                       style: GoogleFonts.nunitoSans(
                           color: Colors.white,
                           fontSize: 20,
@@ -93,7 +95,6 @@ class MusicFilterMenu {
                     scrollDirection: Axis.vertical,
                     itemCount: allMusicGenres.length,
                     itemBuilder: (BuildContext context, int index) {
-
                       return Theme(
                         data: ThemeData(unselectedWidgetColor: Colors.white),
                         child: CheckboxListTile(
@@ -105,8 +106,9 @@ class MusicFilterMenu {
                             style: GoogleFonts.nunitoSans(
                                 color: Colors.white, fontSize: 15),
                           ),
-                          value:
-                              this.appliedFilters.contains(allMusicGenres[index]),
+                          value: this
+                              .appliedFilters
+                              .contains(allMusicGenres[index]),
                           onChanged: (bool value) {
                             setState(
                               () {
@@ -117,7 +119,9 @@ class MusicFilterMenu {
                                       .appliedFilters
                                       .remove(allMusicGenres[index]);
                                 } else {
-                                  this.appliedFilters.add(allMusicGenres[index]);
+                                  this
+                                      .appliedFilters
+                                      .add(allMusicGenres[index]);
                                 }
                               },
                             );

@@ -36,7 +36,6 @@ class GameInfo extends StatelessWidget {
   const GameInfo({Key key, this.entry}) : super(key: key);
 
   String get url =>
-
       "https://upload.wikimedia.org/wikipedia/en/6/6d/BioShock_cover.jpg";
 
   @override
@@ -83,7 +82,10 @@ class GameInfo extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   title,
-                  style: GoogleFonts.nunitoSans(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
+                  style: GoogleFonts.nunitoSans(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -126,9 +128,7 @@ class GameInfo extends StatelessWidget {
                 ],
               ),
             ),
-            Description(
-              description: description
-            ),
+            Description(description: description),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Row(

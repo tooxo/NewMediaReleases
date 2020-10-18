@@ -28,7 +28,7 @@ class MoviePreviewRack extends StatelessWidget {
                 DateFormat("dd.MM.yyyy").format(this.releaseDate),
                 textAlign: TextAlign.end,
                 style: GoogleFonts.nunitoSans(
-                  color: Colors.white,
+                    color: Colors.white,
                     fontWeight: FontWeight.w600,
                     fontSize: 20),
               ),
@@ -44,10 +44,7 @@ class MoviePreviewRack extends StatelessWidget {
         ),
         Container(
           child: CustomGrid(
-            [
-              for (Movie entry in this.entries)
-                MoviePreviewWidget(entry)
-            ],
+            [for (Movie entry in this.entries) MoviePreviewWidget(entry)],
           ),
         )
       ],

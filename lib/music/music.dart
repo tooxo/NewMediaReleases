@@ -12,6 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
+import 'music_load_button.dart';
 import 'music_preview_rack.dart';
 import 'music_types.dart';
 
@@ -121,6 +122,10 @@ class MainMusicState extends State<MainMusic> {
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {},
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -177,8 +182,11 @@ class MainMusicState extends State<MainMusic> {
         onRefresh: _onRefresh,
         physics: AlwaysScrollableScrollPhysics(),
         child: InfiniteList(
-          negChildCount: filtered.length - (filtered.length - currentDayIndex),
-          posChildCount: filtered.length - currentDayIndex + 1,
+          negChildCount: filtered.length > 0
+              ? filtered.length - (filtered.length - currentDayIndex) + 1
+              : 0,
+          posChildCount:
+              filtered.length > 0 ? filtered.length - currentDayIndex + 1 : 0,
           direction: filtered.length <= 1
               ? InfiniteListDirection.single
               : InfiniteListDirection.multi,
@@ -186,11 +194,10 @@ class MainMusicState extends State<MainMusic> {
           builder: (BuildContext context, int index) {
             index += currentDayIndex;
             if (index == filtered.length) {
+              print(index);
               return InfiniteListItem(
-                contentBuilder: (context) => MaterialButton(
-                  child: Text("load more"),
-                  color: Colors.blue,
-                  onPressed: () async {
+                contentBuilder: (context) => MusicLoadButton(
+                  () async {
                     List entryCopy = JsonDecoder().convert(this.entries);
                     List sortedKeys = this.parsedEntries.keys.toList()..sort();
                     List newEntries = JsonDecoder()
@@ -203,8 +210,7 @@ class MainMusicState extends State<MainMusic> {
                       added++;
                       entryCopy.add(a);
                     });
-                    this.entries =
-                        JsonEncoder().convert(entryCopy.reversed.toList());
+                    this.entries = JsonEncoder().convert(entryCopy.toList());
                     this.parsedEntries = this.parseEntries();
 
                     if (added == 0) {
@@ -220,6 +226,37 @@ class MainMusicState extends State<MainMusic> {
                 ),
               );
             }
+            if (index == -1)
+              return InfiniteListItem(
+                contentBuilder: (context) => MusicLoadButton(
+                  () async {
+                    List entryCopy = JsonDecoder().convert(this.entries);
+                    List sortedKeys = this.parsedEntries.keys.toList()..sort();
+                    List newEntries = JsonDecoder()
+                        .convert(await loadMoreEntriesTop(sortedKeys.first));
+                    int added = 0;
+                    newEntries.forEach((a) {
+                      for (dynamic e in entryCopy) {
+                        if (e["id"] == a["id"]) return;
+                      }
+                      added++;
+                      entryCopy.add(a);
+                    });
+                    this.entries = JsonEncoder().convert(entryCopy.toList());
+                    this.parsedEntries = this.parseEntries();
+
+                    if (added == 0) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text("no entries were added."),
+                            behavior: SnackBarBehavior.floating),
+                      );
+                    } else {
+                      setState(() {});
+                    }
+                  },
+                ),
+              );
             return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
                     filtered.keys.toList()[index])
                 .build(context);

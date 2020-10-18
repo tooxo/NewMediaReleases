@@ -11,16 +11,17 @@ class MusicSearchDelegate extends SearchDelegate {
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
       primaryColor: Colors.grey.shade900,
-      textTheme: TextTheme(headline6: GoogleFonts.nunitoSans( color: Colors.white, fontSize: 20),),
+      textTheme: TextTheme(
+        headline6: GoogleFonts.nunitoSans(color: Colors.white, fontSize: 20),
+      ),
       primaryIconTheme: IconThemeData(
         color: Colors.white,
         opacity: 1,
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:
-        Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+            Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
       ),
-
     );
   }
 
@@ -28,7 +29,8 @@ class MusicSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear), color: Colors.white,
+        icon: Icon(Icons.clear),
+        color: Colors.white,
         onPressed: () => this.query = "",
       )
     ];
@@ -93,8 +95,10 @@ class SearchResultTile extends StatelessWidget {
         entry.allArtistsString,
         style: GoogleFonts.nunitoSans(color: Colors.white),
       ),
-      trailing: Icon(entry is Song ?
-      Icons.music_note : Icons.album, color: Colors.white,),
+      trailing: Icon(
+        entry is Song ? Icons.music_note : Icons.album,
+        color: Colors.white,
+      ),
     );
   }
 }
