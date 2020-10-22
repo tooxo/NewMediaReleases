@@ -6,12 +6,12 @@ Future<String> getAroundSongs() async {
   http.Response res = await http.get(
     base_url + "around",
   );
-  return res.body;
+  return Utf8Decoder().convert(res.bodyBytes);
 }
 
 Future<String> getTracksFromAlbum(String albumId) async {
   http.Response res = await http.get(base_url + "albums/$albumId");
-  return res.body;
+  return Utf8Decoder().convert(res.bodyBytes);
 }
 
 Future<String> loadMoreEntriesBottom(DateTime dateFrom) async {
@@ -19,12 +19,12 @@ Future<String> loadMoreEntriesBottom(DateTime dateFrom) async {
   String url = base_url +
       "to?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
   http.Response res = await http.get(url);
-  return res.body;
+  return Utf8Decoder().convert(res.bodyBytes);
 }
 
 Future<String> loadMoreEntriesTop(DateTime dateFrom) async {
   String url = base_url +
       "from?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
   http.Response res = await http.get(url);
-  return res.body;
+  return Utf8Decoder().convert(res.bodyBytes);
 }

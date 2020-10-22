@@ -38,6 +38,12 @@ class MusicPreviewImageWidget extends StatelessWidget {
 
   MusicPreviewImageWidget(this.url, this.isSingle);
 
+  Widget loadingIndicator(context, url) => Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.white),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -51,20 +57,21 @@ class MusicPreviewImageWidget extends StatelessWidget {
         return Stack(
           children: <Widget>[
             ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: this.url,
-                errorWidget: (context, url, error) => Center(
-                  child: Text(
-                    "!",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.white),
-                  ),
-                ),
-              ),
+              child: this.url != ""
+                  ? CachedNetworkImage(
+                      imageUrl: this.url,
+                      errorWidget: (context, url, error) => Center(
+                        child: Text(
+                          "!",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      placeholder: loadingIndicator,
+                    )
+                  : Image.asset(
+                      "assets/image/image_not_found_small.jpg",
+                      fit: BoxFit.cover,
+                    ),
             ),
             Positioned(
               left: coord,

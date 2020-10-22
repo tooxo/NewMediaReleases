@@ -105,6 +105,39 @@ class MainMusicState extends State<MainMusic> {
 
   List<String> genreFilter = [];
 
+  musicButtonClick(bool isTop, BuildContext context) async {
+    List entryCopy = JsonDecoder().convert(this.entries);
+    List sortedKeys = this.parsedEntries.keys.toList()..sort();
+    List newEntries;
+    if (isTop) {
+      newEntries =
+          JsonDecoder().convert(await loadMoreEntriesTop(sortedKeys.last));
+    } else {
+      newEntries =
+          JsonDecoder().convert(await loadMoreEntriesBottom(sortedKeys.first));
+    }
+    int added = 0;
+    newEntries.forEach((a) {
+      for (dynamic e in entryCopy) {
+        if (e["id"] == a["id"]) return;
+      }
+      added++;
+      entryCopy.add(a);
+    });
+    this.entries = JsonEncoder().convert(entryCopy.toList());
+    this.parsedEntries = this.parseEntries();
+
+    if (added == 0) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+            content: Text("no entries were added."),
+            behavior: SnackBarBehavior.floating),
+      );
+    } else {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<DateTime, List<MusicalEntry>> filtered = filterEntries();
@@ -194,68 +227,15 @@ class MainMusicState extends State<MainMusic> {
           builder: (BuildContext context, int index) {
             index += currentDayIndex;
             if (index == filtered.length) {
-              print(index);
               return InfiniteListItem(
                 contentBuilder: (context) => MusicLoadButton(
-                  () async {
-                    List entryCopy = JsonDecoder().convert(this.entries);
-                    List sortedKeys = this.parsedEntries.keys.toList()..sort();
-                    List newEntries = JsonDecoder()
-                        .convert(await loadMoreEntriesBottom(sortedKeys.last));
-                    int added = 0;
-                    newEntries.forEach((a) {
-                      for (dynamic e in entryCopy) {
-                        if (e["id"] == a["id"]) return;
-                      }
-                      added++;
-                      entryCopy.add(a);
-                    });
-                    this.entries = JsonEncoder().convert(entryCopy.toList());
-                    this.parsedEntries = this.parseEntries();
-
-                    if (added == 0) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text("no entries were added."),
-                            behavior: SnackBarBehavior.floating),
-                      );
-                    } else {
-                      setState(() {});
-                    }
-                  },
-                ),
+                    () async => await musicButtonClick(false, context)),
               );
             }
             if (index == -1)
               return InfiniteListItem(
                 contentBuilder: (context) => MusicLoadButton(
-                  () async {
-                    List entryCopy = JsonDecoder().convert(this.entries);
-                    List sortedKeys = this.parsedEntries.keys.toList()..sort();
-                    List newEntries = JsonDecoder()
-                        .convert(await loadMoreEntriesTop(sortedKeys.first));
-                    int added = 0;
-                    newEntries.forEach((a) {
-                      for (dynamic e in entryCopy) {
-                        if (e["id"] == a["id"]) return;
-                      }
-                      added++;
-                      entryCopy.add(a);
-                    });
-                    this.entries = JsonEncoder().convert(entryCopy.toList());
-                    this.parsedEntries = this.parseEntries();
-
-                    if (added == 0) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text("no entries were added."),
-                            behavior: SnackBarBehavior.floating),
-                      );
-                    } else {
-                      setState(() {});
-                    }
-                  },
-                ),
+                    () async => await musicButtonClick(true, context)),
               );
             return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
                     filtered.keys.toList()[index])

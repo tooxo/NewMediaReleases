@@ -26,15 +26,17 @@ class MusicDetailsImage extends StatelessWidget {
         double width = min(constraints.maxWidth, constraints.maxHeight);
 
         return ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: this.url,
-            width: width,
-            height: width,
-            placeholder: (context, url) => CachedNetworkImage(
-              imageUrl: this.previewUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+          child: this.url != ""
+              ? CachedNetworkImage(
+                  imageUrl: this.url,
+                  width: width,
+                  height: width,
+                  placeholder: (context, url) => CachedNetworkImage(
+                    imageUrl: this.previewUrl,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : Image.asset("assets/image/image_not_found.jpg"),
         );
       },
     );
@@ -200,14 +202,16 @@ class MusicDetails extends StatelessWidget {
                           musicalEntry.getScaledUrl(150),
                         ),
                       ),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (con) => DetailScreen(
-                            musicalEntry.artUrl,
-                            tag: this.musicalEntry.id,
-                          ),
-                        ),
-                      ),
+                      onTap: () => this.musicalEntry.artUrl != ""
+                          ? Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (con) => DetailScreen(
+                                  musicalEntry.artUrl,
+                                  tag: this.musicalEntry.id,
+                                ),
+                              ),
+                            )
+                          : null,
                     ),
                   ),
                   Expanded(
