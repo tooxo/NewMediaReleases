@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 const String base_url = "http://192.168.0.17:8888/music/";
@@ -14,17 +15,17 @@ Future<String> getTracksFromAlbum(String albumId) async {
   return Utf8Decoder().convert(res.bodyBytes);
 }
 
-Future<String> loadMoreEntriesBottom(DateTime dateFrom) async {
+Future<String> loadMoreEntriesBottom(DateTime dateFrom, String lastId) async {
   // build url
   String url = base_url +
-      "to?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
+      "to?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20&last_id=$lastId";
   http.Response res = await http.get(url);
   return Utf8Decoder().convert(res.bodyBytes);
 }
 
-Future<String> loadMoreEntriesTop(DateTime dateFrom) async {
+Future<String> loadMoreEntriesTop(DateTime dateFrom, String lastId) async {
   String url = base_url +
-      "from?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20";
+      "from?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20&last_id=$lastId";
   http.Response res = await http.get(url);
   return Utf8Decoder().convert(res.bodyBytes);
 }

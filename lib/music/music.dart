@@ -110,11 +110,11 @@ class MainMusicState extends State<MainMusic> {
     List sortedKeys = this.parsedEntries.keys.toList()..sort();
     List newEntries;
     if (isTop) {
-      newEntries =
-          JsonDecoder().convert(await loadMoreEntriesTop(sortedKeys.last));
+      newEntries = JsonDecoder().convert(await loadMoreEntriesTop(
+          sortedKeys.last, this.parsedEntries[sortedKeys.last].last.id));
     } else {
-      newEntries =
-          JsonDecoder().convert(await loadMoreEntriesBottom(sortedKeys.first));
+      newEntries = JsonDecoder().convert(await loadMoreEntriesBottom(
+          sortedKeys.first, this.parsedEntries[sortedKeys.first].first.id));
     }
     int added = 0;
     newEntries.forEach((a) {
