@@ -180,6 +180,31 @@ class MusicDetails extends StatelessWidget {
               GoogleFonts.nunitoSans(fontSize: 22, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
+        actions: [
+          musicalEntry.hasStream
+              ? IconButton(
+                  icon: Icon(Icons.open_in_new),
+                  onPressed: () => {
+                    UrlPopupWidget(
+                      [
+                        PopupTile(
+                            title: "Spotify",
+                            iconData: Font.spotify,
+                            url: musicalEntry.spotifyUrl),
+                        PopupTile(
+                            title: "Apple Music",
+                            iconData: Font.applemusic,
+                            url: musicalEntry.appleUri),
+                        PopupTile(
+                            title: "SoundCloud",
+                            iconData: Font.soundcloud,
+                            url: musicalEntry.soundcloudUri),
+                      ],
+                    ).show(context)
+                  },
+                )
+              : Container()
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

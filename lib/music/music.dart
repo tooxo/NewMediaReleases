@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
 import 'music_load_button.dart';
@@ -22,8 +23,6 @@ class MainMusic extends StatefulWidget {
 }
 
 class MainMusicState extends State<MainMusic> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
   final ScrollController _controller = ScrollController();
 
   String entries = "[]";
@@ -42,7 +41,13 @@ class MainMusicState extends State<MainMusic> {
         output.add(Song.fromApiResponse(entry));
       }
     }
-    return groupBy(output, (MusicalEntry obj) => obj.dayOfRelease);
+    Map<DateTime, List<MusicalEntry>> grouped =
+        groupBy(output, (MusicalEntry obj) => obj.dayOfRelease);
+    grouped.forEach((key, value) {
+      value.sort((a, b) =>
+          ((a.artist.popularity ?? 0) < (b.artist.popularity ?? 0)) ? 1 : -1);
+    });
+    return grouped;
   }
 
   Map<DateTime, List<MusicalEntry>> filterEntries() {
@@ -90,17 +95,6 @@ class MainMusicState extends State<MainMusic> {
       }
     });
     return ind;
-  }
-
-  void _onRefresh() async {
-    try {
-      this.entries = await getAroundSongs();
-      this.parsedEntries = parseEntries();
-      setState(() {});
-    } catch (e) {
-      return _refreshController.refreshFailed();
-    }
-    _refreshController.refreshCompleted();
   }
 
   List<String> genreFilter = [];
@@ -157,7 +151,11 @@ class MainMusicState extends State<MainMusic> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.refresh),
-          onPressed: () {},
+          onPressed: () async {
+            this.entries = await getAroundSongs();
+            this.parsedEntries = parseEntries();
+            setState(() {});
+          },
         ),
         actions: [
           IconButton(
@@ -202,46 +200,51 @@ class MainMusicState extends State<MainMusic> {
         child: Icon(Icons.today),
         tooltip: "Jump to Today",
       ),
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: false,
-        scrollController: _controller,
-        header: WaterDropMaterialHeader(
-          backgroundColor: Colors.grey.shade900,
-          color: Colors.white,
-          distance: 40,
-        ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        physics: AlwaysScrollableScrollPhysics(),
-        child: InfiniteList(
-          negChildCount: filtered.length > 0
-              ? filtered.length - (filtered.length - currentDayIndex) + 1
-              : 0,
-          posChildCount:
-              filtered.length > 0 ? filtered.length - currentDayIndex + 1 : 0,
-          direction: filtered.length <= 1
-              ? InfiniteListDirection.single
-              : InfiniteListDirection.multi,
-          controller: _controller,
-          builder: (BuildContext context, int index) {
-            index += currentDayIndex;
-            if (index == filtered.length) {
-              return InfiniteListItem(
-                contentBuilder: (context) => MusicLoadButton(
-                    () async => await musicButtonClick(false, context)),
-              );
-            }
-            if (index == -1)
-              return InfiniteListItem(
-                contentBuilder: (context) => MusicLoadButton(
-                    () async => await musicButtonClick(true, context)),
-              );
-            return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
-                    filtered.keys.toList()[index])
-                .build(context);
-          },
-        ),
+      body: InfiniteList(
+        negChildCount: filtered.length > 0
+            ? filtered.length - (filtered.length - currentDayIndex) + 1
+            : 0,
+        posChildCount:
+            filtered.length > 0 ? filtered.length - currentDayIndex + 1 : 0,
+        direction: filtered.length <= 1
+            ? InfiniteListDirection.single
+            : InfiniteListDirection.multi,
+        controller: _controller,
+        builder: (BuildContext context, int index) {
+          index += currentDayIndex;
+          if (index == -1 || index == filtered.length) {
+            return InfiniteListItem(
+                contentBuilder: (context) => FutureBuilder(
+                      future: musicButtonClick(index == -1, context),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return Container();
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ));
+          }
+          return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
+                  filtered.keys.toList()[index])
+              .build(context);
+        },
       ),
     );
   }

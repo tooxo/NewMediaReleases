@@ -1,7 +1,8 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
-const String base_url = "http://192.168.0.17:8888/music/";
+const String base_url = "https://releases.tillschulte.de/music/";
 
 Future<String> getAroundSongs() async {
   http.Response res = await http.get(
@@ -16,7 +17,6 @@ Future<String> getTracksFromAlbum(String albumId) async {
 }
 
 Future<String> loadMoreEntriesBottom(DateTime dateFrom, String lastId) async {
-  // build url
   String url = base_url +
       "to?y=${dateFrom.year}&m=${dateFrom.month}&d=${dateFrom.day}&limit=20&last_id=$lastId";
   http.Response res = await http.get(url);

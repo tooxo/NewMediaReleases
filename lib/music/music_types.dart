@@ -198,6 +198,7 @@ class Artist {
   Locale language;
   String artUrl;
   int timeZone;
+  int popularity;
 
   Artist(
       {this.id,
@@ -206,7 +207,8 @@ class Artist {
       this.appleUri,
       this.language,
       this.artUrl,
-      this.timeZone});
+      this.timeZone,
+      this.popularity});
 
   static Artist fromApiResponse(String rawApiResponse) {
     dynamic parsedApiResponse = JsonDecoder().convert(rawApiResponse);
@@ -218,7 +220,8 @@ class Artist {
         language: null,
         // TODO
         artUrl: parsedApiResponse["artUrl"],
-        timeZone: parsedApiResponse["timezone"]);
+        timeZone: parsedApiResponse["timezone"],
+        popularity: parsedApiResponse["popularity"] ?? 0);
   }
 
   String getScaledUrl(int width) {

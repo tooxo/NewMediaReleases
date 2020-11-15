@@ -144,7 +144,9 @@ class MusicPreviewWidget extends StatelessWidget {
                       style: GoogleFonts.nunitoSans(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white),
+                          color: this.entry.artist.popularity >= 85
+                              ? Colors.red
+                              : Colors.white),
                       textAlign: TextAlign.center,
                     ),
                     Text(
