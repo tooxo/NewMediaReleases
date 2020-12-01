@@ -204,7 +204,8 @@ class MovieInfos extends StatelessWidget {
             if ((entry.director != null) && (entry.actor != null))
               FancyDivider(),
             Description(description: entry.description),
-            if (entry.description != null) FancyDivider(),
+            entry.description != null ? Container():
+            FancyDivider(),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Row(
