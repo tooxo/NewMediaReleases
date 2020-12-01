@@ -41,7 +41,7 @@ class MusicFilterMenu {
             ),
           ),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () =>
                   Navigator.of(context).pop(this.appliedFiltersBackup),
               child: Text(

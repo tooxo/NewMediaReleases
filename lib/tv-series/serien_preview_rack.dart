@@ -1,6 +1,6 @@
-import 'package:NewMediaReleases/custom_grid.dart';
-import 'package:NewMediaReleases/tv-series/serien_preview.dart';
-import 'package:NewMediaReleases/tv-series/serien_types..dart';
+import 'package:new_media_releases/custom_grid.dart';
+import 'package:new_media_releases/tv-series/serien_preview.dart';
+import 'package:new_media_releases/tv-series/serien_types..dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

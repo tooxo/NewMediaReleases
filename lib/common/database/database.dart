@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:NewMediaReleases/music/music_types.dart';
+import 'package:new_media_releases/music/music_types.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String table_songs = "TBL_SONGS";
@@ -21,7 +21,7 @@ class DatabaseHandler {
                                     APPLE_URI, SOUNDCLOUD_URI, YOUTUBE_ID, 
                                     LANGUAGE, TRACK_NUMBER, PREVIEW_URL, ART_URL, 
                                     IS_SINGLE)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);    
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
           ''',
           [
             value.id,

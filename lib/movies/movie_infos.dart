@@ -1,7 +1,7 @@
-import 'package:NewMediaReleases/common/detail_screen.dart';
-import 'package:NewMediaReleases/movies/movie_types.dart';
-import 'package:NewMediaReleases/utils/date.dart';
-import 'package:NewMediaReleases/utils/widgets.dart';
+import 'package:new_media_releases/common/detail_screen.dart';
+import 'package:new_media_releases/movies/movie_types.dart';
+import 'package:new_media_releases/utils/date.dart';
+import 'package:new_media_releases/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

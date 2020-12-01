@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:NewMediaReleases/tv-series/serie_info.dart';
-import 'package:NewMediaReleases/tv-series/serien_preview_rack.dart';
-import 'package:NewMediaReleases/tv-series/serien_types..dart';
+import 'package:new_media_releases/tv-series/serie_info.dart';
+import 'package:new_media_releases/tv-series/serien_preview_rack.dart';
+import 'package:new_media_releases/tv-series/serien_types..dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

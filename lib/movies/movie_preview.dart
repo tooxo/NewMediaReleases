@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:NewMediaReleases/common/network/movie_network.dart';
-import 'package:NewMediaReleases/movies/movie_infos.dart';
-import 'package:NewMediaReleases/movies/movie_preview_rack.dart';
-import 'package:NewMediaReleases/movies/movie_types.dart';
+import 'package:new_media_releases/common/network/movie_network.dart';
+import 'package:new_media_releases/movies/movie_infos.dart';
+import 'package:new_media_releases/movies/movie_preview_rack.dart';
+import 'package:new_media_releases/movies/movie_types.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

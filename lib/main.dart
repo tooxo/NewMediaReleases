@@ -1,11 +1,10 @@
-import 'package:NewMediaReleases/games/game_preview.dart';
-import 'package:NewMediaReleases/movies/movie_preview.dart';
-import 'package:NewMediaReleases/music/music.dart';
-import 'package:NewMediaReleases/tv-series/serien_preview.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
+import 'games/game_preview.dart';
+import 'movies/movie_preview.dart';
+import 'music/music.dart';
+import 'tv-series/serien_preview.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:NewMediaReleases/music/music_details.dart';
+import 'package:new_media_releases/music/music_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

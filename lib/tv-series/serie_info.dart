@@ -1,6 +1,6 @@
-import 'package:NewMediaReleases/open_link.dart';
-import 'package:NewMediaReleases/tv-series/serien_types..dart';
-import 'package:NewMediaReleases/utils/widgets.dart';
+import 'package:new_media_releases/open_link.dart';
+import 'package:new_media_releases/tv-series/serien_types..dart';
+import 'package:new_media_releases/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

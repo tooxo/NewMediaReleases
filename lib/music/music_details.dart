@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:NewMediaReleases/common/countdown.dart';
-import 'package:NewMediaReleases/common/detail_screen.dart';
-import 'package:NewMediaReleases/common/network/music_network.dart';
-import 'package:NewMediaReleases/common/popup.dart';
-import 'package:NewMediaReleases/music/music_preview.dart';
-import 'package:NewMediaReleases/music/music_types.dart';
-import 'package:NewMediaReleases/utils/date.dart';
+import 'package:new_media_releases/common/countdown.dart';
+import 'package:new_media_releases/common/detail_screen.dart';
+import 'package:new_media_releases/common/network/music_network.dart';
+import 'package:new_media_releases/common/popup.dart';
+import 'package:new_media_releases/music/music_preview.dart';
+import 'package:new_media_releases/music/music_types.dart';
+import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

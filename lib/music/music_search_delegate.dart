@@ -1,5 +1,6 @@
-import 'package:NewMediaReleases/music/music_details.dart';
-import 'package:NewMediaReleases/music/music_types.dart';
+import 'package:new_media_releases/music/music_details.dart';
+import 'package:new_media_releases/music/music_types.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,6 +8,7 @@ class MusicSearchDelegate extends SearchDelegate {
   final List<MusicalEntry> searchCandidates;
 
   MusicSearchDelegate(this.searchCandidates);
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -79,13 +81,19 @@ class SearchResultTile extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => MusicDetails(this.entry)))
       },
-      leading: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image:
-                DecorationImage(image: NetworkImage(entry.getScaledUrl(50)))),
+      leading: ClipOval(
+        child: this.entry.getScaledUrl(30) != ""
+            ? CachedNetworkImage(
+                width: 40,
+                height: 40,
+                imageUrl: this.entry.getScaledUrl(30),
+                fit: BoxFit.cover,
+              )
+            : Image.asset(
+                "assets/image/image_not_found_small.jpg",
+                width: 40,
+                height: 40,
+              ),
       ),
       title: Text(
         entry.title,

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:NewMediaReleases/common/network/music_network.dart';
-import 'package:NewMediaReleases/music/music_filter_menu.dart';
-import 'package:NewMediaReleases/music/music_search_delegate.dart';
+import 'package:new_media_releases/common/network/music_network.dart';
+import 'package:new_media_releases/music/music_filter_menu.dart';
+import 'package:new_media_releases/music/music_search_delegate.dart';
 import 'package:collection/collection.dart';
 
 import 'package:flutter/material.dart';
@@ -214,32 +214,32 @@ class MainMusicState extends State<MainMusic> {
           index += currentDayIndex;
           if (index == -1 || index == filtered.length) {
             return InfiniteListItem(
-                contentBuilder: (context) => FutureBuilder(
-                      future: musicButtonClick(index == -1, context),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return Container();
-                        }
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ));
+              contentBuilder: (context) => FutureBuilder(
+                future: musicButtonClick(index == -1, context),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Container();
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            );
           }
           return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
                   filtered.keys.toList()[index])

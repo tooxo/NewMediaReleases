@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:NewMediaReleases/games/game_info.dart';
-import 'package:NewMediaReleases/games/game_preview_rack.dart';
+import 'package:new_media_releases/games/game_info.dart';
+import 'package:new_media_releases/games/game_preview_rack.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

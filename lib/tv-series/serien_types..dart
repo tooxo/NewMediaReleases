@@ -1,4 +1,4 @@
-import 'package:NewMediaReleases/movies/movie_types.dart';
+import 'package:new_media_releases/movies/movie_types.dart';
 
 class Serie {
   String title;
