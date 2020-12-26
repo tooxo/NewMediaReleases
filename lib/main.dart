@@ -55,6 +55,7 @@ class _MainState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.black,
       body: IndexedStack(
         children: _children,
         index: _currentIndex,
