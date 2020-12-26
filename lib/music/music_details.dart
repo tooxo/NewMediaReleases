@@ -35,6 +35,10 @@ class MusicDetailsImage extends StatelessWidget {
                     imageUrl: this.previewUrl,
                     fit: BoxFit.cover,
                   ),
+                  errorWidget: (context, url, e) => CachedNetworkImage(
+                    imageUrl: this.previewUrl,
+                    fit: BoxFit.cover,
+                  ),
                 )
               : Image.asset("assets/image/image_not_found.jpg"),
         );
@@ -266,7 +270,18 @@ class MusicDetails extends StatelessWidget {
                   Container(
                     width: 35,
                     height: 35,
-                    child: CircularImage(musicalEntry.artist.getScaledUrl(40)),
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: musicalEntry.artist.getScaledUrl(40),
+                        placeholder: (con, url) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        ),
+                        errorWidget: (con, url, e) =>
+                            Image.asset("assets/image/image_not_found_small.jpg"),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),

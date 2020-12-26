@@ -27,6 +27,14 @@ class MainMusicState extends State<MainMusic> {
   Map<DateTime, List<MusicalEntry>> parsedEntries =
       Map<DateTime, List<MusicalEntry>>();
 
+  void initState() {
+    super.initState();
+
+    loadMusic()
+        .catchError((error) => wasError = true)
+        .then((value) => this.setState(() {}));
+  }
+
   Map<DateTime, List<MusicalEntry>> parseEntries() {
     List<dynamic> l = JsonDecoder().convert(entries) as List<dynamic>;
     List<MusicalEntry> output = [];
@@ -95,17 +103,15 @@ class MainMusicState extends State<MainMusic> {
     return ind;
   }
 
-  loadMusic() async {
-    print("reloading main state");
-    if (this.parsedEntries.isNotEmpty) return this.filterEntries();
+  Future<void> loadMusic() async {
     this.entries = await getAroundSongs();
     this.parsedEntries = parseEntries();
-    return this.filterEntries();
+    filtered = this.filterEntries();
   }
 
   List<String> genreFilter = [];
 
-  musicButtonClick(bool isTop, BuildContext context) async {
+  Future<bool> musicButtonClick(bool isTop, BuildContext context) async {
     List entryCopy = JsonDecoder().convert(this.entries);
     List sortedKeys = this.parsedEntries.keys.toList()..sort();
     List newEntries;
@@ -126,20 +132,22 @@ class MainMusicState extends State<MainMusic> {
     });
     this.entries = JsonEncoder().convert(entryCopy.toList());
     this.parsedEntries = this.parseEntries();
+    this.filtered = filterEntries();
 
-    if (added == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text("no entries were added."),
-            behavior: SnackBarBehavior.floating),
-      );
-    } else {
+    if (added == 0)
+      return true;
+    else
       setState(() {});
-    }
+
+    return false;
   }
+
+  Map<DateTime, List<MusicalEntry>> filtered = new Map();
+  bool wasError = false;
 
   @override
   Widget build(BuildContext context) {
+    int currentDayIndex = getNearestToToday(filtered);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -156,9 +164,14 @@ class MainMusicState extends State<MainMusic> {
         leading: IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () async {
-            this.entries = await getAroundSongs();
-            this.parsedEntries = parseEntries();
+            wasError = false;
+            entries = "[]";
+            parsedEntries = new Map();
+            filtered = new Map();
             setState(() {});
+            loadMusic()
+                .catchError((error) => wasError = true)
+                .then((value) => this.setState(() {}));
           },
         ),
         actions: [
@@ -204,14 +217,37 @@ class MainMusicState extends State<MainMusic> {
         child: Icon(Icons.today),
         tooltip: "Jump to Today",
       ),
-      body: FutureBuilder(
-        future: loadMusic(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            var filtered = snapshot.data;
-            int currentDayIndex = getNearestToToday(snapshot.data);
-            return InfiniteList(
+      body: filtered.length == 0
+          ? Center(
+              child: wasError
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "an error occured",
+                          style: GoogleFonts.nunitoSans(color: Colors.white),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                          ),
+                          tooltip: "Retry",
+                          onPressed: () async {
+                            wasError = false;
+                            setState(() {});
+                            loadMusic()
+                                .catchError((error) => wasError = true)
+                                .then((value) => this.setState(() {}));
+                          },
+                        )
+                      ],
+                    )
+                  : CircularProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation(Colors.white),
+                    ),
+            )
+          : InfiniteList(
               negChildCount: filtered.length > 0
                   ? filtered.length - (filtered.length - currentDayIndex) + 1
                   : 0,
@@ -230,6 +266,32 @@ class MainMusicState extends State<MainMusic> {
                       future: musicButtonClick(index == -1, context),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) if (snapshot.data == true)
+                            return Padding(
+                                padding: EdgeInsets.only(top: 2, bottom: 2),
+                                child: Center(
+                                    child: Text("No more entries available.",
+                                        style: GoogleFonts.nunitoSans(
+                                            color: Colors.redAccent))));
+                          if (snapshot.hasError) {
+                            return Padding(
+                                padding: EdgeInsets.only(top: 2, bottom: 2),
+                                child: Center(
+                                    child: FlatButton.icon(
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        // padding: EdgeInsets.all(0),
+                                        onPressed: () {
+                                          setState(() {});
+                                        },
+                                        icon: Icon(
+                                          Icons.refresh,
+                                          color: Colors.redAccent,
+                                        ),
+                                        label: Text("An error has occurred.",
+                                            style: GoogleFonts.nunitoSans(
+                                                color: Colors.redAccent)))));
+                          }
                           return Container();
                         }
                         return Row(
@@ -258,15 +320,7 @@ class MainMusicState extends State<MainMusic> {
                         filtered.keys.toList()[index])
                     .build(context);
               },
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: const AlwaysStoppedAnimation(Colors.white),
             ),
-          );
-        },
-      ),
     );
   }
 }
