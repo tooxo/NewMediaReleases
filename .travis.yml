@@ -24,9 +24,9 @@ jobs:
         - sudo gem install bundle fastlane rubygems-update
         - sudo gem update --system
         - bundle update
-        - echo ${PLAY_JSON_BASE64} | base64 -d > play.json
+        # - echo ${PLAY_JSON_BASE64} | base64 -d > play.json
         # - fastlane supply init --json-key play.json --track alpha
-        - yes | fastlane install_plugins
+        # - yes | fastlane install_plugins
       script:
         - flutter analyze --no-preamble --no-congratulate > linting_results.txt || echo ""
         - curl -XPOST 'https://hastebin.com/documents' --upload-file linting_results.txt > hastebin.txt && fastlane publishLintingErrors || echo ""
