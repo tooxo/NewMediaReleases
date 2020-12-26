@@ -26,9 +26,16 @@ class UrlPopupWidget {
                 for (PopupTile tile in this.popupTiles)
                   tile.url != null && tile.url != ""
                       ? ListTile(
-                          leading: Icon(tile.iconData),
-                          title: Text(tile.title),
-                          onTap: () => {OpenLink.openlink(tile.url)},
+                          leading: Icon(
+                            tile.iconData,
+                            color: Colors.white,
+                          ),
+                          title: Text(
+                            tile.title,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          tileColor: Colors.grey.shade900,
+                          onTap: () => {OpenLink.openLink(tile.url)},
                         )
                       : Container()
               ],

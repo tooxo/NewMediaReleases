@@ -34,7 +34,7 @@ class DatabaseHandler {
             value.spotifyUri,
             value.appleUri,
             value.soundcloudUri,
-            value.youtubeId,
+            value.youtubeUrl,
             value.language.toString(),
             value.trackNumber,
             value.previewUrl,

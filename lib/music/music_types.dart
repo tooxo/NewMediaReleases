@@ -66,16 +66,11 @@ class Song extends MusicalEntry {
   Album album;
   int trackNumber;
   String previewUrl;
-  String youtubeId;
+  String youtubeUrl;
   bool single;
   bool dummy = false;
 
-  get youtubeUrl {
-    if (youtubeId == "") return "";
-    return "https://youtube.com/watch?v=$youtubeId";
-  }
-
-  get hasStream => super.hasStream || this.youtubeId != "";
+  get hasStream => super.hasStream || this.youtubeUrl != "";
 
   Song(
       {String id,
@@ -88,7 +83,7 @@ class Song extends MusicalEntry {
       String spotifyUri,
       String appleUri,
       String soundcloudUri,
-      this.youtubeId,
+      this.youtubeUrl,
       Locale language,
       this.trackNumber,
       this.previewUrl,
@@ -124,7 +119,7 @@ class Song extends MusicalEntry {
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],
-        youtubeId: parsedApiResponse["youtubeId"],
+        youtubeUrl: parsedApiResponse["youtubeUrl"],
         language: null,
         // TODO
         trackNumber: parsedApiResponse["trackNumber"],

@@ -238,7 +238,7 @@ class MovieInfos extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(1, 0, 45, 38),
                     onPressed: this.amazon
                         ? () {
-                            OpenLink.openlink(amazonLink);
+                            OpenLink.openLink(amazonLink);
                           }
                         : null,
                     icon: Icon(
@@ -250,7 +250,7 @@ class MovieInfos extends StatelessWidget {
                   MaterialButton(
                     onPressed: this.disney
                         ? () {
-                            OpenLink.openlink(disneyLink);
+                            OpenLink.openLink(disneyLink);
                           }
                         : null,
                     child: Text(

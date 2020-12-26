@@ -1,7 +1,7 @@
 import 'package:url_launcher/url_launcher.dart';
 
 class OpenLink {
-  static openlink(String link) async {
+  static openLink(String link) async {
     if (await canLaunch(link)) {
       await launch(link);
     } else {

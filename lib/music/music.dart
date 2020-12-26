@@ -10,10 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
-import 'music_load_button.dart';
 import 'music_preview_rack.dart';
 import 'music_types.dart';
 
@@ -97,6 +95,14 @@ class MainMusicState extends State<MainMusic> {
     return ind;
   }
 
+  loadMusic() async {
+    print("reloading main state");
+    if (this.parsedEntries.isNotEmpty) return this.filterEntries();
+    this.entries = await getAroundSongs();
+    this.parsedEntries = parseEntries();
+    return this.filterEntries();
+  }
+
   List<String> genreFilter = [];
 
   musicButtonClick(bool isTop, BuildContext context) async {
@@ -122,7 +128,7 @@ class MainMusicState extends State<MainMusic> {
     this.parsedEntries = this.parseEntries();
 
     if (added == 0) {
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text("no entries were added."),
             behavior: SnackBarBehavior.floating),
@@ -134,8 +140,6 @@ class MainMusicState extends State<MainMusic> {
 
   @override
   Widget build(BuildContext context) {
-    Map<DateTime, List<MusicalEntry>> filtered = filterEntries();
-    int currentDayIndex = getNearestToToday(filtered);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -200,50 +204,67 @@ class MainMusicState extends State<MainMusic> {
         child: Icon(Icons.today),
         tooltip: "Jump to Today",
       ),
-      body: InfiniteList(
-        negChildCount: filtered.length > 0
-            ? filtered.length - (filtered.length - currentDayIndex) + 1
-            : 0,
-        posChildCount:
-            filtered.length > 0 ? filtered.length - currentDayIndex + 1 : 0,
-        direction: filtered.length <= 1
-            ? InfiniteListDirection.single
-            : InfiniteListDirection.multi,
-        controller: _controller,
-        builder: (BuildContext context, int index) {
-          index += currentDayIndex;
-          if (index == -1 || index == filtered.length) {
-            return InfiniteListItem(
-              contentBuilder: (context) => FutureBuilder(
-                future: musicButtonClick(index == -1, context),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return Container();
-                  }
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
+      body: FutureBuilder(
+        future: loadMusic(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            var filtered = snapshot.data;
+            int currentDayIndex = getNearestToToday(snapshot.data);
+            return InfiniteList(
+              negChildCount: filtered.length > 0
+                  ? filtered.length - (filtered.length - currentDayIndex) + 1
+                  : 0,
+              posChildCount: filtered.length > 0
+                  ? filtered.length - currentDayIndex + 1
+                  : 0,
+              direction: filtered.length <= 1
+                  ? InfiniteListDirection.single
+                  : InfiniteListDirection.multi,
+              controller: _controller,
+              builder: (BuildContext context, int index) {
+                index += currentDayIndex;
+                if (index == -1 || index == filtered.length) {
+                  return InfiniteListItem(
+                    contentBuilder: (context) => FutureBuilder(
+                      future: musicButtonClick(index == -1, context),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return Container();
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                }
+                return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
+                        filtered.keys.toList()[index])
+                    .build(context);
+              },
             );
           }
-          return MusicPreviewRack(filtered[filtered.keys.toList()[index]],
-                  filtered.keys.toList()[index])
-              .build(context);
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: const AlwaysStoppedAnimation(Colors.white),
+            ),
+          );
         },
       ),
     );
