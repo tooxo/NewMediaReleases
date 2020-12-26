@@ -1,0 +1,27 @@
+require "json"
+default_platform(:android)
+
+platform :android do
+  desc "Upload a new build to google play"
+  lane :alpha do
+    upload_to_play_store(track: "beta", aab: "bundle-signed.aab", json_key:"play.json", skip_upload_apk: true)
+    discord_notifier(
+        webhook_url: ENV["DISCORD_WEBHOOK"],
+        title: "New Beta Deployment",
+        description: "Build " + ENV["TRAVIS_BUILD_NUMBER"] + " was deployed to Google Play.",
+      )
+  end
+end
+
+lane :publishLintingErrors do
+   if (File.size?("hastebin.txt") && File.size?("linting_results.txt")) then
+          file = File.open "hastebin.txt"
+          data = JSON.load file
+          discord_notifier(
+              webhook_url: ENV["DISCORD_WEBHOOK"],
+              title: "Linting Errors",
+              description: "The Dart linter found problems with the code. See results here: https://hastebin.com/"+data["key"],
+              success: false
+          )
+   end
+end

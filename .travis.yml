@@ -1,0 +1,124 @@
+jobs:
+  include:
+    - os: linux
+      name: android
+      if: branch = master
+      dist: bionic
+      language: java
+      jdk: oraclejdk11
+      env:
+        - ANDROID_SDK_TOOLS=commandlinetools-linux-6200805_latest.zip
+      before_install:
+        - sudo apt update
+        - sudo apt install ruby-dev libsodium-dev curl -y --no-install-recommends
+        - echo ${ANDROID_BASE64} | base64 -d > release.keystore
+        - wget -nv https://dl.google.com/android/repository/$ANDROID_SDK_TOOLS
+        - unzip -q $ANDROID_SDK_TOOLS -d $HOME/sdk
+        - export PATH=$PATH:$HOME/sdk/tools/bin
+        - export ANDROID_HOME=$HOME/sdk
+        - mkdir -p $HOME/.android && touch $HOME/.android/repositories.cfg
+        - yes | sdkmanager --licenses --sdk_root="${ANDROID_HOME}"
+        - git clone https://github.com/flutter/flutter.git -b beta --depth 1
+        - export PATH=$PATH:$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$ANDROID_HOME/build-tools/28.0.3/
+        - flutter doctor
+        - sudo gem install bundle fastlane rubygems-update
+        - sudo gem update --system
+        - bundle update
+        - echo ${PLAY_JSON_BASE64} | base64 -d > play.json
+        # - fastlane supply init --json-key play.json --track alpha
+        - yes | fastlane install_plugins
+      script:
+        - flutter analyze --no-preamble --no-congratulate > linting_results.txt || echo ""
+        - curl -XPOST 'https://hastebin.com/documents' --upload-file linting_results.txt > hastebin.txt && fastlane publishLintingErrors || echo ""
+        - flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --build-number "$TRAVIS_BUILD_NUMBER"
+        - flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --build-number "$TRAVIS_BUILD_NUMBER"
+        # zipalign all the apks and bundles
+        - zipalign -v -p 4 build/app/outputs/apk/release/app-armeabi-v7a-release.apk ./armeabi-v7a-unsigned.apk
+        - zipalign -v -p 4 build/app/outputs/apk/release/app-arm64-v8a-release.apk ./arm64-v8a-unsigned.apk
+        - zipalign -v -p 4 build/app/outputs/apk/release/app-x86_64-release.apk ./x86_64-unsigned.apk
+        - zipalign -v -p 4 build/app/outputs/bundle/release/app-release.aab ./bundle-unsigned.aab
+        # sign all the apks and bundles
+        - apksigner sign -v --ks-pass pass:${ANDROID_PASSWORD} --ks release.keystore --ks-key-alias android --out armeabi-v7a-signed.apk armeabi-v7a-unsigned.apk
+        - apksigner sign -v --ks-pass pass:${ANDROID_PASSWORD} --ks release.keystore --ks-key-alias android --out arm64-v8a-signed.apk arm64-v8a-unsigned.apk
+        - apksigner sign -v --ks-pass pass:${ANDROID_PASSWORD} --ks release.keystore --ks-key-alias android --out x86_64-signed.apk x86_64-unsigned.apk
+        - cp bundle-unsigned.aab bundle-signed.aab
+        - zip --delete bundle-signed.aab "META-INF/*"
+        - jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore release.keystore -storepass ${ANDROID_PASSWORD} bundle-signed.aab android
+      before_deploy:
+        - zip unsigned.zip armeabi-v7a-unsigned.apk arm64-v8a-unsigned.apk x86_64-unsigned.apk bundle-unsigned.aab
+        - export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
+        - git tag TRAVIS_TAG
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_OAUTH"
+        file:
+          - armeabi-v7a-signed.apk
+          - arm64-v8a-signed.apk
+          - x86_64-signed.apk
+          - bundle-signed.aab
+          - unsigned.zip
+        skip_cleanup: true
+        on:
+          branch: master
+    - os: osx
+      name: apple
+      if: branch = master
+      osx_image: xcode11.5
+      addons:
+        homebrew:
+          packages:
+            - usbmuxd
+            - libimobiledevice
+            - ideviceinstaller
+            - ios-deploy
+      before_install:
+        - brew unlink usbmuxd
+        - brew link usbmuxd
+        - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+        # create signing prerequisites
+        #- security create-keychain -p "chainPassword" build.keychain
+        #- security unlock-keychain -p "chainPassword" build.keychain
+        #- security list-keychains -d user -s build.keychain
+        #- security default-keychain -s build.keychain
+        #- echo ${APPLE_BASE64} | base64 -d > cert.p12
+        #- security import cert.p12 -k build.keychain -P ${APPLE_PASSWORD} -A
+        #- security set-key-partition-list -S "apple-tool:,apple:" -s -k "chainPassword" build.keychain
+        #- security set-keychain-settings -u build.keychain
+      before_deploy:
+        - cd normal
+        - mkdir Payload && cd Payload
+        - ln -s ../NewMediaReleases.app
+        - cd ..
+        - zip -r app.ipa Payload
+        - cd ..
+        - export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
+        - git tag TRAVIS_TAG
+      script:
+        - flutter/bin/flutter build ios --release --no-codesign --build-number "$TRAVIS_BUILD_NUMBER"
+        - mv build/ios/iphoneos/NewMediaReleases.app ./normal/NewMediaReleases.app
+      before_cache:
+        - brew cleanup
+      cache:
+        directories:
+          - $HOME/.pub-cache
+          - $HOME/Library/Caches/Homebrew
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_OAUTH"
+        file:
+          - normal/app.ipa
+        skip_cleanup: true
+        on:
+          branch: master
+    - os: linux
+      name: unit_tests
+      if: branch = master
+      dist: bionic
+      language: generic
+      before_install:
+        - sudo apt update
+        - git clone https://github.com/flutter/flutter.git -b beta --depth 1
+        - export PATH=$PATH:$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin
+        - flutter doctor
+      script:
+        - flutter test
