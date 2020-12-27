@@ -4,7 +4,7 @@ import 'package:new_media_releases/common/countdown.dart';
 import 'package:new_media_releases/common/detail_screen.dart';
 import 'package:new_media_releases/common/network/music_network.dart';
 import 'package:new_media_releases/common/popup.dart';
-import 'package:new_media_releases/music/music_preview.dart';
+import 'package:new_media_releases/music/music_artist_overlay.dart';
 import 'package:new_media_releases/music/music_types.dart';
 import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -263,37 +263,44 @@ class MusicDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0, top: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 35,
-                    height: 35,
-                    child: ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: musicalEntry.artist.getScaledUrl(40),
-                        placeholder: (con, url) => Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
+              child: InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => ArtistOverlay(musicalEntry.artist));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 35,
+                      height: 35,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: musicalEntry.artist.getScaledUrl(40),
+                          placeholder: (con, url) => Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            ),
                           ),
+                          errorWidget: (con, url, e) => Image.asset(
+                              "assets/image/image_not_found_small.jpg"),
                         ),
-                        errorWidget: (con, url, e) =>
-                            Image.asset("assets/image/image_not_found_small.jpg"),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      "${musicalEntry.artist.name}",
-                      style: GoogleFonts.nunitoSans(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        "${musicalEntry.artist.name}",
+                        style: GoogleFonts.nunitoSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Padding(

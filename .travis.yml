@@ -28,6 +28,7 @@ jobs:
         # - fastlane supply init --json-key play.json --track alpha
         # - yes | fastlane install_plugins
       script:
+        - echo "${ANDROID_PLAY_JSON}" | base64 -d > android/app/google-services.json
         - flutter analyze --no-preamble --no-congratulate > linting_results.txt || echo ""
         - curl -XPOST 'https://hastebin.com/documents' --upload-file linting_results.txt > hastebin.txt && fastlane publishLintingErrors || echo ""
         - flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --build-number "$TRAVIS_BUILD_NUMBER"

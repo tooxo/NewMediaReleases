@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:new_media_releases/common/network/music_network.dart';
 import 'package:new_media_releases/music/music_filter_menu.dart';
 import 'package:new_media_releases/music/music_search_delegate.dart';
@@ -30,9 +31,10 @@ class MainMusicState extends State<MainMusic> {
   void initState() {
     super.initState();
 
-    loadMusic()
-        .catchError((error) => wasError = true)
-        .then((value) => this.setState(() {}));
+    loadMusic().catchError((error) {
+      wasError = true;
+      if (!kReleaseMode) print(error);
+    }).then((value) => this.setState(() {}));
   }
 
   Map<DateTime, List<MusicalEntry>> parseEntries() {
@@ -169,9 +171,10 @@ class MainMusicState extends State<MainMusic> {
             parsedEntries = new Map();
             filtered = new Map();
             setState(() {});
-            loadMusic()
-                .catchError((error) => wasError = true)
-                .then((value) => this.setState(() {}));
+            loadMusic().catchError((error) {
+              wasError = true;
+              if (!kReleaseMode) print(error);
+            }).then((value) => this.setState(() {}));
           },
         ),
         actions: [
@@ -236,9 +239,10 @@ class MainMusicState extends State<MainMusic> {
                           onPressed: () async {
                             wasError = false;
                             setState(() {});
-                            loadMusic()
-                                .catchError((error) => wasError = true)
-                                .then((value) => this.setState(() {}));
+                            loadMusic().catchError((error) {
+                              wasError = true;
+                              if (!kReleaseMode) print(error);
+                            }).then((value) => this.setState(() {}));
                           },
                         )
                       ],

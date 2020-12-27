@@ -6,6 +6,8 @@ class MusicalEntry {
   String id;
   String title;
   Artist artist;
+
+  // ignore: non_constant_identifier_names
   List<Artist> featured_artists;
   List<String> genres;
   DateTime releaseDate;
@@ -70,12 +72,13 @@ class Song extends MusicalEntry {
   bool single;
   bool dummy = false;
 
-  get hasStream => super.hasStream || this.youtubeUrl != "";
+  get hasStream => super.hasStream || this.youtubeUrl != null;
 
   Song(
       {String id,
       String title,
       Artist artist,
+      // ignore: non_constant_identifier_names
       List<Artist> featured_artists,
       this.album,
       List<String> genres,
@@ -120,8 +123,9 @@ class Song extends MusicalEntry {
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],
         youtubeUrl: parsedApiResponse["youtubeUrl"],
-        language: null,
-        // TODO
+        language: parsedApiResponse["language"] == ""
+            ? null
+            : Locale.fromSubtags(languageCode: parsedApiResponse["language"]),
         trackNumber: parsedApiResponse["trackNumber"],
         previewUrl: parsedApiResponse["previewUrl"],
         artUrl: parsedApiResponse["artUrl"],
@@ -136,6 +140,7 @@ class Album extends MusicalEntry {
       {String id,
       String title,
       Artist artist,
+      // ignore: non_constant_identifier_names
       List<Artist> featured_artists,
       List<String> genres,
       DateTime releaseDate,
@@ -174,8 +179,9 @@ class Album extends MusicalEntry {
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
         soundcloudUri: parsedApiResponse["soundcloudUri"],
-        language: null,
-        // TODO
+        language: parsedApiResponse["language"] == ""
+            ? null
+            : Locale.fromSubtags(languageCode: parsedApiResponse["language"]),
         tracks: parsedApiResponse["tracks"] != null
             ? (parsedApiResponse["tracks"] as List<dynamic>)
                 .map((e) => Song.fromApiResponse(e))
@@ -212,8 +218,9 @@ class Artist {
         name: parsedApiResponse["name"],
         spotifyUri: parsedApiResponse["spotifyUri"],
         appleUri: parsedApiResponse["appleUri"],
-        language: null,
-        // TODO
+        language: parsedApiResponse["language"] == ""
+            ? null
+            : Locale.fromSubtags(languageCode: parsedApiResponse["language"]),
         artUrl: parsedApiResponse["artUrl"],
         timeZone: parsedApiResponse["timezone"],
         popularity: parsedApiResponse["popularity"] ?? 0);

@@ -1,4 +1,4 @@
-package com.example.new_media_releases
+package com.newmediareleases.android
 
 import io.flutter.embedding.android.FlutterActivity
 
