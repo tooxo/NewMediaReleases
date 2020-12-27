@@ -106,12 +106,15 @@ class Song extends MusicalEntry {
     return Song(
         id: parsedApiResponse["id"],
         title: parsedApiResponse["title"],
-        artist: Artist.fromApiResponse(
-            JsonEncoder().convert(parsedApiResponse["artist"])),
-        featured_artists:
-            (parsedApiResponse["featured_artists"] as List<Object>)
+        artist: parsedApiResponse["artist"] is Artist
+            ? parsedApiResponse["artist"]
+            : Artist.fromApiResponse(
+                JsonEncoder().convert(parsedApiResponse["artist"])),
+        featured_artists: parsedApiResponse["featured_artists"] != null
+            ? (parsedApiResponse["featured_artists"] as List<Object>)
                 .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
-                .toList(),
+                .toList()
+            : [],
         album: Album.fromApiResponse(parsedApiResponse["album"]),
         genres: (parsedApiResponse["genres"] as List<dynamic>)
             .map((e) => e as String)
@@ -164,12 +167,15 @@ class Album extends MusicalEntry {
     return Album(
         id: parsedApiResponse["id"],
         title: parsedApiResponse["title"],
-        artist: Artist.fromApiResponse(
-            JsonEncoder().convert(parsedApiResponse["artist"])),
-        featured_artists:
-            (parsedApiResponse["featured_artists"] as List<dynamic>)
+        artist: parsedApiResponse["artist"] != null
+            ? Artist.fromApiResponse(
+                JsonEncoder().convert(parsedApiResponse["artist"]))
+            : null,
+        featured_artists: parsedApiResponse["featured_artists"] != null
+            ? (parsedApiResponse["featured_artists"] as List<dynamic>)
                 .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
-                .toList(),
+                .toList()
+            : [],
         genres: (parsedApiResponse["genres"] as List<dynamic>)
             .map((e) => e as String)
             .toList(),

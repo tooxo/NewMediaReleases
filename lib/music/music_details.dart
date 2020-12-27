@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:new_media_releases/common/countdown.dart';
+import 'package:new_media_releases/common/database/database.dart';
 import 'package:new_media_releases/common/detail_screen.dart';
 import 'package:new_media_releases/common/network/music_network.dart';
 import 'package:new_media_releases/common/popup.dart';
@@ -10,6 +11,7 @@ import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../Icons.dart';
 
@@ -172,6 +174,24 @@ class MusicDetails extends StatelessWidget {
 
   void onDone() {}
 
+  Stream<List<Song>> loadSongsFromBackend() async* {
+    DatabaseHandler dbh = DatabaseHandler();
+    await dbh.open();
+    /*
+     List<Song> a = await dbh.getAlbumTracksFromDatabase(musicalEntry.id,
+        artist: musicalEntry.artist);
+    if (a != null) yield a;
+     */
+
+    String response = await getTracksFromAlbum(musicalEntry.id);
+    Album album = Album.fromRawApiResponse(response);
+    dbh.upsertManyAlbums([album]);
+    dbh.upsertManySongs(album.tracks,
+        albumId: album.id, artistId: album.artist.id);
+
+    yield album.tracks;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -278,6 +298,8 @@ class MusicDetails extends StatelessWidget {
                       height: 35,
                       child: ClipOval(
                         child: CachedNetworkImage(
+                          width: 35,
+                          height: 35,
                           imageUrl: musicalEntry.artist.getScaledUrl(40),
                           placeholder: (con, url) => Center(
                             child: CircularProgressIndicator(
@@ -286,6 +308,7 @@ class MusicDetails extends StatelessWidget {
                           ),
                           errorWidget: (con, url, e) => Image.asset(
                               "assets/image/image_not_found_small.jpg"),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -347,15 +370,17 @@ class MusicDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: this.musicalEntry is Song
                   ? TrackList([this.musicalEntry])
-                  : FutureBuilder(
-                      future: getTracksFromAlbum(musicalEntry.id),
+                  : StreamBuilder(
+                      stream: loadSongsFromBackend(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData &&
                             snapshot.connectionState == ConnectionState.done) {
-                          Album album = Album.fromRawApiResponse(snapshot.data);
-                          return TrackList(album.tracks);
+                          return TrackList(snapshot.data);
                         }
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator(
+                          valueColor:
+                              const AlwaysStoppedAnimation(Colors.white),
+                        );
                       },
                     ),
             ),

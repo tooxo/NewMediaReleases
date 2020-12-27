@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:new_media_releases/common/coming_soon.dart';
 
 import 'games/game_preview.dart';
 import 'movies/movie_preview.dart';
@@ -36,6 +38,7 @@ class _MainState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    initDynamicLinks();
   }
 
   void onTabTapped(int index) {
@@ -46,10 +49,37 @@ class _MainState extends State<MainPage> {
 
   final List<Widget> _children = [
     MainMusic(),
-    MoviePreview(),
-    SerienPreview(),
-    GamePreview(),
+    ComingSoon(),
+    ComingSoon(),
+    ComingSoon(),
+    // MoviePreview(),
+    // SerienPreview(),
+    // GamePreview(),
   ];
+
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        print(deepLink.path);
+        // Navigator.pushNamed(context, deepLink.path);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+
+    if (deepLink != null) {
+      print(deepLink.path);
+      // Navigator.pushNamed(context, deepLink.path);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

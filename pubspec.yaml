@@ -22,11 +22,12 @@ dependencies:
   cupertino_icons: ^1.0.0
   slide_countdown_clock: ^1.0.3
   collection: ^1.14.12
-  flutter_local_notifications: ^2.0.0
+  flutter_local_notifications: ^3.0.2
   sticky_infinite_list: ^3.0.0
   material_design_icons_flutter: 4.0.5555
   sqflite: any
   cached_network_image: ^2.3.2+1
+  firebase_dynamic_links: ^0.6.3
   #flutter_localized_countries: any
 
 
