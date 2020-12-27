@@ -85,17 +85,15 @@ jobs:
         #- security set-key-partition-list -S "apple-tool:,apple:" -s -k "chainPassword" build.keychain
         #- security set-keychain-settings -u build.keychain
       before_deploy:
-        - cd normal
         - mkdir Payload && cd Payload
         - ln -s ../NewMediaReleases.app
         - cd ..
         - zip -r app.ipa Payload
-        - cd ..
         - export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
         - git tag TRAVIS_TAG
       script:
         - flutter/bin/flutter build ios --release --no-codesign --build-number "$TRAVIS_BUILD_NUMBER"
-        - mv build/ios/iphoneos/NewMediaReleases.app ./normal/NewMediaReleases.app
+        - mv build/ios/iphoneos/NewMediaReleases.app ./NewMediaReleases.app
       before_cache:
         - brew cleanup
       cache:
@@ -106,7 +104,7 @@ jobs:
         provider: releases
         api_key: "$GITHUB_OAUTH"
         file:
-          - normal/app.ipa
+          - app.ipa
         skip_cleanup: true
         on:
           branch: master
