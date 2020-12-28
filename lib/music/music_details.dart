@@ -392,6 +392,7 @@ class MusicDetails extends StatelessWidget {
                 : Countdown(
                     musicalEntry.releaseDate,
                     musicalEntry.artist.timeZone,
+                    musicalEntry,
                     onDone: this.onDone,
                   ),
             Padding(

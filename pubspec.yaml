@@ -29,6 +29,7 @@ dependencies:
   cached_network_image: ^2.3.2+1
   firebase_dynamic_links: ^0.6.3
   share: '>=0.6.5+4 <2.0.0'
+  flutter_native_timezone: ^1.0.4
   #flutter_localized_countries: any
 
 
