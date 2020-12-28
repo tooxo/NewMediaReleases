@@ -12,6 +12,7 @@ import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share/share.dart';
 
 import '../Icons.dart';
 
@@ -183,8 +184,11 @@ class MusicDetails extends StatelessWidget {
     if (a != null) yield a;
      */
 
-    String response = await getTracksFromAlbum(musicalEntry.id);
-    Album album = Album.fromRawApiResponse(response);
+    Album album = musicalEntry;
+    if (album.tracks == null) {
+      String response = await getTracksFromAlbum(musicalEntry.id);
+      album = Album.fromRawApiResponse(response);
+    }
     dbh.upsertManyAlbums([album]);
     dbh.upsertManySongs(album.tracks,
         albumId: album.id, artistId: album.artist.id);
@@ -231,7 +235,7 @@ class MusicDetails extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.share),
             onPressed: () async {
-              print(await createShareUrl());
+              Share.share((await createShareUrl()).toString());
             },
           ),
           musicalEntry.hasStream

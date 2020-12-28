@@ -29,3 +29,15 @@ Future<String> loadMoreEntriesTop(DateTime dateFrom, String lastId) async {
   http.Response res = await http.get(url);
   return Utf8Decoder().convert(res.bodyBytes);
 }
+
+Future<String> getSpecificAlbum(String albumId) async {
+  String url = base_url + "albums/$albumId";
+  http.Response res = await http.get(url);
+  return Utf8Decoder().convert(res.bodyBytes);
+}
+
+Future<String> getSpecificSong(String songId) async {
+  String url = base_url + "songs/$songId";
+  http.Response res = await http.get(url);
+  return Utf8Decoder().convert(res.bodyBytes);
+}
