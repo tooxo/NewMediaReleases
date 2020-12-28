@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:new_media_releases/common/countdown.dart';
 import 'package:new_media_releases/common/database/database.dart';
 import 'package:new_media_releases/common/detail_screen.dart';
@@ -11,7 +12,6 @@ import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sqflite/sqflite.dart';
 
 import '../Icons.dart';
 
@@ -192,6 +192,29 @@ class MusicDetails extends StatelessWidget {
     yield album.tracks;
   }
 
+  Future<Uri> createShareUrl() async {
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://rl.tillschulte.de',
+      link: Uri.parse(
+          'https://releases.tillschulte.de/music/${musicalEntry is Album ? "albums" : "songs"}/${musicalEntry.id}'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.newmediareleases.android',
+        minimumVersion: 0,
+      ),
+      iosParameters: IosParameters(
+        bundleId: 'com.newmediareleases.ios',
+        minimumVersion: '1.0.0',
+        appStoreId: '123456789',
+      ),
+      socialMetaTagParameters: SocialMetaTagParameters(
+        title: '',
+        description: '',
+      ),
+    );
+
+    return await parameters.buildUrl();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,6 +228,12 @@ class MusicDetails extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () async {
+              print(await createShareUrl());
+            },
+          ),
           musicalEntry.hasStream
               ? IconButton(
                   icon: Icon(Icons.open_in_new),
