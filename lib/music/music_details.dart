@@ -8,6 +8,7 @@ import 'package:new_media_releases/common/network/music_network.dart';
 import 'package:new_media_releases/common/popup.dart';
 import 'package:new_media_releases/music/music_artist_overlay.dart';
 import 'package:new_media_releases/music/music_types.dart';
+import 'package:new_media_releases/music/widgets/genre_list.dart';
 import 'package:new_media_releases/utils/date.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -362,13 +363,14 @@ class MusicDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   bottom: 4.0, top: 2, left: 20, right: 20),
-              child: Text(
+              /*child: Text(
                 "${musicalEntry.genres.join(" | ")}",
                 style: GoogleFonts.nunitoSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
-              ),
+              ),*/
+              child: GenreList(musicalEntry.genres),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
