@@ -203,6 +203,7 @@ class Artist {
   String spotifyUri;
   String appleUri;
   Locale language;
+  Locale country;
   String artUrl;
   int timeZone;
   int popularity;
@@ -213,6 +214,7 @@ class Artist {
       this.spotifyUri,
       this.appleUri,
       this.language,
+      this.country,
       this.artUrl,
       this.timeZone,
       this.popularity});
@@ -227,6 +229,9 @@ class Artist {
         language: parsedApiResponse["language"] == ""
             ? null
             : Locale.fromSubtags(languageCode: parsedApiResponse["language"]),
+        country: parsedApiResponse["country"] == ""
+            ? null
+            : Locale.fromSubtags(countryCode: parsedApiResponse["country"]),
         artUrl: parsedApiResponse["artUrl"],
         timeZone: parsedApiResponse["timezone"],
         popularity: parsedApiResponse["popularity"] ?? 0);

@@ -331,18 +331,21 @@ class MusicDetails extends StatelessWidget {
                       width: 35,
                       height: 35,
                       child: ClipOval(
-                        child: CachedNetworkImage(
-                          width: 35,
-                          height: 35,
-                          imageUrl: musicalEntry.artist.getScaledUrl(40),
-                          placeholder: (con, url) => Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                        child: Hero(
+                          tag: musicalEntry.artist.id,
+                          child: CachedNetworkImage(
+                            width: 35,
+                            height: 35,
+                            imageUrl: musicalEntry.artist.getScaledUrl(40),
+                            placeholder: (con, url) => Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(Colors.white),
+                              ),
                             ),
+                            errorWidget: (con, url, e) => Image.asset(
+                                "assets/image/image_not_found_small.jpg"),
+                            fit: BoxFit.cover,
                           ),
-                          errorWidget: (con, url, e) => Image.asset(
-                              "assets/image/image_not_found_small.jpg"),
-                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -363,13 +366,6 @@ class MusicDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   bottom: 4.0, top: 2, left: 20, right: 20),
-              /*child: Text(
-                "${musicalEntry.genres.join(" | ")}",
-                style: GoogleFonts.nunitoSans(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),*/
               child: GenreList(musicalEntry.genres),
             ),
             Padding(
