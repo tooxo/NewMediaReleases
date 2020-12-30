@@ -54,7 +54,7 @@ GEM
       http-cookie (~> 1.0.0)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
-    fastimage (2.2.0)
+    fastimage (2.2.1)
     fastlane (2.170.0)
       CFPropertyList (>= 2.3, < 4.0.0)
       addressable (>= 2.3, < 3.0.0)
@@ -202,11 +202,11 @@ GEM
       xcpretty (~> 0.2, >= 0.0.7)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   fastlane
   fastlane-plugin-discord_notifier
 
 BUNDLED WITH
-   2.1.4
+   2.2.3
