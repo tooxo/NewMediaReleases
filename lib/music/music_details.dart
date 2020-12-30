@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/services.dart';
 import 'package:new_media_releases/common/countdown.dart';
 import 'package:new_media_releases/common/database/database.dart';
 import 'package:new_media_releases/common/detail_screen.dart';
@@ -217,7 +218,11 @@ class MusicDetails extends StatelessWidget {
       ),
     );
 
-    return await parameters.buildUrl();
+    try {
+      return (await parameters.buildShortLink()).shortUrl;
+    } on PlatformException {
+      return await parameters.buildUrl();
+    }
   }
 
   @override
@@ -339,7 +344,8 @@ class MusicDetails extends StatelessWidget {
                             imageUrl: musicalEntry.artist.getScaledUrl(40),
                             placeholder: (con, url) => Center(
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(Colors.white),
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
                               ),
                             ),
                             errorWidget: (con, url, e) => Image.asset(
@@ -409,6 +415,26 @@ class MusicDetails extends StatelessWidget {
                             snapshot.connectionState == ConnectionState.done) {
                           return TrackList(snapshot.data);
                         }
+                        if (snapshot.hasError)
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "An error has occurred.",
+                                style: GoogleFonts.nunitoSans(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.refresh,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  // todo reload
+                                },
+                              )
+                            ],
+                          );
                         return CircularProgressIndicator(
                           valueColor:
                               const AlwaysStoppedAnimation(Colors.white),
