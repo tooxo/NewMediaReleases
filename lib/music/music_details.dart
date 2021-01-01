@@ -170,11 +170,16 @@ class TrackList extends StatelessWidget {
   }
 }
 
-class MusicDetails extends StatelessWidget {
+class MusicDetails extends StatefulWidget {
   final MusicalEntry musicalEntry;
 
   MusicDetails(this.musicalEntry);
 
+  @override
+  _MusicDetailsState createState() => _MusicDetailsState();
+}
+
+class _MusicDetailsState extends State<MusicDetails> {
   void onDone() {}
 
   Stream<List<Song>> loadSongsFromBackend() async* {
@@ -186,9 +191,9 @@ class MusicDetails extends StatelessWidget {
     if (a != null) yield a;
      */
 
-    Album album = musicalEntry;
+    Album album = widget.musicalEntry;
     if (album.tracks == null) {
-      String response = await getTracksFromAlbum(musicalEntry.id);
+      String response = await getTracksFromAlbum(widget.musicalEntry.id);
       album = Album.fromRawApiResponse(response);
     }
     dbh.upsertManyAlbums([album]);
@@ -202,7 +207,7 @@ class MusicDetails extends StatelessWidget {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://rl.tillschulte.de',
       link: Uri.parse(
-          'https://releases.tillschulte.de/music/${musicalEntry is Album ? "albums" : "songs"}/${musicalEntry.id}'),
+          'https://releases.tillschulte.de/music/${widget.musicalEntry is Album ? "albums" : "songs"}/${widget.musicalEntry.id}'),
       androidParameters: AndroidParameters(
         packageName: 'com.newmediareleases.android',
         minimumVersion: 0,
@@ -232,7 +237,7 @@ class MusicDetails extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
         title: Text(
-          musicalEntry is Song ? "Song" : "Album",
+          widget.musicalEntry is Song ? "Song" : "Album",
           style:
               GoogleFonts.nunitoSans(fontSize: 22, fontWeight: FontWeight.w700),
         ),
@@ -244,7 +249,7 @@ class MusicDetails extends StatelessWidget {
               Share.share((await createShareUrl()).toString());
             },
           ),
-          musicalEntry.hasStream
+          widget.musicalEntry.hasStream
               ? IconButton(
                   icon: Icon(Icons.open_in_new),
                   onPressed: () => {
@@ -253,15 +258,15 @@ class MusicDetails extends StatelessWidget {
                         PopupTile(
                             title: "Spotify",
                             iconData: Font.spotify,
-                            url: musicalEntry.spotifyUrl),
+                            url: widget.musicalEntry.spotifyUrl),
                         PopupTile(
                             title: "Apple Music",
                             iconData: Font.applemusic,
-                            url: musicalEntry.appleUri),
+                            url: widget.musicalEntry.appleUri),
                         PopupTile(
                             title: "SoundCloud",
                             iconData: Font.soundcloud,
-                            url: musicalEntry.soundcloudUri),
+                            url: widget.musicalEntry.soundcloudUri),
                       ],
                     ).show(context)
                   },
@@ -284,18 +289,18 @@ class MusicDetails extends StatelessWidget {
                     flex: 3,
                     child: GestureDetector(
                       child: Hero(
-                        tag: this.musicalEntry.id,
+                        tag: this.widget.musicalEntry.id,
                         child: MusicDetailsImage(
-                          musicalEntry.artUrl,
-                          musicalEntry.getScaledUrl(150),
+                          widget.musicalEntry.artUrl,
+                          widget.musicalEntry.getScaledUrl(150),
                         ),
                       ),
-                      onTap: () => this.musicalEntry.artUrl != ""
+                      onTap: () => this.widget.musicalEntry.artUrl != ""
                           ? Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (con) => DetailScreen(
-                                  musicalEntry.artUrl,
-                                  tag: this.musicalEntry.id,
+                                  widget.musicalEntry.artUrl,
+                                  tag: this.widget.musicalEntry.id,
                                 ),
                               ),
                             )
@@ -312,7 +317,7 @@ class MusicDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Text(
-                musicalEntry.title,
+                widget.musicalEntry.title,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.nunitoSans(
                     fontSize: 25,
@@ -326,7 +331,7 @@ class MusicDetails extends StatelessWidget {
                 onTap: () {
                   showDialog(
                       context: context,
-                      builder: (context) => ArtistOverlay(musicalEntry.artist));
+                      builder: (context) => ArtistOverlay(widget.musicalEntry.artist));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -337,11 +342,11 @@ class MusicDetails extends StatelessWidget {
                       height: 35,
                       child: ClipOval(
                         child: Hero(
-                          tag: musicalEntry.artist.id,
+                          tag: widget.musicalEntry.artist.id,
                           child: CachedNetworkImage(
                             width: 35,
                             height: 35,
-                            imageUrl: musicalEntry.artist.getScaledUrl(40),
+                            imageUrl: widget.musicalEntry.artist.getScaledUrl(40),
                             placeholder: (con, url) => Center(
                               child: CircularProgressIndicator(
                                 valueColor:
@@ -358,7 +363,7 @@ class MusicDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
-                        "${musicalEntry.artist.name}",
+                        "${widget.musicalEntry.artist.name}",
                         style: GoogleFonts.nunitoSans(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -372,7 +377,7 @@ class MusicDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   bottom: 4.0, top: 2, left: 20, right: 20),
-              child: GenreList(musicalEntry.genres),
+              child: GenreList(widget.musicalEntry.genres),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -381,8 +386,8 @@ class MusicDetails extends StatelessWidget {
                 thickness: 1.2,
               ),
             ),
-            !isInFuture(musicalEntry.releaseDate) &&
-                    musicalEntry.releaseDate != null
+            !isInFuture(widget.musicalEntry.releaseDate) &&
+                    widget.musicalEntry.releaseDate != null
                 ? Text(
                     "Released",
                     //"${formatDate(date: musicalEntry.releaseDate)}",
@@ -392,9 +397,9 @@ class MusicDetails extends StatelessWidget {
                         color: Colors.white),
                   )
                 : Countdown(
-                    musicalEntry.releaseDate,
-                    musicalEntry.artist.timeZone,
-                    musicalEntry,
+                    widget.musicalEntry.releaseDate,
+                    widget.musicalEntry.artist.timeZone,
+                    widget.musicalEntry,
                     onDone: this.onDone,
                   ),
             Padding(
@@ -406,8 +411,8 @@ class MusicDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: this.musicalEntry is Song
-                  ? TrackList([this.musicalEntry])
+              child: this.widget.musicalEntry is Song
+                  ? TrackList([this.widget.musicalEntry])
                   : StreamBuilder(
                       stream: loadSongsFromBackend(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -430,7 +435,7 @@ class MusicDetails extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  // todo reload
+                                  setState(() {});
                                 },
                               )
                             ],
