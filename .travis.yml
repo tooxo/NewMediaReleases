@@ -31,8 +31,8 @@ jobs:
         - echo "${ANDROID_PLAY_JSON}" | base64 -d > android/app/google-services.json
         - flutter analyze --no-preamble --no-congratulate > linting_results.txt || echo ""
         - curl -XPOST 'https://hastebin.com/documents' --upload-file linting_results.txt > hastebin.txt && fastlane publishLintingErrors || echo ""
-        - flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --build-number "$TRAVIS_BUILD_NUMBER"
-        - flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --build-number "$TRAVIS_BUILD_NUMBER"
+        - flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --build-number "$TRAVIS_BUILD_NUMBER" --build-name="0.0.${TRAVIS_BUILD_NUMBER}"
+        - flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --build-number "$TRAVIS_BUILD_NUMBER" --build-name="0.0.${TRAVIS_BUILD_NUMBER}"
         # zipalign all the apks and bundles
         - zipalign -v -p 4 build/app/outputs/apk/release/app-armeabi-v7a-release.apk ./armeabi-v7a-unsigned.apk
         - zipalign -v -p 4 build/app/outputs/apk/release/app-arm64-v8a-release.apk ./arm64-v8a-unsigned.apk
