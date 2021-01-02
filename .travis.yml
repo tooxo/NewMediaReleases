@@ -25,7 +25,7 @@ jobs:
         - sudo gem update --system
         - bundle update
         - echo ${PLAY_JSON_BASE64} | base64 -d > play.json
-        - fastlane supply init --json-key play.json --track internal
+        #- fastlane supply init --json-key play.json --track internal
         # - yes | fastlane install_plugins
       script:
         - echo "${ANDROID_PLAY_JSON}" | base64 -d > android/app/google-services.json
@@ -45,7 +45,7 @@ jobs:
         - cp bundle-unsigned.aab bundle-signed.aab
         - zip --delete bundle-signed.aab "META-INF/*"
         - jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore release.keystore -storepass ${ANDROID_PASSWORD} bundle-signed.aab android
-        - fastlane android alpha
+        #- fastlane android alpha
       before_deploy:
         - zip unsigned.zip armeabi-v7a-unsigned.apk arm64-v8a-unsigned.apk x86_64-unsigned.apk bundle-unsigned.aab
         - export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
