@@ -35,8 +35,9 @@ class CircularImage extends StatelessWidget {
 class MusicPreviewImageWidget extends StatelessWidget {
   final String url;
   final bool isSingle;
+  final bool isOnFire;
 
-  MusicPreviewImageWidget(this.url, this.isSingle);
+  const MusicPreviewImageWidget(this.url, this.isSingle, this.isOnFire);
 
   Widget loadingIndicator(context, url) => Center(
         child: CircularProgressIndicator(
@@ -50,28 +51,36 @@ class MusicPreviewImageWidget extends StatelessWidget {
       builder: (context, constraints) {
         double requiredDegree = (pi * 45 / 180);
         int radius = (constraints.maxWidth / 2).floor();
-        double iconDiameter = constraints.maxWidth * 0.2;
+        double iconDiameter = constraints.maxWidth * 0.275;
 
         double coord = radius * cos(requiredDegree) + radius - iconDiameter / 2;
 
         return Stack(
           children: <Widget>[
-            ClipOval(
-              child: this.url != ""
-                  ? CachedNetworkImage(
-                      imageUrl: this.url,
-                      errorWidget: (context, url, error) => Center(
-                        child: Text(
-                          "!",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      placeholder: loadingIndicator,
+            Container(
+              decoration: this.isOnFire
+                  ? BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.redAccent, width: 1),
                     )
-                  : Image.asset(
-                      "assets/image/image_not_found_small.jpg",
-                      fit: BoxFit.cover,
-                    ),
+                  : null,
+              child: ClipOval(
+                child: this.url != ""
+                    ? CachedNetworkImage(
+                        imageUrl: this.url,
+                        errorWidget: (context, url, error) => Center(
+                          child: Text(
+                            "!",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        placeholder: loadingIndicator,
+                      )
+                    : Image.asset(
+                        "assets/image/image_not_found_small.jpg",
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
             Positioned(
               left: coord,
@@ -80,7 +89,10 @@ class MusicPreviewImageWidget extends StatelessWidget {
                 width: iconDiameter,
                 height: iconDiameter,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.grey.shade900),
+                  shape: BoxShape.circle,
+                  color: Colors.grey.shade900,
+                  // border: Border.all(color: Colors.white)
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(
@@ -91,7 +103,29 @@ class MusicPreviewImageWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            this.isOnFire
+                ? Positioned(
+                    right: coord,
+                    top: coord,
+                    child: Container(
+                      width: iconDiameter,
+                      height: iconDiameter,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade900,
+                          border: Border.all(color: Colors.redAccent)),
+                      child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: FittedBox(
+                            child: Icon(
+                              Icons.local_fire_department,
+                              color: Colors.redAccent,
+                            ),
+                          )),
+                    ),
+                  )
+                : Container()
           ],
         );
       },
@@ -131,8 +165,8 @@ class MusicPreviewWidget extends StatelessWidget {
                 child: Container(
                   width: width,
                   height: width,
-                  child: MusicPreviewImageWidget(
-                      this.entry.getScaledUrl(150), this.entry is Song),
+                  child: MusicPreviewImageWidget(this.entry.getScaledUrl(150),
+                      this.entry is Song, this.entry.artist.popularity >= 85),
                 ),
               ),
               Padding(
@@ -144,9 +178,7 @@ class MusicPreviewWidget extends StatelessWidget {
                       style: GoogleFonts.nunitoSans(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
-                          color: this.entry.artist.popularity >= 85
-                              ? Colors.red
-                              : Colors.white),
+                          color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                     Text(
