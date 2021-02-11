@@ -1,4 +1,6 @@
 PODS:
+  - audioplayers (0.0.1):
+    - Flutter
   - Firebase/CoreOnly (6.33.0):
     - FirebaseCore (= 6.10.3)
   - Firebase/DynamicLinks (6.33.0):
@@ -54,6 +56,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - Flutter (from `Flutter`)
@@ -77,6 +80,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  audioplayers:
+    :path: ".symlinks/plugins/audioplayers/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_dynamic_links:
@@ -97,6 +102,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  audioplayers: 455322b54050b30ea4b1af7cd9e9d105f74efa8c
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
   firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
   firebase_dynamic_links: 65b0918ed77292e87534b4b668d2e293c58f35e0
