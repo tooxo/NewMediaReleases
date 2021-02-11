@@ -1,7 +1,5 @@
 import 'package:new_media_releases/custom_grid.dart';
 import 'package:new_media_releases/movies/movie_types.dart';
-import 'package:new_media_releases/music/music_preview.dart';
-import 'package:new_media_releases/music/music_types.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

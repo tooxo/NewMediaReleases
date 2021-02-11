@@ -19,7 +19,7 @@ class Notifications {
         tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()));
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     var initializationSettingsAndroid =
-        AndroidInitializationSettings('launch_background');
+        AndroidInitializationSettings('@android:drawable/ic_lock_idle_alarm');
     var initializationSettingsIOS = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     var initializationSettings = InitializationSettings(
@@ -37,23 +37,6 @@ class Notifications {
           badge: true,
           sound: true,
         );
-  }
-
-  void testNotification() async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'release notifications',
-        'release notifications',
-        'notifies of releases',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
   }
 
   void scheduleNotifications(Duration timeUntil, MusicalEntry entry) async {

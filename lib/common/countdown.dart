@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:new_media_releases/common/notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,11 @@ class CountdownState extends State<Countdown> {
     }
     tillDestination = Duration(
         seconds: destinationTimeUtc.difference(currentUtcTime).inSeconds);
+
+    countdownHidden = tillDestination.inDays > 7;
   }
+
+  bool countdownHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class CountdownState extends State<Countdown> {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
-                "Release Countdown",
+                countdownHidden ? "Release Date" : "Release Countdown",
                 style:
                     GoogleFonts.nunitoSans(fontSize: 25, color: Colors.white),
               ),
@@ -60,16 +65,31 @@ class CountdownState extends State<Countdown> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SlideCountdownClock(
-                  onDone: widget.onDone,
-                  duration: this.tillDestination,
-                  slideDirection: SlideDirection.Up,
-                  separator: ":",
-                  textStyle: GoogleFonts.nunitoSans(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                InkWell(
+                  onTap: () => this.setState(() {
+                    countdownHidden = !countdownHidden;
+                  }),
+                  child: this.countdownHidden
+                      ? Text(
+                          DateFormat("dd. MM. yyyy HH:mm")
+                              .format(widget.destinationTimeUTC),
+                          style: GoogleFonts.nunitoSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        )
+                      : SlideCountdownClock(
+                          onDone: widget.onDone,
+                          duration: this.tillDestination,
+                          slideDirection: SlideDirection.Up,
+                          separator: ":",
+                          textStyle: GoogleFonts.nunitoSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
                 IconButton(
                   onPressed: () async {

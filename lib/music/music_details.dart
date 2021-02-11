@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/services.dart';
 import 'package:new_media_releases/common/countdown.dart';
@@ -54,6 +56,7 @@ class MusicDetailsImage extends StatelessWidget {
 
 class TrackList extends StatelessWidget {
   final List<Song> entities;
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   TrackList(this.entities);
 
@@ -94,27 +97,14 @@ class TrackList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Song> trackList = prepareTrackList();
     return Column(
       children: <Widget>[
-        for (Song song in prepareTrackList())
+        for (Song song in trackList)
           ListTile(
             dense: true,
-            leading: Container(
-              alignment: Alignment.center,
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(200)),
-                  border: Border.all(
-                      width: 1, color: Colors.white, style: BorderStyle.solid)),
-              child: song.trackNumber != 0
-                  ? Text(
-                      "${song.trackNumber == -1 ? "?" : song.trackNumber}",
-                      style: GoogleFonts.nunitoSans(
-                          fontSize: 18, color: Colors.white),
-                    )
-                  : null,
-            ),
+            leading:
+                MusicPlayingTile(song, audioPlayer, trackList.first == song),
             title: Text(
               song.title,
               style: GoogleFonts.nunitoSans(
@@ -166,6 +156,79 @@ class TrackList extends StatelessWidget {
                 : null,
           ),
       ],
+    );
+  }
+}
+
+class MusicPlayingTile extends StatefulWidget {
+  @override
+  _MusicPlayingTileState createState() => _MusicPlayingTileState();
+
+  final Song song;
+  final AudioPlayer audioPlayer;
+  final bool shouldDispose;
+
+  const MusicPlayingTile(this.song, this.audioPlayer, this.shouldDispose);
+}
+
+class _MusicPlayingTileState extends State<MusicPlayingTile> {
+  bool isTheOnePlaying = false;
+  double progress = 0.0;
+
+  StreamSubscription<Duration> opc;
+  StreamSubscription<AudioPlayerState> opsc;
+
+  AudioPlayerState previousEvent;
+
+  @override
+  void initState() {
+    opc = widget.audioPlayer.onAudioPositionChanged.listen((event) {
+      // print(event);
+    });
+    opsc = widget.audioPlayer.onPlayerStateChanged.listen((event) {
+      if (event == AudioPlayerState.COMPLETED ||
+          event == AudioPlayerState.PLAYING) isTheOnePlaying = false;
+      previousEvent = event;
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    opc?.cancel();
+    opsc?.cancel();
+
+    if (widget.shouldDispose) widget.audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (widget.song.previewUrl != null) {
+          widget.audioPlayer.play(widget.song.previewUrl);
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(200),
+          ),
+          border: Border.all(
+              width: 1, color: Colors.white, style: BorderStyle.solid),
+        ),
+        child: widget.song.trackNumber != 0
+            ? Text(
+                "${widget.song.trackNumber == -1 ? "?" : widget.song.trackNumber}",
+                style:
+                    GoogleFonts.nunitoSans(fontSize: 18, color: Colors.white),
+              )
+            : null,
+      ),
     );
   }
 }
@@ -331,7 +394,8 @@ class _MusicDetailsState extends State<MusicDetails> {
                 onTap: () {
                   showDialog(
                       context: context,
-                      builder: (context) => ArtistOverlay(widget.musicalEntry.artist));
+                      builder: (context) =>
+                          ArtistOverlay(widget.musicalEntry.artist));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -346,7 +410,8 @@ class _MusicDetailsState extends State<MusicDetails> {
                           child: CachedNetworkImage(
                             width: 35,
                             height: 35,
-                            imageUrl: widget.musicalEntry.artist.getScaledUrl(40),
+                            imageUrl:
+                                widget.musicalEntry.artist.getScaledUrl(40),
                             placeholder: (con, url) => Center(
                               child: CircularProgressIndicator(
                                 valueColor:
