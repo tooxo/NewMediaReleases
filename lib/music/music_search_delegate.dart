@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:new_media_releases/common/network/music_network.dart';
 import 'package:new_media_releases/music/music_details.dart';
 import 'package:new_media_releases/music/music_types.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -46,6 +49,20 @@ class MusicSearchDelegate extends SearchDelegate {
     );
   }
 
+  Stream<List> search() async* {
+    List<MusicalEntry> offline = this
+        .searchCandidates
+        .where((element) => element.searchTitle
+            .contains(query.toLowerCase().replaceAll(" ", "")))
+        .toList();
+    yield offline;
+
+    String response = await searchRemote(query);
+    yield (JsonDecoder().convert(response) as List<Object>)
+        .map((e) => Artist.fromApiResponse(JsonEncoder().convert(e)))
+        .toList();
+  }
+
   @override
   Widget buildResults(BuildContext context) {
     List<MusicalEntry> filteredCandidates = this
@@ -55,10 +72,24 @@ class MusicSearchDelegate extends SearchDelegate {
         .toList();
     return Container(
       color: Colors.black,
-      child: ListView.builder(
-        itemCount: filteredCandidates.length,
+      child: StreamBuilder<List<dynamic>>(
+        stream: search(),
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.hasError) {
+            return Text(
+              "error streamreader",
+              style: TextStyle(color: Colors.red),
+            );
+          } else {
+            return Text(
+              "success streamreader",
+              style: TextStyle(color: Colors.red),
+            );
+          }
+        },
+        /*itemCount: filteredCandidates.length,
         itemBuilder: (BuildContext context, int index) =>
-            SearchResultTile(filteredCandidates[index]),
+            SearchResultTile(filteredCandidates[index]),*/
       ),
     );
   }

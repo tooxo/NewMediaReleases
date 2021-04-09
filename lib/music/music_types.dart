@@ -243,3 +243,22 @@ class Artist {
     return "https://t2.genius.com/unsafe/${width}x0/${Uri.encodeFull(this.artUrl)}";
   }
 }
+
+enum MusicCountry { INTERNATIONAL, SPAIN }
+
+class MusicCountryToString {
+  static String string(MusicCountry country) {
+    switch (country) {
+      case MusicCountry.INTERNATIONAL:
+        return "international";
+      case MusicCountry.SPAIN:
+        return "spain";
+      default:
+        return "international";
+    }
+  }
+
+  static String list(List<MusicCountry> countries) {
+    return countries.map(string).toList().join(",");
+  }
+}

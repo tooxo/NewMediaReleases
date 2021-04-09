@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:new_media_releases/music/widgets/country_pullup.dart';
 
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 
@@ -24,6 +25,7 @@ class MainMusic extends StatefulWidget {
 class MainMusicState extends State<MainMusic> {
   final ScrollController _controller = ScrollController();
 
+  List<MusicCountry> selectedCountries = [MusicCountry.SPAIN];
   String entries = "[]";
   Map<DateTime, List<MusicalEntry>> parsedEntries =
       Map<DateTime, List<MusicalEntry>>();
@@ -106,7 +108,8 @@ class MainMusicState extends State<MainMusic> {
   }
 
   Future<void> loadMusic() async {
-    this.entries = await getAroundSongs();
+    this.entries =
+        await getAroundSongs(MusicCountryToString.list(selectedCountries));
     this.parsedEntries = parseEntries();
     filtered = this.filterEntries();
   }
@@ -119,10 +122,14 @@ class MainMusicState extends State<MainMusic> {
     List newEntries;
     if (isTop) {
       newEntries = JsonDecoder().convert(await loadMoreEntriesTop(
-          sortedKeys.last, this.parsedEntries[sortedKeys.last].last.id));
+          sortedKeys.last,
+          this.parsedEntries[sortedKeys.last].last.id,
+          MusicCountryToString.list(selectedCountries)));
     } else {
       newEntries = JsonDecoder().convert(await loadMoreEntriesBottom(
-          sortedKeys.first, this.parsedEntries[sortedKeys.first].first.id));
+          sortedKeys.first,
+          this.parsedEntries[sortedKeys.first].first.id,
+          MusicCountryToString.list(selectedCountries)));
     }
     int added = 0;
     newEntries.forEach((a) {
@@ -147,6 +154,18 @@ class MainMusicState extends State<MainMusic> {
   Map<DateTime, List<MusicalEntry>> filtered = new Map();
   bool wasError = false;
 
+  void reset() async {
+    wasError = false;
+    entries = "[]";
+    parsedEntries = new Map();
+    filtered = new Map();
+    setState(() {});
+    loadMusic().catchError((error) {
+      wasError = true;
+      if (!kReleaseMode) print(error);
+    }).then((value) => this.setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     int currentDayIndex = getNearestToToday(filtered);
@@ -163,21 +182,22 @@ class MainMusicState extends State<MainMusic> {
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: () async {
-            wasError = false;
-            entries = "[]";
-            parsedEntries = new Map();
-            filtered = new Map();
-            setState(() {});
-            loadMusic().catchError((error) {
-              wasError = true;
-              if (!kReleaseMode) print(error);
-            }).then((value) => this.setState(() {}));
-          },
-        ),
+        leading: IconButton(icon: Icon(Icons.refresh), onPressed: reset),
         actions: [
+          IconButton(
+            onPressed: () {
+              setState(() async {
+                CountryPullUp pu = CountryPullUp(selectedCountries);
+                await pu.show(context);
+
+                if (!selectedCountries.equals(pu.selectedCountries))
+                  selectedCountries = pu.selectedCountries;
+                reset();
+              });
+            },
+            icon: Icon(Icons.icecream),
+            tooltip: "Country",
+          ),
           IconButton(
             onPressed: () async {
               List<String> f = await MusicFilterMenu(

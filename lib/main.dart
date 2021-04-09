@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:new_media_releases/common/coming_soon.dart';
 import 'package:new_media_releases/common/network/music_network.dart';
 
-import 'games/game_preview.dart';
-import 'movies/movie_preview.dart';
 import 'music/music.dart';
 import 'music/music_details.dart';
 import 'music/music_types.dart';
-import 'tv-series/serien_preview.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,12 +39,6 @@ class _MainState extends State<MainPage> {
   void initState() {
     super.initState();
     initDynamicLinks();
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   final List<Widget> _children = [
@@ -153,9 +144,10 @@ class _MainState extends State<MainPage> {
           ),
         ],
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (_currentIndex != index)
+            setState(() {
+              _currentIndex = index;
+            });
           //Handle button tap
         },
       ),
